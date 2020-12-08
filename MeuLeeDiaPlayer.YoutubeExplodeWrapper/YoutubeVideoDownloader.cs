@@ -9,6 +9,7 @@ using YoutubeExplode.Videos.Streams;
 
 namespace MeuLeeDiaPlayer.YoutubeExplodeWrapper
 {
+    // to be used as a singleton with DI framework
     public class YoutubeVideoDownloader : IVideoDownloader
     {
         private readonly YoutubeClient _ytClient;
