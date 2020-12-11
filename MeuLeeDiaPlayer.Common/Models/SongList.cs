@@ -145,7 +145,7 @@ namespace MeuLeeDiaPlayer.Common.Models
         private void AddSongToPlaylist(int currentIndex)
         {
             var songData = PlayMode.GetNextSong(Playlist);
-            if (songData.MarksStartOfPlaylist && songData.Song != null)
+            if (songData.MarksStartOfPlaylist && songData.Song is not null)
             {
                 AddUniqueAscendingIndexToIndexList(currentIndex);
             }

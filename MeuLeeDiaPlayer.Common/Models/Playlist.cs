@@ -54,7 +54,7 @@ namespace MeuLeeDiaPlayer.Common.Models
 
         internal Song MarkSongToBePlayed(Song song)
         {
-            if (song != null)
+            if (song is not null)
             {
                 Songs[song]++;
             }

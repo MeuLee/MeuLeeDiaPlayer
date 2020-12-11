@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
@@ -11,8 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MeuLeeDiaPlayer.Common\MeuLeeDiaPlayer.Common.csproj" />
-    <ProjectReference Include="..\MeuLeeDiaPlayer.SoundPlayer\MeuLeeDiaPlayer.SoundPlayer.csproj" />
-    <ProjectReference Include="..\MeuLeeDiaPlayer.YoutubeExplodeWrapper\MeuLeeDiaPlayer.YoutubeExplodeWrapper.csproj" />
   </ItemGroup>
 
 </Project>

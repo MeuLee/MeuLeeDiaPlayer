@@ -71,7 +71,7 @@ namespace MeuLeeDiaPlayer.Common
 
         public static void AddIfNotNull<T>(this ICollection<T> source, T val)
         {
-            if (val == null) return;
+            if (val is null) return;
             source.Add(val);
         }
 

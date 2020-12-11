@@ -22,7 +22,7 @@ namespace MeuLeeDiaPlayer.Common.PlaylistPlayMode
 
             var nextSong = playlist.Songs.FirstOrDefault(s => s.Value == 0).Key;
 
-            if (nextSong == null && LoopStyle != LoopStyle.NoLoop)
+            if (nextSong is null && LoopStyle != LoopStyle.NoLoop)
             {
                 playlist.ResetSongsCounter();
                 return GetNextSong(playlist, true);
