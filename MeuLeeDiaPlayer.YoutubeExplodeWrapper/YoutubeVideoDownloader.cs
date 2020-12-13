@@ -25,7 +25,7 @@ namespace MeuLeeDiaPlayer.YoutubeExplodeWrapper
             _videoClient = _ytClient.Videos;
         }
 
-        public async Task DownloadVideo(string folder, string videoIdOrUrl, IProgress<double>? progress, CancellationToken token = default)
+        public async Task DownloadVideo(string folder, string videoIdOrUrl, IProgress<double> progress, CancellationToken token = default)
         {
             var videoId = new VideoId(videoIdOrUrl);
 
@@ -37,7 +37,8 @@ namespace MeuLeeDiaPlayer.YoutubeExplodeWrapper
             await _streamClient.DownloadAsync(streamInfo, filePath, progress, token).ConfigureAwait(false);
         }
 
-        public async Task DownloadPlaylist(string folder, string playlistIdOrUrl, IProgress<double>? progress, CancellationToken token = default)
+        // should use parallel here if the method is slow
+        public async Task DownloadPlaylist(string folder, string playlistIdOrUrl, IProgress<double> progress, CancellationToken token = default)
         {
             var playlistId = new PlaylistId(playlistIdOrUrl);
             var videos = (await _playlistClient.GetVideosAsync(playlistId)).ToList();

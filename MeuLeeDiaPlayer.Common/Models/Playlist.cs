@@ -6,9 +6,14 @@ namespace MeuLeeDiaPlayer.Common.Models
 {
     public class Playlist
     {
+        #region Properties
+
         public Dictionary<Song, int> Songs { get; private set; }
 
-        public Song CurrentSong { get; set; }
+        /// <summary>
+        /// Only has a value when the PlayMode is LoopSong.
+        /// </summary>
+        public Song LoopedSong { get; set; }
 
         public string PlaylistName
         {
@@ -16,8 +21,9 @@ namespace MeuLeeDiaPlayer.Common.Models
             set => _playlistName = value ?? $"Playlist {UnnamedPlaylistIndex}";
         }
 
-        private static int UnnamedPlaylistIndex => ++_unnamedPlaylistIndex;
+        #endregion
 
+        private static int UnnamedPlaylistIndex => ++_unnamedPlaylistIndex;
         private static int _unnamedPlaylistIndex = 0;
         private string _playlistName;
 
@@ -36,6 +42,8 @@ namespace MeuLeeDiaPlayer.Common.Models
 
         #endregion
 
+        #region Public methods
+
         public void ResetSongsCounter()
         {
             Songs = Songs.ToDictionary(s => s.Key, s => 0);
@@ -52,7 +60,7 @@ namespace MeuLeeDiaPlayer.Common.Models
             }
         }
 
-        internal Song MarkSongToBePlayed(Song song)
+        public Song MarkSongToBePlayed(Song song)
         {
             if (song is not null)
             {
@@ -61,12 +69,14 @@ namespace MeuLeeDiaPlayer.Common.Models
             return song;
         }
 
-        internal List<Song> GetSongsNotPlayedYet()
+        public List<Song> GetSongsNotPlayedYet()
         {
             return Songs
                 .Where(s => s.Value == 0)
                 .Select(s => s.Key)
                 .ToList();
         }
+
+        #endregion
     }
 }

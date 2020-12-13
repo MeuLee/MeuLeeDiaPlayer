@@ -1,8 +1,10 @@
-﻿using MeuLeeDiaPlayer.Common.PlaylistPlayMode;
+﻿using MeuLeeDiaPlayer.Common;
+using MeuLeeDiaPlayer.Common.Models;
+using MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode;
 using System;
 using System.Collections.Generic;
 
-namespace MeuLeeDiaPlayer.Common.Models
+namespace MeuLeeDiaPlayer.PlaylistHandler
 {
     // Meant to be used as a singleton with DI framework.
     public class SongList
@@ -47,7 +49,7 @@ namespace MeuLeeDiaPlayer.Common.Models
         #region Fields
 
         private readonly List<Song> _songs = new();
-        private List<int> _loopStartIndexes = new List<int> { 0 };
+        private readonly List<int> _loopStartIndexes = new List<int> { 0 };
         private PlayMode _playMode;
         private Playlist _playlist;
         private const int _queueSize = 10;
@@ -108,7 +110,7 @@ namespace MeuLeeDiaPlayer.Common.Models
             if (count <= 0) return;
 
             int biggestSmallerIndex = GetBiggestSmallerIndex(index);
-            var songsToMarkAsPlayed = _songs.GetRange(biggestSmallerIndex, index - biggestSmallerIndex); // + 1 because current song isn't reset
+            var songsToMarkAsPlayed = _songs.GetRange(biggestSmallerIndex, index - biggestSmallerIndex);
             ResetPlaylistStats(songsToMarkAsPlayed); // marks the songs that were actually played as played
             _songs.RemoveRange(index, count); 
             _loopStartIndexes.RemoveAll(i => i >= index);

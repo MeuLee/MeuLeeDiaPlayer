@@ -1,12 +1,12 @@
 ﻿using MeuLeeDiaPlayer.Common.Enums;
 using MeuLeeDiaPlayer.Common.Models;
-using MeuLeeDiaPlayer.Common.PlaylistPlayMode;
+using MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MeuLeeDiaPlayer.Common.Tests
+namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
 {
     public class SongListTest
     {

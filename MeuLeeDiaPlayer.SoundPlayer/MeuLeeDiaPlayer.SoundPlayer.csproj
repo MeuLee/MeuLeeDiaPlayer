@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MeuLeeDiaPlayer.Common\MeuLeeDiaPlayer.Common.csproj" />
+    <ProjectReference Include="..\MeuLeeDiaPlayer.PlaylistHandler\MeuLeeDiaPlayer.PlaylistHandler.csproj" />
   </ItemGroup>
 
 </Project>

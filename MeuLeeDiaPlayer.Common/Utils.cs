@@ -6,38 +6,8 @@ using System.Linq;
 
 namespace MeuLeeDiaPlayer.Common
 {
-    // TODO separate this class into multiple classes
-    public static class Utils
+    public static class CollectionExtensions
     {
-        private static readonly string[] _audioExtensions = new string[] { "*.mp3", "*.webm" };
-
-        public static float GetMaxVolume(this AudioFileReader reader)
-        {
-            float maxVolume = 0;
-            var buffer = new float[reader.WaveFormat.SampleRate];
-            int read;
-            do
-            {
-                read = reader.Read(buffer, 0, buffer.Length);
-                for (int i = 0; i < read; i++)
-                {
-                    var abs = Math.Abs(buffer[i]);
-                    if (abs > maxVolume)
-                    {
-                        maxVolume = abs;
-                    }
-                }
-            }
-            while (read > 0);
-            reader.Position = 0;
-
-            return maxVolume;
-        }
-
-        public static IEnumerable<string> GetAudioOnlyFilesInFolder(string folder)
-        {
-            return _audioExtensions.SelectMany(ext => Directory.EnumerateFiles(folder, $"*{ext}"));
-        }
 
         /// <summary>
         /// Builds a dictionary from a source, using the source's values as keys. 
@@ -74,24 +44,41 @@ namespace MeuLeeDiaPlayer.Common
             if (val is null) return;
             source.Add(val);
         }
+    }
 
-        public static T GetValueOrDefault<T>(this IList<T> source, int index)
+    public static class AudioExtensions
+    {
+        public static float GetMaxVolume(this AudioFileReader reader)
         {
-            if (index >= source.Count) return default;
-            if (index < 0) return default;
-            return source[index];
+            float maxVolume = 0;
+            var buffer = new float[reader.WaveFormat.SampleRate];
+            int read;
+            do
+            {
+                read = reader.Read(buffer, 0, buffer.Length);
+                for (int i = 0; i < read; i++)
+                {
+                    var abs = Math.Abs(buffer[i]);
+                    if (abs > maxVolume)
+                    {
+                        maxVolume = abs;
+                    }
+                }
+            }
+            while (read > 0);
+            reader.Position = 0;
+
+            return maxVolume;
         }
+    }
 
-        public static int LastIndexOfList<T>(this List<T> list)
-        {
-            return list.IsEmpty() ? 0 : list.Count - 1;
-        }
+    public static class Utils
+    {
+        private static readonly string[] _audioExtensions = new string[] { "*.mp3", "*.webm" };
 
-        public static List<T> GetRemoveRange<T>(this List<T> list, int index, int count)
+        public static IEnumerable<string> GetAudioOnlyFilesInFolder(string folder)
         {
-            var items = list.GetRange(index, count);
-            list.RemoveRange(index, count);
-            return items;
+            return _audioExtensions.SelectMany(ext => Directory.EnumerateFiles(folder, $"*{ext}"));
         }
     }
 }

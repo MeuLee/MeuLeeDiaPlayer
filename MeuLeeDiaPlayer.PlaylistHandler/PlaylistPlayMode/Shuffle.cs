@@ -1,9 +1,10 @@
-﻿using MeuLeeDiaPlayer.Common.Enums;
+﻿using MeuLeeDiaPlayer.Common;
+using MeuLeeDiaPlayer.Common.Enums;
 using MeuLeeDiaPlayer.Common.Models;
 using System;
 using System.Linq;
 
-namespace MeuLeeDiaPlayer.Common.PlaylistPlayMode
+namespace MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode
 {
     public class Shuffle : PlayMode
     {
@@ -20,21 +21,25 @@ namespace MeuLeeDiaPlayer.Common.PlaylistPlayMode
 
         private SongData GetNextSong(Playlist playlist, bool marksStartOfPlaylist)
         {
+            if (LoopStyle != LoopStyle.LoopSong)
+            {
+                playlist.LoopedSong = null;
+            }
+
             if (playlist.Songs.IsEmpty()) return new SongData(null, marksStartOfPlaylist);
-            Song song = null;
 
             var songsNotPlayedYet = playlist.GetSongsNotPlayedYet();
 
             if (LoopStyle == LoopStyle.LoopSong)
             {
-                song = playlist.MarkSongToBePlayed(
-                    playlist.CurrentSong ??= songsNotPlayedYet.GetRandomValueInList(_r));
+                var song = playlist.MarkSongToBePlayed(
+                    playlist.LoopedSong ??= songsNotPlayedYet.GetRandomValueInList(_r));
                 return new SongData(song, marksStartOfPlaylist);
             }
 
             if (songsNotPlayedYet.Any())
             {
-                song = playlist.MarkSongToBePlayed(songsNotPlayedYet.GetRandomValueInList(_r));
+                var song = playlist.MarkSongToBePlayed(songsNotPlayedYet.GetRandomValueInList(_r));
                 return new SongData(song, marksStartOfPlaylist);
             }
 

@@ -1,6 +1,7 @@
 ﻿using MeuLeeDiaPlayer.Common.Enums;
 using MeuLeeDiaPlayer.Common.Models;
-using MeuLeeDiaPlayer.Common.PlaylistPlayMode;
+using MeuLeeDiaPlayer.PlaylistHandler;
+using MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode;
 using MeuLeeDiaPlayer.SoundPlayer;
 using System;
 using System.Threading.Tasks;
@@ -10,7 +11,9 @@ namespace ConsoleTest
     class Program
     {
         private const string _folder = @"C:\Users\mathi\OneDrive\Documents\Anime\Songs";
-        static void Main(string[] args)
+        private const string _otherFolder = @"C:\Users\mathi\OneDrive\Documents\Dev\downloaded videos folder";
+        
+        static void Main()
         {
             var playlist = new Playlist(_folder, "playlist1");
             var songList = new SongList(PlayMode.GetPlayMode(ShuffleStyle.Shuffle, LoopStyle.LoopPlaylist), playlist);

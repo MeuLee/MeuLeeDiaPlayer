@@ -1,6 +1,7 @@
 ﻿using MeuLeeDiaPlayer.Common.Enums;
 using MeuLeeDiaPlayer.Common.Models;
-using MeuLeeDiaPlayer.Common.PlaylistPlayMode;
+using MeuLeeDiaPlayer.PlaylistHandler;
+using MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode;
 using NAudio.Wave;
 using System;
 
@@ -30,7 +31,7 @@ namespace MeuLeeDiaPlayer.SoundPlayer
         private float _volume = 0.5f;
         private bool _stopped = false;
 
-        public SoundPlayerManager(SongList songList /*, settings?*/)
+        public SoundPlayerManager(SongList songList)
         {
             _songList = songList ?? throw new ArgumentNullException(nameof(songList));
         }

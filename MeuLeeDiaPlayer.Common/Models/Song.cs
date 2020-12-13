@@ -1,11 +1,17 @@
 ﻿using NAudio.Wave;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MeuLeeDiaPlayer.Common.Models
 {
     public class Song
     {
+        #region Properties
+
         public string SongName
         {
             get => _songName;
@@ -19,21 +25,29 @@ namespace MeuLeeDiaPlayer.Common.Models
         }
 
         public AudioFileReader FileReader { get; private set; }
-        
+
+        #endregion
+
         private string _songName;
         private string _artistName;
+        private static readonly ParallelOptions _options = new ParallelOptions
+        {
+            MaxDegreeOfParallelism = Environment.ProcessorCount
+        };
 
         public Song(IAudioStream audioStream, string songName, string artistName)
             => (FileReader, SongName, ArtistName) = (audioStream.Stream, songName, artistName);
-
-
-        // this method is big time slow. maybe parallel could help
-        public static IEnumerable<Song> GetSongsFromFolder(string folder, bool normalizeVolume = true)
+        
+        public static List<Song> GetSongsFromFolder(string folder, bool normalizeVolume = true)
         {
-            foreach (var songPath in Utils.GetAudioOnlyFilesInFolder(folder))
+            var songPaths = Utils.GetAudioOnlyFilesInFolder(folder);
+            var songs = new ConcurrentBag<Song>();
+            Parallel.ForEach(songPaths, _options, songPath =>
             {
-                yield return new Song(new AudioStream(songPath, normalizeVolume), Path.GetFileNameWithoutExtension(songPath), null);
-            }
+                songs.Add(new Song(new AudioStream(songPath, normalizeVolume), Path.GetFileNameWithoutExtension(songPath), null));
+            });
+
+            return songs.ToList();
         }
 
         public override string ToString()

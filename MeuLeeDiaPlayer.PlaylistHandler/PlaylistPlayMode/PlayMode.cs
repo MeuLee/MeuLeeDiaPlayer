@@ -2,7 +2,7 @@
 using MeuLeeDiaPlayer.Common.Models;
 using System;
 
-namespace MeuLeeDiaPlayer.Common.PlaylistPlayMode
+namespace MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode
 {
     public abstract class PlayMode
     {

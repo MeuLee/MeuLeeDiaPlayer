@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Moq;
 using System;
 
-namespace MeuLeeDiaPlayer.Common.Tests
+namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
 {
     public static class TestUtils
     {

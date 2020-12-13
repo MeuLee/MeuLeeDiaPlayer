@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MeuLeeDiaPlayer.Common.Models
+﻿namespace MeuLeeDiaPlayer.Common.Models
 {
     public class SongData
     {
