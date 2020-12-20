@@ -1,6 +1,7 @@
 ﻿using MeuLeeDiaPlayer.Common;
 using MeuLeeDiaPlayer.Common.Enums;
 using MeuLeeDiaPlayer.Common.Models;
+using MeuLeeDiaPlayer.EntityFramework.DbModels;
 using System.Linq;
 
 namespace MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode
@@ -10,13 +11,13 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode
         public NoShuffle(LoopStyle loopStyle) : base(loopStyle)
         { }
 
-        public override SongData GetNextSong(Playlist playlist)
+        public override SongData GetNextSong(PlaylistLoopInfo playlist)
         {
             _ = playlist ?? throw new System.ArgumentNullException(nameof(playlist));
             return GetNextSong(playlist, false);
         }
 
-        private SongData GetNextSong(Playlist playlist, bool marksStartOfPlaylist)
+        private SongData GetNextSong(PlaylistLoopInfo playlist, bool marksStartOfPlaylist)
         {
             if (LoopStyle != LoopStyle.LoopSong)
             {

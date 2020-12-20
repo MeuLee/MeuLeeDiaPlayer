@@ -1,8 +1,9 @@
-﻿namespace MeuLeeDiaPlayer.Common.Models
+﻿using MeuLeeDiaPlayer.EntityFramework.DbModels;
+
+namespace MeuLeeDiaPlayer.Common.Models
 {
     public class SongData
     {
-
         public Song Song { get; }
         public bool MarksStartOfPlaylist { get; }
 

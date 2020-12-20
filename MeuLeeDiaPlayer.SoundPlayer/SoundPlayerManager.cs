@@ -1,5 +1,5 @@
 ﻿using MeuLeeDiaPlayer.Common.Enums;
-using MeuLeeDiaPlayer.Common.Models;
+using MeuLeeDiaPlayer.EntityFramework.DbModels;
 using MeuLeeDiaPlayer.PlaylistHandler;
 using MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode;
 using NAudio.Wave;
@@ -69,11 +69,11 @@ namespace MeuLeeDiaPlayer.SoundPlayer
 
         public void PlayPrevious()
         {
-            if (_currentSong?.FileReader.CurrentTime > TimeSpan.FromSeconds(5))
+            if (_currentSong?.FileReader.Stream.CurrentTime > TimeSpan.FromSeconds(5))
             {
                 _stopped = true;
                 _waveOut!.Stop();
-                _currentSong!.FileReader.Position = 0;
+                _currentSong!.FileReader.Stream.Position = 0;
                 StartPlaying(_currentSong);
             }
             else
@@ -118,10 +118,10 @@ namespace MeuLeeDiaPlayer.SoundPlayer
 
             if (song is null) return;
 
-            song.FileReader.Position = 0;
+            song.FileReader.Stream.Position = 0;
             _waveOut = new WaveOutEvent { Volume = _volume };
             _waveOut.PlaybackStopped += PlayNext;
-            _waveOut.Init(song.FileReader);
+            _waveOut.Init(song.FileReader.Stream);
             _waveOut.Play();
             _currentSong = song;
             _stopped = false;

@@ -1,7 +1,8 @@
-﻿using MeuLeeDiaPlayer.Common.Models;
-using System.Collections.Generic;
+﻿using MeuLeeDiaPlayer.EntityFramework.Audio;
+using MeuLeeDiaPlayer.EntityFramework.DbModels;
 using Moq;
 using System;
+using System.Collections.Generic;
 
 namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
 {
@@ -13,7 +14,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
             for (int i = 0; i < nbSongs; i++)
             {
                 var mockAudioFileReader = new Mock<IAudioStream>();
-                yield return new Song(mockAudioFileReader.Object, $"{songPrefix}{i}", "ArtistName");
+                yield return new Song { SongName = $"{songPrefix}{i}", ArtistName = "ArtistName", FileReader = mockAudioFileReader.Object };
             }
         }
 

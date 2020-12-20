@@ -1,5 +1,5 @@
-﻿using MeuLeeDiaPlayer.Common.Enums;
-using MeuLeeDiaPlayer.Common.Models;
+﻿using MeuLeeDiaPlayer.Common.Models;
+using MeuLeeDiaPlayer.Common.Enums;
 using System;
 
 namespace MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode
@@ -18,7 +18,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode
             };
         }
 
-        public abstract SongData GetNextSong(Playlist playlist);
+        public abstract SongData GetNextSong(PlaylistLoopInfo playlist);
 
         protected PlayMode(LoopStyle loopStyle)
             => LoopStyle = loopStyle;

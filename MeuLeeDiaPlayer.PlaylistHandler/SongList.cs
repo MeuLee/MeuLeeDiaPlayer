@@ -1,5 +1,6 @@
 ﻿using MeuLeeDiaPlayer.Common;
 using MeuLeeDiaPlayer.Common.Models;
+using MeuLeeDiaPlayer.EntityFramework.DbModels;
 using MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler
             set
             {
                 _playlist = value ?? throw new ArgumentNullException(nameof(value));
+                _playlistLoopInfo = new PlaylistLoopInfo(_playlist);
                 ResetState();
                 FillSongQueue();
             }
@@ -52,6 +54,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler
         private readonly List<int> _loopStartIndexes = new List<int> { 0 };
         private PlayMode _playMode;
         private Playlist _playlist;
+        private PlaylistLoopInfo _playlistLoopInfo;
         private const int _queueSize = 10;
         private int _currentSongIndex;
 
@@ -62,6 +65,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler
             // intentionally not calling set, to execute the rest of the set methods
             _playMode = playMode ?? throw new ArgumentNullException(nameof(playMode));
             _playlist = playlist ?? throw new ArgumentNullException(nameof(playlist));
+            _playlistLoopInfo = new PlaylistLoopInfo(playlist);
             FillSongQueue();
         }
 
@@ -128,10 +132,10 @@ namespace MeuLeeDiaPlayer.PlaylistHandler
 
         private void ResetPlaylistStats(List<Song> songsToMarkAsPlayed)
         {
-            Playlist.ResetSongsCounter();
+            _playlistLoopInfo.ResetSongsCounter();
             foreach (var song in songsToMarkAsPlayed)
             {
-                Playlist.MarkSongToBePlayed(song);
+                _playlistLoopInfo.MarkSongToBePlayed(song);
             }
         }
 
@@ -146,7 +150,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler
 
         private void AddSongToPlaylist(int currentIndex)
         {
-            var songData = PlayMode.GetNextSong(Playlist);
+            var songData = PlayMode.GetNextSong(_playlistLoopInfo);
             if (songData.MarksStartOfPlaylist && songData.Song is not null)
             {
                 AddUniqueAscendingIndexToIndexList(currentIndex);
@@ -175,7 +179,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler
             _loopStartIndexes.Clear();
             _loopStartIndexes.Add(0);
             _currentSongIndex = 0;
-            Playlist.ResetSongsCounter();
+            _playlistLoopInfo.ResetSongsCounter();
         }
 
         #endregion

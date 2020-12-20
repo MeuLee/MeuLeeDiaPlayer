@@ -1,5 +1,5 @@
 ﻿using MeuLeeDiaPlayer.Common.Enums;
-using MeuLeeDiaPlayer.Common.Models;
+using MeuLeeDiaPlayer.EntityFramework.DbModels;
 using MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode;
 using NUnit.Framework;
 using System;
@@ -8,6 +8,7 @@ using System.Linq;
 
 namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
 {
+#pragma warning disable IDE0017 // makes AAA pattern cleaner
     public class SongListTest
     {
         #region Fields
@@ -38,21 +39,14 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void SetupClass()
         {
             var songs1 = TestUtils.GenerateSongs(_songPrefixBig, _nbSongs).ToList();
-            _bigPlaylist = new Playlist(songs1, "1");
+            _bigPlaylist = new Playlist { Songs = songs1 };
 
             var songs2 = TestUtils.GenerateSongs(_songPrefixSmall, _nbLessSongs).ToList();
-            _smallPlaylist = new Playlist(songs2, "2");
+            _smallPlaylist = new Playlist { Songs = songs2 };
 
             _noShuffleLoopPlaylist = PlayMode.GetPlayMode(ShuffleStyle.NoShuffle, LoopStyle.LoopPlaylist);
             _noShuffleLoopSong = PlayMode.GetPlayMode(ShuffleStyle.NoShuffle, LoopStyle.LoopSong);
             _noShuffleNoLoop = PlayMode.GetPlayMode(ShuffleStyle.NoShuffle, LoopStyle.NoLoop);
-        }
-
-        [SetUp]
-        public void SetupTest()
-        {
-            _smallPlaylist.ResetSongsCounter();
-            _bigPlaylist.ResetSongsCounter();
         }
 
         #endregion

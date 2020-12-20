@@ -1,6 +1,6 @@
 ﻿using NAudio.Wave;
 
-namespace MeuLeeDiaPlayer.Common.Models
+namespace MeuLeeDiaPlayer.EntityFramework.Audio
 {
     public interface IAudioStream
     {

@@ -13,13 +13,13 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode
         internal Shuffle(LoopStyle loopStyle) : base(loopStyle)
         { }
 
-        public override SongData GetNextSong(Playlist playlist)
+        public override SongData GetNextSong(PlaylistLoopInfo playlist)
         {
             _ = playlist ?? throw new ArgumentNullException(nameof(playlist));
             return GetNextSong(playlist, false);
         }
 
-        private SongData GetNextSong(Playlist playlist, bool marksStartOfPlaylist)
+        private SongData GetNextSong(PlaylistLoopInfo playlist, bool marksStartOfPlaylist)
         {
             if (LoopStyle != LoopStyle.LoopSong)
             {

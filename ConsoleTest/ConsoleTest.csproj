@@ -6,13 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NAudio" Version="1.10.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MeuLeeDiaPlayer.Common\MeuLeeDiaPlayer.Common.csproj" />
+    <ProjectReference Include="..\MeuLeeDiaPlayer.EntityFramework\MeuLeeDiaPlayer.EntityFramework.csproj" />
     <ProjectReference Include="..\MeuLeeDiaPlayer.SoundPlayer\MeuLeeDiaPlayer.SoundPlayer.csproj" />
-    <ProjectReference Include="..\MeuLeeDiaPlayer.YoutubeExplodeWrapper\MeuLeeDiaPlayer.YoutubeExplodeWrapper.csproj" />
   </ItemGroup>
 
 </Project>

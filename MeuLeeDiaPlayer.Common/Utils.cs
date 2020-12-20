@@ -1,5 +1,4 @@
-﻿using NAudio.Wave;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -46,33 +45,7 @@ namespace MeuLeeDiaPlayer.Common
         }
     }
 
-    public static class AudioExtensions
-    {
-        public static float GetMaxVolume(this AudioFileReader reader)
-        {
-            float maxVolume = 0;
-            var buffer = new float[reader.WaveFormat.SampleRate];
-            int read;
-            do
-            {
-                read = reader.Read(buffer, 0, buffer.Length);
-                for (int i = 0; i < read; i++)
-                {
-                    var abs = Math.Abs(buffer[i]);
-                    if (abs > maxVolume)
-                    {
-                        maxVolume = abs;
-                    }
-                }
-            }
-            while (read > 0);
-            reader.Position = 0;
-
-            return maxVolume;
-        }
-    }
-
-    public static class Utils
+    public static class FileExtensions
     {
         private static readonly string[] _audioExtensions = new string[] { "*.mp3", "*.webm" };
 
