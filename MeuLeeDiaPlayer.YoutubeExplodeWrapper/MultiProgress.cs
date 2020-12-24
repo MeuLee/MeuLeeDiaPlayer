@@ -6,6 +6,7 @@ namespace MeuLeeDiaPlayer.YoutubeExplodeWrapper
 {
     public class MultiProgress
     {
+        private readonly object _lockObject = new object();
         private readonly Dictionary<string, double> progressPair = new();
         private readonly IProgress<double> _parentProgress;
         private readonly int _tasksNumber;
@@ -16,15 +17,20 @@ namespace MeuLeeDiaPlayer.YoutubeExplodeWrapper
 
         public void Add(string key)
         {
-            progressPair.Add(key, 0);
+            lock (_lockObject)
+            {
+                progressPair.Add(key, 0);
+            }            
         }
 
         public void Update(string key, double value)
         {
             if (progressPair[key] >= value) return;
-            
-            progressPair[key] = value;
-            _parentProgress?.Report(_totalProgress);            
+            lock (_lockObject)
+            {
+                progressPair[key] = value;
+            }
+            _parentProgress?.Report(_totalProgress);
         }
     }
 }

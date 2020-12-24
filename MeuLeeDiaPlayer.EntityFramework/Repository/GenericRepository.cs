@@ -1,7 +1,9 @@
 ﻿using MeuLeeDiaPlayer.EntityFramework.Context;
 using MeuLeeDiaPlayer.EntityFramework.DbModels;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace MeuLeeDiaPlayer.EntityFramework.Repository
@@ -22,11 +24,19 @@ namespace MeuLeeDiaPlayer.EntityFramework.Repository
             return result.Entity;
         }
 
-        public async Task<T> GetAsync(int id)
-            => await _dbContext.Set<T>().FirstOrDefaultAsync(t => t.Id == id);
+        public async Task<T> GetAsync<TInclude>(int id, Expression<Func<T, TInclude>> includeExpression)
+        {
+            return await _dbContext.Set<T>()
+                .Include(includeExpression)
+                .FirstOrDefaultAsync(t => t.Id == id);
+        }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
-            => await _dbContext.Set<T>().ToListAsync();
+        public async Task<List<T>> GetAllAsync<TInclude>(Expression<Func<T, TInclude>> includeExpression)
+        {
+            return await _dbContext.Set<T>()
+                .Include(includeExpression)
+                .ToListAsync();
+        }
 
         public async Task<bool> DeleteAsync(int id)
         {

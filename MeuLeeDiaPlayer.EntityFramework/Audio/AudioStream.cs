@@ -1,4 +1,6 @@
 ﻿using NAudio.Wave;
+using System;
+using System.IO;
 
 namespace MeuLeeDiaPlayer.EntityFramework.Audio
 {
@@ -13,6 +15,8 @@ namespace MeuLeeDiaPlayer.EntityFramework.Audio
 
         private void InitializeStream(string filePath, bool normalizeVolume)
         {
+            if (!File.Exists(filePath)) throw new FileNotFoundException($"FilePath {filePath} does not exist at the specified location.", nameof(filePath));
+
             Stream = new AudioFileReader(filePath);
             if (!normalizeVolume) return;
 

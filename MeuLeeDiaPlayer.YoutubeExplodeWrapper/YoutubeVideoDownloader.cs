@@ -12,17 +12,16 @@ namespace MeuLeeDiaPlayer.YoutubeExplodeWrapper
     // to be used as a singleton with DI framework
     public class YoutubeVideoDownloader : IVideoDownloader
     {
-        private readonly YoutubeClient _ytClient;
         private readonly StreamClient _streamClient;
         private readonly PlaylistClient _playlistClient;
         private readonly VideoClient _videoClient;
 
         public YoutubeVideoDownloader()
         {
-            _ytClient = new YoutubeClient();
-            _streamClient = _ytClient.Videos.Streams;
-            _playlistClient = _ytClient.Playlists;
-            _videoClient = _ytClient.Videos;
+            var ytClient = new YoutubeClient();
+            _streamClient = ytClient.Videos.Streams;
+            _playlistClient = ytClient.Playlists;
+            _videoClient = ytClient.Videos;
         }
 
         public async Task DownloadVideo(string folder, string videoIdOrUrl, IProgress<double> progress, CancellationToken token = default)

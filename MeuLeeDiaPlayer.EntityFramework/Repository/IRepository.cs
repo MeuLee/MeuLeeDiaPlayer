@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace MeuLeeDiaPlayer.EntityFramework.Repository
@@ -9,9 +11,9 @@ namespace MeuLeeDiaPlayer.EntityFramework.Repository
 
         Task<bool> DeleteAsync(int id);
 
-        Task<T> GetAsync(int id);
+        Task<T> GetAsync<TInclude>(int id, Expression<Func<T, TInclude>> includeExpression);
 
-        Task<IEnumerable<T>> GetAllAsync();
+        Task<List<T>> GetAllAsync<TInclude>(Expression<Func<T, TInclude>> includeExpression);
 
         Task<T> UpdateAsync(int id, T entity);
     }

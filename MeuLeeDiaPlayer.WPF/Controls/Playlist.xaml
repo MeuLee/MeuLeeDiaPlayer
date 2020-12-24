@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="MeuLeeDiaPlayer.WPF.Controls.Playlist"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             MaxWidth="830">
+    <UserControl.Style>
+        <Style TargetType="UserControl">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding CurrentPlaylist}" Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Padding="2" Text="{Binding CurrentPlaylist.PlaylistName}" FontSize="{StaticResource BigFontSize}" HorizontalAlignment="Center"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Column="1" Padding="5" Text="Title" FontSize="{StaticResource MediumFontSize}"/>
+            <TextBlock Grid.Column="2" Padding="5" Text="Artist" FontSize="{StaticResource MediumFontSize}"/>
+            <TextBlock Grid.Column="3" Padding="5" Text="Length" FontSize="{StaticResource MediumFontSize}"/>
+            <Line Grid.Row="1" Stroke="White" StrokeThickness="1" Stretch="Fill" Grid.ColumnSpan="4" X2="1" VerticalAlignment="Top"/>
+            <ScrollViewer Grid.Row="1" Grid.ColumnSpan="4"  VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding CurrentPlaylist.Songs}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="5*" MaxWidth="300"/>
+                                    <ColumnDefinition Width="5*" MaxWidth="300"/>
+                                    <ColumnDefinition Width="3*" MaxWidth="180"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Padding="2" Text="{Binding SongName}" FontSize="{StaticResource MediumFontSize}"/>
+                                <TextBlock Grid.Column="2" Padding="2" Text="{Binding ArtistName}" FontSize="{StaticResource MediumFontSize}"/>
+                                <TextBlock Grid.Column="3" Padding="2" Text="{Binding LengthFormat}" FontSize="{StaticResource MediumFontSize}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -8,7 +8,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode
 {
     public class Shuffle : PlayMode
     {
-        private static readonly Random _r = new();
+        private readonly Random _r = new();
 
         internal Shuffle(LoopStyle loopStyle) : base(loopStyle)
         { }
