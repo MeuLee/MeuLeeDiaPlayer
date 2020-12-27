@@ -1,18 +1,16 @@
-﻿using MeuLeeDiaPlayer.Common;
-using MeuLeeDiaPlayer.Common.Models;
-using MeuLeeDiaPlayer.EntityFramework.DbModels;
+﻿using MeuLeeDiaPlayer.Common.Models;
+using MeuLeeDiaPlayer.PlaylistHandler.Models;
 using MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode;
 using System;
 using System.Collections.Generic;
 
-namespace MeuLeeDiaPlayer.PlaylistHandler
+namespace MeuLeeDiaPlayer.PlaylistHandler.SongLists
 {
-    // Meant to be used as a singleton with DI framework.
-    public class SongList
+    public class SongList : ISongList
     {
         #region Properties
 
-        public IReadOnlyList<Song> FollowingSongs
+        public IReadOnlyList<SongDto> FollowingSongs
             => _songs.GetRange(_currentSongIndex, Math.Min(_songs.Count - _currentSongIndex, _queueSize)).AsReadOnly();
 
         public PlayMode PlayMode
@@ -21,11 +19,12 @@ namespace MeuLeeDiaPlayer.PlaylistHandler
             set
             {
                 _playMode = value ?? throw new ArgumentNullException(nameof(value));
+                if (Playlist == null) return;
                 RefillSongQueue();
             }
         }
 
-        public Playlist Playlist
+        public PlaylistDto Playlist
         {
             get => _playlist;
             set
@@ -33,11 +32,12 @@ namespace MeuLeeDiaPlayer.PlaylistHandler
                 _playlist = value ?? throw new ArgumentNullException(nameof(value));
                 _playlistLoopInfo = new PlaylistLoopInfo(_playlist);
                 ResetState();
+                if (PlayMode == null) return;
                 FillSongQueue();
             }
         }
 
-        public Song CurrentSong
+        public SongDto CurrentSong
         {
             get
             {
@@ -50,24 +50,15 @@ namespace MeuLeeDiaPlayer.PlaylistHandler
 
         #region Fields
 
-        private readonly List<Song> _songs = new();
+        private readonly List<SongDto> _songs = new();
         private readonly List<int> _loopStartIndexes = new List<int> { 0 };
         private PlayMode _playMode;
-        private Playlist _playlist;
+        private PlaylistDto _playlist;
         private PlaylistLoopInfo _playlistLoopInfo;
         private const int _queueSize = 10;
         private int _currentSongIndex;
 
         #endregion
-
-        public SongList(PlayMode playMode, Playlist playlist)
-        {
-            // intentionally not calling set, to execute the rest of the set methods
-            _playMode = playMode ?? throw new ArgumentNullException(nameof(playMode));
-            _playlist = playlist ?? throw new ArgumentNullException(nameof(playlist));
-            _playlistLoopInfo = new PlaylistLoopInfo(playlist);
-            FillSongQueue();
-        }
 
         /// <summary>
         /// Tries to add a song using the properties PlayMode and Playlist.
@@ -116,7 +107,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler
             int biggestSmallerIndex = GetBiggestSmallerIndex(index);
             var songsToMarkAsPlayed = _songs.GetRange(biggestSmallerIndex, index - biggestSmallerIndex);
             ResetPlaylistStats(songsToMarkAsPlayed); // marks the songs that were actually played as played
-            _songs.RemoveRange(index, count); 
+            _songs.RemoveRange(index, count);
             _loopStartIndexes.RemoveAll(i => i >= index);
         }
 
@@ -130,7 +121,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler
             return 0;
         }
 
-        private void ResetPlaylistStats(List<Song> songsToMarkAsPlayed)
+        private void ResetPlaylistStats(List<SongDto> songsToMarkAsPlayed)
         {
             _playlistLoopInfo.ResetSongsCounter();
             foreach (var song in songsToMarkAsPlayed)

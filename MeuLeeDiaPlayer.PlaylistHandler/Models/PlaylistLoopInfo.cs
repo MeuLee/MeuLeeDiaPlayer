@@ -1,17 +1,16 @@
-﻿using MeuLeeDiaPlayer.Common;
-using MeuLeeDiaPlayer.EntityFramework.DbModels;
+﻿using MeuLeeDiaPlayer.Common.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MeuLeeDiaPlayer.Common.Models
+namespace MeuLeeDiaPlayer.PlaylistHandler.Models
 {
     public class PlaylistLoopInfo
     {
-        public Dictionary<Song, int> Songs { get; private set; }
+        public Dictionary<SongDto, int> Songs { get; private set; }
 
-        public Song LoopedSong { get; set; }
+        public SongDto LoopedSong { get; set; }
 
-        public PlaylistLoopInfo(Playlist playlist)
+        public PlaylistLoopInfo(PlaylistDto playlist)
         {
             Songs = playlist.Songs.ToDictionary(0);
         }
@@ -21,7 +20,7 @@ namespace MeuLeeDiaPlayer.Common.Models
             Songs = Songs.ToDictionary(s => s.Key, s => 0);
         }
 
-        public Song MarkSongToBePlayed(Song song)
+        public SongDto MarkSongToBePlayed(SongDto song)
         {
             if (song is not null)
             {
@@ -30,7 +29,7 @@ namespace MeuLeeDiaPlayer.Common.Models
             return song;
         }
 
-        public List<Song> GetSongsNotPlayedYet()
+        public List<SongDto> GetSongsNotPlayedYet()
         {
             return Songs
                 .Where(s => s.Value == 0)

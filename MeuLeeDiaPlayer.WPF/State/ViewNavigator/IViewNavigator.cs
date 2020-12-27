@@ -1,7 +1,7 @@
 ﻿using MeuLeeDiaPlayer.WPF.ViewModels;
 using System.Windows.Input;
 
-namespace MeuLeeDiaPlayer.WPF.State.ViewNavigators
+namespace MeuLeeDiaPlayer.WPF.State.ViewNavigator
 {
     public enum ViewType
     {

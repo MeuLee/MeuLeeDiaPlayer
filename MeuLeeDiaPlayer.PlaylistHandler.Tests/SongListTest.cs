@@ -1,5 +1,6 @@
-﻿using MeuLeeDiaPlayer.Common.Enums;
-using MeuLeeDiaPlayer.EntityFramework.DbModels;
+﻿using MeuLeeDiaPlayer.Common.Models;
+using MeuLeeDiaPlayer.PlaylistHandler.SongLists;
+using MeuLeeDiaPlayer.PlaylistHandler.Enums;
 using MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode;
 using NUnit.Framework;
 using System;
@@ -8,13 +9,12 @@ using System.Linq;
 
 namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
 {
-#pragma warning disable IDE0017 // makes AAA pattern cleaner
     public class SongListTest
     {
         #region Fields
 
-        private Playlist _bigPlaylist;
-        private Playlist _smallPlaylist;
+        private PlaylistDto _bigPlaylist;
+        private PlaylistDto _smallPlaylist;
 
         private PlayMode _noShuffleLoopPlaylist;
         private PlayMode _noShuffleLoopSong;
@@ -39,10 +39,10 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void SetupClass()
         {
             var songs1 = TestUtils.GenerateSongs(_songPrefixBig, _nbSongs).ToList();
-            _bigPlaylist = new Playlist { Songs = songs1 };
+            _bigPlaylist = new PlaylistDto { Songs = songs1 };
 
             var songs2 = TestUtils.GenerateSongs(_songPrefixSmall, _nbLessSongs).ToList();
-            _smallPlaylist = new Playlist { Songs = songs2 };
+            _smallPlaylist = new PlaylistDto { Songs = songs2 };
 
             _noShuffleLoopPlaylist = PlayMode.GetPlayMode(ShuffleStyle.NoShuffle, LoopStyle.LoopPlaylist);
             _noShuffleLoopSong = PlayMode.GetPlayMode(ShuffleStyle.NoShuffle, LoopStyle.LoopSong);
@@ -57,7 +57,11 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void When_PlayModeSet_DoesNotChangeCurrentSong()
         {
             // Arrange
-            var songList = new SongList(_noShuffleNoLoop, _bigPlaylist);
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleNoLoop,
+                Playlist = _bigPlaylist
+            };
 
             // Act
             var songBefore = songList.CurrentSong;
@@ -72,7 +76,11 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void When_PlayModeSetToNull_ThrowsArgumentNull()
         {
             // Arrange
-            var songList = new SongList(_noShuffleNoLoop, _bigPlaylist);
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleNoLoop,
+                Playlist = _bigPlaylist
+            };
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => songList.PlayMode = null);
@@ -82,7 +90,11 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void When_PlayModeSetToNoShuffleNoLoopAndSmallPlaylist_ContainsCorrectSongs()
         {
             // Arrange
-            var songList = new SongList(_noShuffleNoLoop, _smallPlaylist);
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleNoLoop,
+                Playlist = _smallPlaylist
+            };
 
             // Act
             songList.PlayMode = _noShuffleNoLoop;
@@ -99,7 +111,11 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void When_PlayModeSetToNoShuffleNoLoop_ContainsCorrectSongs()
         {
             // Arrange
-            var songList = new SongList(_noShuffleNoLoop, _bigPlaylist);
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleNoLoop,
+                Playlist = _bigPlaylist
+            };
 
             // Act
             songList.PlayMode = _noShuffleNoLoop;
@@ -116,7 +132,11 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void When_PlayModeSetToNoShuffleLoopPlaylist_ContainsCorrectSongs()
         {
             // Arrange
-            var songList = new SongList(_noShuffleLoopPlaylist, _bigPlaylist);
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleLoopPlaylist,
+                Playlist = _bigPlaylist
+            };
 
             // Act
             songList.PlayMode = _noShuffleLoopPlaylist;
@@ -137,7 +157,11 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void When_PlaylistSet_ChangesCurrentSong()
         {
             // Arrange
-            var songList = new SongList(_noShuffleNoLoop, _bigPlaylist);
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleNoLoop,
+                Playlist = _bigPlaylist
+            };
 
             // Act
             var songBefore = songList.CurrentSong;
@@ -152,7 +176,11 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void When_PlaylistSetToNull_ThrowsArgumentNull()
         {
             // Arrange
-            var songList = new SongList(_noShuffleNoLoop, _bigPlaylist);
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleNoLoop,
+                Playlist = _bigPlaylist
+            };
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => songList.Playlist = null);
@@ -162,7 +190,11 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void When_PlaylistSetToNoShuffleNoLoopAndSmallPlaylist_ContainsCorrectSongs()
         {
             // Arrange
-            var songList = new SongList(_noShuffleNoLoop, _bigPlaylist);
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleNoLoop,
+                Playlist = _bigPlaylist
+            };
 
             // Act
             songList.Playlist = _smallPlaylist;
@@ -179,7 +211,11 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void When_PlaylistSetToNoShuffleNoLoop_ContainsCorrectSongs()
         {
             // Arrange
-            var songList = new SongList(_noShuffleNoLoop, _smallPlaylist);
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleNoLoop,
+                Playlist = _smallPlaylist
+            };
 
             // Act
             songList.Playlist = _bigPlaylist;
@@ -196,7 +232,11 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void When_PlaylistSetToNoShuffleLoopPlaylist_ContainsCorrectSongs()
         {
             // Arrange
-            var songList = new SongList(_noShuffleLoopPlaylist, _bigPlaylist);
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleLoopPlaylist,
+                Playlist = _bigPlaylist
+            };
 
             // Act
             songList.Playlist = _smallPlaylist;
@@ -217,7 +257,12 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void When_PlayModeIsNoLoop_MoveNextSongAtLoopEndIsNull()
         {
             // Arrange
-            var songList = new SongList(_noShuffleNoLoop, _smallPlaylist);
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleNoLoop,
+                Playlist = _smallPlaylist
+            };
+
             for (int i = 0; i < _nbLessSongs; i++)
             {
                 songList.MoveNext();
@@ -234,10 +279,14 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void When_SongListHasFollowingSongs_MoveNextReturnsCorrectSongs()
         {
             // Arrange
-            var songList = new SongList(_noShuffleLoopPlaylist, _bigPlaylist);
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleLoopPlaylist,
+                Playlist = _bigPlaylist
+            };
 
             // Act
-            var songsPlayed = new List<Song>();
+            var songsPlayed = new List<SongDto>();
             for (int i = 0; i < _nbSongs * 2; i++)
             {
                 songsPlayed.Add(songList.CurrentSong);
@@ -255,7 +304,11 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void When_SetNewPlayModeAndCallMoveNext_FollowingSongsContainsCorrectSongs()
         {
             // Arrange
-            var songList = new SongList(_noShuffleNoLoop, _smallPlaylist);
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleNoLoop,
+                Playlist = _smallPlaylist
+            };
 
             // Act
             songList.MoveNext();
@@ -272,7 +325,11 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void When_SetPlaylistAndCallMoveNext_FollowingSongsContainsCorrectSongs()
         {
             // Arrange
-            var songList = new SongList(_noShuffleLoopPlaylist, _bigPlaylist);
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleLoopPlaylist,
+                Playlist = _bigPlaylist
+            };
 
             // Act
             songList.MoveNext();
@@ -293,7 +350,11 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void When_SongListHasNoPreviousSongs_MovePreviousReturnsNull()
         {
             // Arrange
-            var songList = new SongList(_noShuffleLoopPlaylist, _bigPlaylist);
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleLoopPlaylist,
+                Playlist = _bigPlaylist
+            };
 
             // Act
             var song = songList.MovePrevious().CurrentSong;
@@ -306,14 +367,19 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void When_SongListHasPreviousSongs_MovePreviousReturnsCorrectSongs()
         {
             // Arrange
-            var songList = new SongList(_noShuffleNoLoop, _bigPlaylist);
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleNoLoop,
+                Playlist = _bigPlaylist
+            };
+
             for (int i = 0; i < _nbSongs; i++)
             {
                 songList.MoveNext();
             }
 
             // Act
-            var previousSongs = new List<Song>();
+            var previousSongs = new List<SongDto>();
             for (int i = 0; i < _nbSongs; i++)
             {
                 var song = songList.MovePrevious().CurrentSong;
@@ -332,7 +398,12 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         {
             // Arrange
             int goBack = 5;
-            var songList = new SongList(_noShuffleLoopPlaylist, _bigPlaylist);
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleLoopPlaylist,
+                Playlist = _bigPlaylist
+            };
+
             for (int i = 0; i < _nbSongs; i++) // play some songs
             {
                 songList.MoveNext();

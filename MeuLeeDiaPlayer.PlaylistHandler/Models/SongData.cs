@@ -1,13 +1,13 @@
-﻿using MeuLeeDiaPlayer.EntityFramework.DbModels;
+﻿using MeuLeeDiaPlayer.Common.Models;
 
-namespace MeuLeeDiaPlayer.Common.Models
+namespace MeuLeeDiaPlayer.PlaylistHandler.Models
 {
     public class SongData
     {
-        public Song Song { get; }
+        public SongDto Song { get; }
         public bool MarksStartOfPlaylist { get; }
 
-        public SongData(Song song, bool marksStartOfPlaylist)
+        public SongData(SongDto song, bool marksStartOfPlaylist)
         {
             Song = song;
             MarksStartOfPlaylist = marksStartOfPlaylist;

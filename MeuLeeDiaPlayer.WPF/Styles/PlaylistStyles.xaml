@@ -1,0 +1,82 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:convert="clr-namespace:MeuLeeDiaPlayer.WPF.Converters">
+    <Style x:Key="PlaylistSongIcon" TargetType="Image">
+        <Style.Triggers>
+            <!--Show volume icon for current song if song is not paused-->
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <MultiBinding>
+                                <MultiBinding.Converter>
+                                    <convert:EqualValueToParameterConverter/>
+                                </MultiBinding.Converter>
+                                <Binding/>
+                                <Binding RelativeSource="{RelativeSource AncestorType=UserControl, Mode=FindAncestor}" Path="DataContext.SoundPlayerManager.CurrentSong"/>
+                            </MultiBinding>
+                        </Condition.Binding>
+                    </Condition>
+                    <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}, Path=DataContext.SoundPlayerManager.Stopped}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Source" Value="{StaticResource ImgHighVolume}"/>
+            </MultiDataTrigger>
+            <!--Show play icon for current song if song is paused-->
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <MultiBinding>
+                                <MultiBinding.Converter>
+                                    <convert:EqualValueToParameterConverter/>
+                                </MultiBinding.Converter>
+                                <Binding/>
+                                <Binding RelativeSource="{RelativeSource AncestorType=UserControl, Mode=FindAncestor}" Path="DataContext.SoundPlayerManager.CurrentSong"/>
+                            </MultiBinding>
+                        </Condition.Binding>
+                    </Condition>
+                    <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}, Path=DataContext.SoundPlayerManager.Stopped}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Source" Value="{StaticResource ImgPlay}"/>
+            </MultiDataTrigger>
+            <!--Show pause icon for current song if mouse over and song is not paused-->
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=Button, Mode=FindAncestor}, Path=IsMouseOver}" Value="True"/>
+                    <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=Button, Mode=FindAncestor}, Path=IsPressed}" Value="False"/>
+                    <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}, Path=DataContext.SoundPlayerManager.Stopped}" Value="False"/>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <MultiBinding>
+                                <MultiBinding.Converter>
+                                    <convert:EqualValueToParameterConverter/>
+                                </MultiBinding.Converter>
+                                <Binding/>
+                                <Binding RelativeSource="{RelativeSource AncestorType=UserControl, Mode=FindAncestor}" Path="DataContext.SoundPlayerManager.CurrentSong"/>
+                            </MultiBinding>
+                        </Condition.Binding>
+                    </Condition>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Source" Value="{StaticResource ImgPause}"/>
+            </MultiDataTrigger>
+            <!--Show play icon if mouse over and not current song-->
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=Button, Mode=FindAncestor}, Path=IsMouseOver}" Value="True"/>
+                    <Condition Value="False">
+                        <Condition.Binding>
+                            <MultiBinding>
+                                <MultiBinding.Converter>
+                                    <convert:EqualValueToParameterConverter/>
+                                </MultiBinding.Converter>
+                                <Binding/>
+                                <Binding RelativeSource="{RelativeSource AncestorType=UserControl, Mode=FindAncestor}" Path="DataContext.SoundPlayerManager.CurrentSong"/>
+                            </MultiBinding>
+                        </Condition.Binding>
+                    </Condition>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Source" Value="{StaticResource ImgPlay}"/>
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

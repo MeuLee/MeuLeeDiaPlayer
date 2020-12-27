@@ -1,10 +1,13 @@
-﻿using MeuLeeDiaPlayer.EntityFramework.DbModels;
+﻿using MeuLeeDiaPlayer.EntityFramework.Audio;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MeuLeeDiaPlayer.Common.Services
 {
     public interface ISongLoader
     {
-        Task LoadSong(Song song);
+        Dictionary<string, IAudioStream> Songs { get; }
+
+        Task LoadSongs();
     }
 }

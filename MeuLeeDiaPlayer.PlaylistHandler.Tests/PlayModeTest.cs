@@ -1,6 +1,6 @@
-using MeuLeeDiaPlayer.Common.Enums;
 using MeuLeeDiaPlayer.Common.Models;
-using MeuLeeDiaPlayer.EntityFramework.DbModels;
+using MeuLeeDiaPlayer.PlaylistHandler.Enums;
+using MeuLeeDiaPlayer.PlaylistHandler.Models;
 using MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode;
 using NUnit.Framework;
 using System.Linq;
@@ -19,7 +19,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         public void SetupClass()
         {
             var songs = TestUtils.GenerateSongs(_songPrefix, _nbSongs).ToList();
-            _playlist = new PlaylistLoopInfo(new Playlist { Songs = songs });
+            _playlist = new PlaylistLoopInfo(new PlaylistDto { Songs = songs });
         }
 
         [SetUp]

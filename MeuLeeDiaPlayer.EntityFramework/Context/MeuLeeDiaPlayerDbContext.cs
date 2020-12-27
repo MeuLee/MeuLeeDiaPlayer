@@ -38,9 +38,6 @@ namespace MeuLeeDiaPlayer.EntityFramework.Context
                 .HasIndex(s => s.Path)
                 .IsUnique();
 
-            modelBuilder.Entity<Song>()
-                .Ignore(s => s.FileReader);
-
             base.OnModelCreating(modelBuilder);
         }
     }

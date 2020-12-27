@@ -1,4 +1,4 @@
-﻿namespace MeuLeeDiaPlayer.Common.Enums
+﻿namespace MeuLeeDiaPlayer.PlaylistHandler.Enums
 {
     public enum ShuffleStyle
     {

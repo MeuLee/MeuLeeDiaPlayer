@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace MeuLeeDiaPlayer.WPF.Models
+namespace MeuLeeDiaPlayer.Common.Models
 {
     public class ObservableObject : INotifyPropertyChanged
     {

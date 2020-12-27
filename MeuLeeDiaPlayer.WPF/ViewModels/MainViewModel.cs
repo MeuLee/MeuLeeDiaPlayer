@@ -1,4 +1,4 @@
-﻿using MeuLeeDiaPlayer.WPF.State.ViewNavigators;
+﻿using MeuLeeDiaPlayer.WPF.State.ViewNavigator;
 
 namespace MeuLeeDiaPlayer.WPF.ViewModels
 {

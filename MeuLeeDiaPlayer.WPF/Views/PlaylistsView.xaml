@@ -27,7 +27,7 @@
                             CommandParameter="{Binding }">
                             <RadioButton.IsChecked>
                                 <MultiBinding Converter="{StaticResource EqualValueToParameterConverter}" Mode="OneWay">
-                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" Path="DataContext.PlaylistNavigator.CurrentPlaylist"/>
+                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" Path="DataContext.SongNavigator.CurrentPlaylist"/>
                                     <Binding />
                                 </MultiBinding>
                             </RadioButton.IsChecked>
@@ -36,7 +36,6 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-        <controls:Playlist Grid.Column="1" DataContext="{Binding PlaylistNavigator}">
-        </controls:Playlist>
+        <controls:Playlist Grid.Column="1" DataContext="{Binding SongNavigator}"/>
     </Grid>
 </UserControl>

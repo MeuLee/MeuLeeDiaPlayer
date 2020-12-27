@@ -1,4 +1,4 @@
-﻿using MeuLeeDiaPlayer.EntityFramework.DbModels;
+﻿using MeuLeeDiaPlayer.Common.Models;
 using MeuLeeDiaPlayer.WPF.ViewModels;
 using System;
 using System.Windows.Input;
@@ -23,9 +23,9 @@ namespace MeuLeeDiaPlayer.WPF.Commands
 
         public void Execute(object parameter)
         {
-            if (parameter is Playlist playlist)
+            if (parameter is PlaylistDto playlist)
             {
-                _playlistsViewModel.PlaylistNavigator.CurrentPlaylist = playlist;
+                _playlistsViewModel.SongNavigator.CurrentPlaylist = playlist;
             }
         }
     }

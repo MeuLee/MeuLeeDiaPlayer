@@ -1,7 +1,6 @@
-﻿using MeuLeeDiaPlayer.Common;
-using MeuLeeDiaPlayer.Common.Enums;
-using MeuLeeDiaPlayer.Common.Models;
-using MeuLeeDiaPlayer.EntityFramework.DbModels;
+﻿using MeuLeeDiaPlayer.Common.Models;
+using MeuLeeDiaPlayer.PlaylistHandler.Enums;
+using MeuLeeDiaPlayer.PlaylistHandler.Models;
 using System.Linq;
 
 namespace MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode
@@ -25,7 +24,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode
             }
 
             if (playlist.Songs.IsEmpty()) return new SongData(null, marksStartOfPlaylist);
-            Song song;
+            SongDto song;
 
             var nextSong = playlist.Songs.FirstOrDefault(s => s.Value == 0).Key;
 

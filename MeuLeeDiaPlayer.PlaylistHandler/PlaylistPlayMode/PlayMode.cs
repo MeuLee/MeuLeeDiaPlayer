@@ -1,5 +1,5 @@
-﻿using MeuLeeDiaPlayer.Common.Models;
-using MeuLeeDiaPlayer.Common.Enums;
+﻿using MeuLeeDiaPlayer.PlaylistHandler.Enums;
+using MeuLeeDiaPlayer.PlaylistHandler.Models;
 using System;
 
 namespace MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode

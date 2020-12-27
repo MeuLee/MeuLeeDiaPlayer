@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="/Styles/CommonStyles.xaml"/>
                 <ResourceDictionary Source="/Styles/NavigationBarStyles.xaml"/>
                 <ResourceDictionary Source="/Styles/PlaylistsViewStyles.xaml"/>
+                <ResourceDictionary Source="/Styles/PlaylistStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewmodels:PlaylistsViewModel}">

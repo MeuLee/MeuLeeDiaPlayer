@@ -1,4 +1,4 @@
-﻿using MeuLeeDiaPlayer.WPF.State.ViewNavigators;
+﻿using MeuLeeDiaPlayer.WPF.State.ViewNavigator;
 using MeuLeeDiaPlayer.WPF.ViewModels.Factories;
 using System;
 using System.Windows.Input;

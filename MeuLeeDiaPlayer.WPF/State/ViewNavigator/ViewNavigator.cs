@@ -1,10 +1,10 @@
-﻿using MeuLeeDiaPlayer.WPF.Commands;
-using MeuLeeDiaPlayer.WPF.Models;
+﻿using MeuLeeDiaPlayer.Common.Models;
+using MeuLeeDiaPlayer.WPF.Commands;
 using MeuLeeDiaPlayer.WPF.ViewModels;
 using MeuLeeDiaPlayer.WPF.ViewModels.Factories;
 using System.Windows.Input;
 
-namespace MeuLeeDiaPlayer.WPF.State.ViewNavigators
+namespace MeuLeeDiaPlayer.WPF.State.ViewNavigator
 {
     public class ViewNavigator : ObservableObject, IViewNavigator
     {

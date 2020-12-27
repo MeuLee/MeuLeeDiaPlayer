@@ -1,14 +1,13 @@
-﻿using MeuLeeDiaPlayer.Common.Enums;
-using MeuLeeDiaPlayer.EntityFramework.DbModels;
-using MeuLeeDiaPlayer.PlaylistHandler;
+﻿using MeuLeeDiaPlayer.Common.Models;
+using MeuLeeDiaPlayer.PlaylistHandler.Enums;
 using MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode;
+using MeuLeeDiaPlayer.PlaylistHandler.SongLists;
 using NAudio.Wave;
 using System;
 
 namespace MeuLeeDiaPlayer.SoundPlayer
 {
-    // Meant to be used as a singleton with DI framework.
-    public class SoundPlayerManager
+    public class SoundPlayerManager : ObservableObject, ISoundPlayerManager
     {
         public float Volume
         {
@@ -25,13 +24,33 @@ namespace MeuLeeDiaPlayer.SoundPlayer
             }
         }
 
-        private readonly SongList _songList;
+        public SongDto CurrentSong
+        {
+            get => _currentSong;
+            private set
+            {
+                _currentSong = value;
+                OnPropertyChanged(nameof(CurrentSong));
+            }
+        }
+
+        public bool Stopped
+        {
+            get => _stopped;
+            set
+            {
+                _stopped = value;
+                OnPropertyChanged(nameof(Stopped));
+            }
+        }
+
+        private readonly ISongList _songList;
         private WaveOutEvent _waveOut = null;
-        private Song _currentSong = null;
+        private SongDto _currentSong = null;
         private float _volume = 0.5f;
         private bool _stopped = false;
 
-        public SoundPlayerManager(SongList songList)
+        public SoundPlayerManager(ISongList songList)
         {
             _songList = songList ?? throw new ArgumentNullException(nameof(songList));
         }
@@ -41,24 +60,30 @@ namespace MeuLeeDiaPlayer.SoundPlayer
             _songList.PlayMode = PlayMode.GetPlayMode(shuffleStyle, loopStyle);
         }
 
-        public void ChangePlaylist(Playlist playlist)
+        public void ChangePlaylist(PlaylistDto playlist)
         {
             _songList.Playlist = playlist;
             PlayCurrent();
         }
 
-        public void Pause()
+        public void Play(SongDto song)
         {
-            if (_currentSong is null) return;
-            _stopped = true;
-            _waveOut?.Stop();
+            CurrentSong = song;
+            // actually play the song in songlist
         }
 
-        public void Resume()
+        public void PauseOrResume()
         {
-            if (_currentSong is null) return;
-            _stopped = false;
-            _waveOut?.Play();
+            if (CurrentSong is null) return;
+            if (Stopped)
+            {
+                _waveOut?.Play();
+            }
+            else
+            {
+                _waveOut?.Stop();
+            }
+            Stopped = !Stopped;
         }
 
         public void PlayCurrent()
@@ -69,23 +94,23 @@ namespace MeuLeeDiaPlayer.SoundPlayer
 
         public void PlayPrevious()
         {
-            if (_currentSong?.FileReader.Stream.CurrentTime > TimeSpan.FromSeconds(5))
+            if (CurrentSong?.FileReader.Stream.CurrentTime > TimeSpan.FromSeconds(5))
             {
-                _stopped = true;
+                Stopped = true;
                 _waveOut!.Stop();
-                _currentSong!.FileReader.Stream.Position = 0;
-                StartPlaying(_currentSong);
+                CurrentSong!.FileReader.Stream.Position = 0;
+                StartPlaying(CurrentSong);
             }
             else
             {
                 var song = _songList.MovePrevious().CurrentSong;
                 StartPlaying(song);
-            }            
+            }
         }
 
         public void PlayNext()
         {
-            _stopped = false;
+            Stopped = false;
             PlayNext(null, null);
         }
 
@@ -102,13 +127,13 @@ namespace MeuLeeDiaPlayer.SoundPlayer
                 throw e!.Exception;
             }
 
-            if (_stopped) return;
+            if (Stopped) return;
 
             var song = _songList.MoveNext().CurrentSong;
             StartPlaying(song);
         }
 
-        private void StartPlaying(Song song)
+        private void StartPlaying(SongDto song)
         {
             if (_waveOut is not null)
             {
@@ -123,8 +148,8 @@ namespace MeuLeeDiaPlayer.SoundPlayer
             _waveOut.PlaybackStopped += PlayNext;
             _waveOut.Init(song.FileReader.Stream);
             _waveOut.Play();
-            _currentSong = song;
-            _stopped = false;
+            CurrentSong = song;
+            Stopped = false;
         }
     }
 }

@@ -40,16 +40,20 @@
                 <ItemsControl ItemsSource="{Binding CurrentPlaylist.Songs}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid Height="35">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="35"/>
                                     <ColumnDefinition Width="5*" MaxWidth="300"/>
                                     <ColumnDefinition Width="5*" MaxWidth="300"/>
                                     <ColumnDefinition Width="3*" MaxWidth="180"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="1" Padding="2" Text="{Binding SongName}" FontSize="{StaticResource MediumFontSize}"/>
-                                <TextBlock Grid.Column="2" Padding="2" Text="{Binding ArtistName}" FontSize="{StaticResource MediumFontSize}"/>
-                                <TextBlock Grid.Column="3" Padding="2" Text="{Binding LengthFormat}" FontSize="{StaticResource MediumFontSize}"/>
+                                <Button Grid.Column="0" BorderThickness="0" Background="{StaticResource BrushDarkGrey}"
+                                       Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}, Path=DataContext.UpdateCurrentSongCommand}" CommandParameter="{Binding }">
+                                    <Image Style="{StaticResource PlaylistSongIcon}"/>
+                                </Button>
+                                <TextBlock Grid.Column="1" Padding="5" Text="{Binding SongName}" FontSize="{StaticResource MediumFontSize}"/>
+                                <TextBlock Grid.Column="2" Padding="5" Text="{Binding ArtistName}" FontSize="{StaticResource MediumFontSize}"/>
+                                <TextBlock Grid.Column="3" Padding="5" Text="{Binding LengthFormat}" FontSize="{StaticResource MediumFontSize}"/>
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
