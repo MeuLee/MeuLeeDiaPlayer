@@ -9,7 +9,7 @@
     <UserControl.Style>
         <Style TargetType="UserControl">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding CurrentPlaylist}" Value="{x:Null}">
+                <DataTrigger Binding="{Binding PlaylistHolder.CurrentPlaylist}" Value="{x:Null}">
                     <Setter Property="Visibility" Value="Hidden"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -20,7 +20,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Padding="2" Text="{Binding CurrentPlaylist.PlaylistName}" FontSize="{StaticResource BigFontSize}" HorizontalAlignment="Center"/>
+        <TextBlock Padding="2" Text="{Binding PlaylistHolder.CurrentPlaylist.PlaylistName}" FontSize="{StaticResource BigFontSize}" HorizontalAlignment="Center"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
@@ -37,7 +37,7 @@
             <TextBlock Grid.Column="3" Padding="5" Text="Length" FontSize="{StaticResource MediumFontSize}"/>
             <Line Grid.Row="1" Stroke="White" StrokeThickness="1" Stretch="Fill" Grid.ColumnSpan="4" X2="1" VerticalAlignment="Top"/>
             <ScrollViewer Grid.Row="1" Grid.ColumnSpan="4"  VerticalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding CurrentPlaylist.Songs}">
+                <ItemsControl ItemsSource="{Binding PlaylistHolder.CurrentPlaylist.Songs}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid Height="35">

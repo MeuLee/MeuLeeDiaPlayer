@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MeuLeeDiaPlayer.Common.Services
+namespace MeuLeeDiaPlayer.Services.SongLoaders
 {
     /// <summary>
     /// This class initializes the SongDto.FileReader value for each song received in constructor.

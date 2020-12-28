@@ -1,7 +1,7 @@
 ﻿using MeuLeeDiaPlayer.Common.Models;
 using MeuLeeDiaPlayer.PlaylistHandler.Enums;
 
-namespace MeuLeeDiaPlayer.SoundPlayer
+namespace MeuLeeDiaPlayer.Services.SoundPlayer
 {
     public interface ISoundPlayerManager
     {
@@ -11,7 +11,8 @@ namespace MeuLeeDiaPlayer.SoundPlayer
 
         void ChangePlaylist(PlaylistDto playlist);
         void ChangePlayMode(ShuffleStyle shuffleStyle, LoopStyle loopStyle);
-        void Play(SongDto song);
+        void PlaySong(SongDto song);
+        void PlayCurrentPlaylist();
         void PauseOrResume();
         void PlayCurrent();
         void PlayNext();

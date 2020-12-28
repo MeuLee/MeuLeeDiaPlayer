@@ -55,7 +55,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MeuLeeDiaPlayer.Common\MeuLeeDiaPlayer.Common.csproj" />
-    <ProjectReference Include="..\MeuLeeDiaPlayer.SoundPlayer\MeuLeeDiaPlayer.SoundPlayer.csproj" />
+    <ProjectReference Include="..\MeuLeeDiaPlayer.Services\MeuLeeDiaPlayer.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

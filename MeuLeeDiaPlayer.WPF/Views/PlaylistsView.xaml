@@ -19,15 +19,15 @@
             <Style TargetType="RadioButton" BasedOn="{StaticResource PlaylistButton}"/>
         </Grid.Resources>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <ItemsControl x:Name="PlaylistItems" ItemsSource="{Binding Playlists}" RenderOptions.EdgeMode="Aliased">
+            <ItemsControl x:Name="PlaylistItems" ItemsSource="{Binding PlaylistHolder.Playlists}" RenderOptions.EdgeMode="Aliased">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <RadioButton Content="{Binding PlaylistName}"
-                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.PlaylistNavigator.UpdateCurrentPlaylistCommand}"
+                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.UpdateCurrentPlaylistCommand}"
                             CommandParameter="{Binding }">
                             <RadioButton.IsChecked>
                                 <MultiBinding Converter="{StaticResource EqualValueToParameterConverter}" Mode="OneWay">
-                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" Path="DataContext.SongNavigator.CurrentPlaylist"/>
+                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" Path="DataContext.PlaylistHolder.CurrentPlaylist"/>
                                     <Binding />
                                 </MultiBinding>
                             </RadioButton.IsChecked>
@@ -36,6 +36,6 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-        <controls:Playlist Grid.Column="1" DataContext="{Binding SongNavigator}"/>
+        <controls:Playlist Grid.Column="1" DataContext="{Binding SinglePlaylistViewModel}"/>
     </Grid>
 </UserControl>

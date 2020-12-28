@@ -1,11 +1,11 @@
 ﻿using MeuLeeDiaPlayer.Common.Models;
 using MeuLeeDiaPlayer.PlaylistHandler.Enums;
-using MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode;
+using MeuLeeDiaPlayer.PlaylistHandler.PlayModes;
 using MeuLeeDiaPlayer.PlaylistHandler.SongLists;
 using NAudio.Wave;
 using System;
 
-namespace MeuLeeDiaPlayer.SoundPlayer
+namespace MeuLeeDiaPlayer.Services.SoundPlayer
 {
     public class SoundPlayerManager : ObservableObject, ISoundPlayerManager
     {
@@ -47,12 +47,13 @@ namespace MeuLeeDiaPlayer.SoundPlayer
         private readonly ISongList _songList;
         private WaveOutEvent _waveOut = null;
         private SongDto _currentSong = null;
-        private float _volume = 0.5f;
+        private float _volume = 0.5f; // TODO unhardcode this ^_^
         private bool _stopped = false;
 
         public SoundPlayerManager(ISongList songList)
         {
             _songList = songList ?? throw new ArgumentNullException(nameof(songList));
+            _songList.PlayMode = PlayMode.GetPlayMode(ShuffleStyle.NoShuffle, LoopStyle.LoopPlaylist); // TODO unhardcode this ^_^
         }
 
         public void ChangePlayMode(ShuffleStyle shuffleStyle, LoopStyle loopStyle)
@@ -63,13 +64,18 @@ namespace MeuLeeDiaPlayer.SoundPlayer
         public void ChangePlaylist(PlaylistDto playlist)
         {
             _songList.Playlist = playlist;
+        }
+
+        public void PlayCurrentPlaylist()
+        {
             PlayCurrent();
         }
 
-        public void Play(SongDto song)
+        public void PlaySong(SongDto song)
         {
             CurrentSong = song;
-            // actually play the song in songlist
+            _songList.Play(song);
+            StartPlaying(song);
         }
 
         public void PauseOrResume()

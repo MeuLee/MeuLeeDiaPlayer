@@ -1,6 +1,7 @@
 ﻿using MeuLeeDiaPlayer.Common.Models;
 using MeuLeeDiaPlayer.PlaylistHandler.Models;
-using MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode;
+using MeuLeeDiaPlayer.PlaylistHandler.PlayModes;
+using MeuLeeDiaPlayer.PlaylistHandler.Utils;
 using System;
 using System.Collections.Generic;
 
@@ -90,6 +91,20 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.SongLists
             return this;
         }
 
+        public void Play(SongDto song)
+        {
+            _ = song ?? throw new ArgumentNullException(nameof(song));
+            if (_playlistLoopInfo.Songs.Keys.NotContains(song)) return;
+
+            _playlistLoopInfo.MarkSongToBePlayed(song);
+
+            int songIndex = GetSongIndexWithinThisLoop(song);
+            if (songIndex != -1)
+            {
+                (_songs[songIndex], _songs[_currentSongIndex]) = (_songs[_currentSongIndex], _songs[songIndex]);
+            }
+        }
+
         #region Private methods
 
         private void RefillSongQueue()
@@ -121,6 +136,27 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.SongLists
             return 0;
         }
 
+        // assumes _loopStartIndexes is ordered ascending
+        private int GetSmallestBiggerIndex(int index)
+        {
+            foreach (int i in _loopStartIndexes)
+            {
+                if (i > index)
+                {
+                    return i;
+                }
+            }
+
+            return _songs.Count;
+        }
+
+        private int GetSongIndexWithinThisLoop(SongDto song)
+        {
+            int beginSearch = _currentSongIndex;
+            int endSearch = GetSmallestBiggerIndex(_currentSongIndex);
+            return _songs.GetRange(beginSearch, endSearch - beginSearch).IndexOf(song);
+        }
+
         private void ResetPlaylistStats(List<SongDto> songsToMarkAsPlayed)
         {
             _playlistLoopInfo.ResetSongsCounter();
@@ -134,7 +170,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.SongLists
         {
             for (int i = 0; i < _queueSize && _currentSongIndex + _queueSize > _songs.Count; i++)
             {
-                int index = _songs.IsEmpty() ? 0 : _songs.Count - 1;
+                int index = _songs.Count;
                 AddSongToPlaylist(index);
             }
         }

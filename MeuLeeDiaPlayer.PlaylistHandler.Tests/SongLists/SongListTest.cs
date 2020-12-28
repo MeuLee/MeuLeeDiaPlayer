@@ -1,17 +1,20 @@
 ﻿using MeuLeeDiaPlayer.Common.Models;
 using MeuLeeDiaPlayer.PlaylistHandler.SongLists;
 using MeuLeeDiaPlayer.PlaylistHandler.Enums;
-using MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode;
+using MeuLeeDiaPlayer.PlaylistHandler.PlayModes;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
+namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.SongLists
 {
     public class SongListTest
     {
         #region Fields
+
+        private SongDto _bigSong;
+        private SongDto _smallSong;
 
         private PlaylistDto _bigPlaylist;
         private PlaylistDto _smallPlaylist;
@@ -38,11 +41,13 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         [OneTimeSetUp]
         public void SetupClass()
         {
-            var songs1 = TestUtils.GenerateSongs(_songPrefixBig, _nbSongs).ToList();
+            var songs1 = Utils.GenerateSongs(_songPrefixBig, _nbSongs).ToList();
             _bigPlaylist = new PlaylistDto { Songs = songs1 };
+            _bigSong = _bigPlaylist.Songs[2];
 
-            var songs2 = TestUtils.GenerateSongs(_songPrefixSmall, _nbLessSongs).ToList();
+            var songs2 = Utils.GenerateSongs(_songPrefixSmall, _nbLessSongs).ToList();
             _smallPlaylist = new PlaylistDto { Songs = songs2 };
+            _smallSong = _smallPlaylist.Songs[2];
 
             _noShuffleLoopPlaylist = PlayMode.GetPlayMode(ShuffleStyle.NoShuffle, LoopStyle.LoopPlaylist);
             _noShuffleLoopSong = PlayMode.GetPlayMode(ShuffleStyle.NoShuffle, LoopStyle.LoopSong);
@@ -73,7 +78,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         }
 
         [Test]
-        public void When_PlayModeSetToNull_ThrowsArgumentNull()
+        public void When_PlayModeSet_ToNull_ThrowsArgumentNull()
         {
             // Arrange
             var songList = new SongList
@@ -87,7 +92,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         }
 
         [Test]
-        public void When_PlayModeSetToNoShuffleNoLoopAndSmallPlaylist_ContainsCorrectSongs()
+        public void When_PlayModeSet_ToNoShuffleNoLoopAndSmallPlaylist_ContainsCorrectSongs()
         {
             // Arrange
             var songList = new SongList
@@ -108,7 +113,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         }
 
         [Test]
-        public void When_PlayModeSetToNoShuffleNoLoop_ContainsCorrectSongs()
+        public void When_PlayModeSet_ToNoShuffleNoLoop_ContainsCorrectSongs()
         {
             // Arrange
             var songList = new SongList
@@ -129,7 +134,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         }
 
         [Test]
-        public void When_PlayModeSetToNoShuffleLoopPlaylist_ContainsCorrectSongs()
+        public void When_PlayModeSet_ToNoShuffleLoopPlaylist_ContainsCorrectSongs()
         {
             // Arrange
             var songList = new SongList
@@ -173,7 +178,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         }
 
         [Test]
-        public void When_PlaylistSetToNull_ThrowsArgumentNull()
+        public void When_PlaylistSet_ToNull_ThrowsArgumentNull()
         {
             // Arrange
             var songList = new SongList
@@ -187,7 +192,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         }
 
         [Test]
-        public void When_PlaylistSetToNoShuffleNoLoopAndSmallPlaylist_ContainsCorrectSongs()
+        public void When_PlaylistSet_ToNoShuffleNoLoopAndSmallPlaylist_ContainsCorrectSongs()
         {
             // Arrange
             var songList = new SongList
@@ -208,7 +213,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         }
 
         [Test]
-        public void When_PlaylistSetToNoShuffleNoLoop_ContainsCorrectSongs()
+        public void When_PlaylistSet_ToNoShuffleNoLoop_ContainsCorrectSongs()
         {
             // Arrange
             var songList = new SongList
@@ -229,7 +234,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         }
 
         [Test]
-        public void When_PlaylistSetToNoShuffleLoopPlaylist_ContainsCorrectSongs()
+        public void When_PlaylistSet_ToNoShuffleLoopPlaylist_ContainsCorrectSongs()
         {
             // Arrange
             var songList = new SongList
@@ -254,7 +259,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         #region MoveNext
 
         [Test]
-        public void When_PlayModeIsNoLoop_MoveNextSongAtLoopEndIsNull()
+        public void When_MoveNext_PlayModeIsNoLoop_SongAtLoopEndIsNull()
         {
             // Arrange
             var songList = new SongList
@@ -276,7 +281,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         }
 
         [Test]
-        public void When_SongListHasFollowingSongs_MoveNextReturnsCorrectSongs()
+        public void When_MoveNext_SongListHasFollowingSongs_ReturnsCorrectSongs()
         {
             // Arrange
             var songList = new SongList
@@ -301,7 +306,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         }
 
         [Test]
-        public void When_SetNewPlayModeAndCallMoveNext_FollowingSongsContainsCorrectSongs()
+        public void When_MoveNextAndPlayModeSet_FollowingSongsContainsCorrectSongs()
         {
             // Arrange
             var songList = new SongList
@@ -322,7 +327,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         }
 
         [Test]
-        public void When_SetPlaylistAndCallMoveNext_FollowingSongsContainsCorrectSongs()
+        public void When_MoveNextAndPlaylistSet_FollowingSongsContainsCorrectSongs()
         {
             // Arrange
             var songList = new SongList
@@ -347,7 +352,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         #region MovePrevious
 
         [Test]
-        public void When_SongListHasNoPreviousSongs_MovePreviousReturnsNull()
+        public void When_MovePrevious_SongListHasNoPreviousSongs_ReturnsNull()
         {
             // Arrange
             var songList = new SongList
@@ -364,7 +369,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         }
 
         [Test]
-        public void When_SongListHasPreviousSongs_MovePreviousReturnsCorrectSongs()
+        public void When_MovePrevious_SongListHasPreviousSongs_ReturnsCorrectSongs()
         {
             // Arrange
             var songList = new SongList
@@ -394,7 +399,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
         }
 
         [Test]
-        public void When_SetNewPlayMode_MovePreviousFollowingSongsContainsCorrectSongs()
+        public void When_PlayModeSet_MovePreviousFollowingSongsContainsCorrectSongs()
         {
             // Arrange
             int goBack = 5;
@@ -421,6 +426,73 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
             {
                 Assert.AreEqual($"{_songPrefixBig}{i}", songList.FollowingSongs[i - (_nbSongs - goBack)].SongName);
             }
+        }
+
+        #endregion
+
+        #region PlaySong
+
+        [Test]
+        public void When_PlaySong_SongArgIsInWithinThisLoop_CurrentSongAndSongArgSwapIndexes()
+        {
+            // Arrange
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleLoopPlaylist,
+                Playlist = _smallPlaylist
+            };
+
+            // Act
+            songList.Play(_smallSong);
+
+            // Assert
+            Assert.AreEqual($"{_songPrefixSmall}2", songList.FollowingSongs[0].SongName);
+            Assert.AreEqual($"{_songPrefixSmall}0", songList.FollowingSongs[2].SongName);
+        }
+
+        [Test]
+        public void When_PlaySong_SongArgIsNull_ThrowsArgumentNull()
+        {
+            // Arrange
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleLoopPlaylist,
+                Playlist = _smallPlaylist
+            };
+
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => songList.Play(null));
+        }
+
+
+        #endregion
+
+        #region CurrentSong
+
+        [Test]
+        public void When_CurrentSong_PlayModeIsNull_ReturnsNull()
+        {
+            // Arrange
+            var songList = new SongList
+            {
+                Playlist = _smallPlaylist
+            };
+
+            // Act & Assert
+            Assert.IsNull(songList.CurrentSong);
+        }
+
+        [Test]
+        public void When_CurrentSong_PlayListIsNull_ReturnsNull()
+        {
+            // Arrange
+            var songList = new SongList
+            {
+                PlayMode = _noShuffleLoopPlaylist
+            };
+
+            // Act & Assert
+            Assert.IsNull(songList.CurrentSong);
         }
 
         #endregion

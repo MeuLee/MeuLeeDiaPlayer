@@ -1,9 +1,10 @@
 ﻿using MeuLeeDiaPlayer.PlaylistHandler.Enums;
 using MeuLeeDiaPlayer.PlaylistHandler.Models;
+using MeuLeeDiaPlayer.PlaylistHandler.Utils;
 using System;
 using System.Linq;
 
-namespace MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode
+namespace MeuLeeDiaPlayer.PlaylistHandler.PlayModes
 {
     public class Shuffle : PlayMode
     {

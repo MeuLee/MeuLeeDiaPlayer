@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MeuLeeDiaPlayer.Common.Services
+namespace MeuLeeDiaPlayer.Services.SongLoaders
 {
     public interface ISongLoader
     {

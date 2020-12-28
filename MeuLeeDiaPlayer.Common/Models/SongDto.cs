@@ -53,5 +53,10 @@ namespace MeuLeeDiaPlayer.Common.Models
         private string _songName;
         private string _path;
         private IAudioStream _fileReader;
+
+        public override string ToString()
+        {
+            return $"{SongName} | {ArtistName}";
+        }
     }
 }

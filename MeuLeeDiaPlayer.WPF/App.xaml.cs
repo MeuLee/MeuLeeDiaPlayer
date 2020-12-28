@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using MeuLeeDiaPlayer.Common.Profiles;
-using MeuLeeDiaPlayer.Common.Services;
 using MeuLeeDiaPlayer.EntityFramework.Context;
 using MeuLeeDiaPlayer.EntityFramework.DbModels;
 using MeuLeeDiaPlayer.EntityFramework.Repository;
 using MeuLeeDiaPlayer.PlaylistHandler.SongLists;
-using MeuLeeDiaPlayer.SoundPlayer;
-using MeuLeeDiaPlayer.WPF.State.PlaylistNavigator;
-using MeuLeeDiaPlayer.WPF.State.SongNavigator;
+using MeuLeeDiaPlayer.Services.PlaylistHolders;
+using MeuLeeDiaPlayer.Services.PlaylistRetrievers;
+using MeuLeeDiaPlayer.Services.SongLoaders;
+using MeuLeeDiaPlayer.Services.SoundPlayer;
+using MeuLeeDiaPlayer.WPF.Commands;
 using MeuLeeDiaPlayer.WPF.State.ViewNavigator;
 using MeuLeeDiaPlayer.WPF.ViewModels;
 using MeuLeeDiaPlayer.WPF.ViewModels.Factories;
@@ -49,16 +50,20 @@ namespace MeuLeeDiaPlayer.WPF
                 .AddSingleton<ISongLoader, SongLoader>()
                 .AddSingleton<ISongList, SongList>()
                 .AddSingleton<ISoundPlayerManager, SoundPlayerManager>()
+                .AddSingleton<IPlaylistHolder, PlaylistHolder>()
+                .AddSingleton<IPlaylistRetriever, PlaylistRetriever>()
+
+                .AddSingleton<UpdateCurrentPlaylistCommand>()
+                .AddSingleton<UpdateCurrentSongCommand>()
 
                 .AddScoped<MainViewModel>()
                 .AddScoped<DownloadVideosViewModel>()
                 .AddScoped<PlaylistsViewModel>()
                 .AddScoped<SettingsViewModel>()
+                .AddScoped<SinglePlaylistViewModel>()
                 .AddScoped(s => new MainWindow(s.GetRequiredService<MainViewModel>()))
 
                 .AddScoped<IViewNavigator, ViewNavigator>()
-                .AddScoped<IPlaylistNavigator, PlaylistNavigator>()
-                .AddScoped<ISongNavigator, SongNavigator>()
 
                 .AddSingleton<IViewModelFactory, ViewModelFactory>()
 

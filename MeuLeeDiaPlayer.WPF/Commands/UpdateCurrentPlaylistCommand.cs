@@ -1,31 +1,22 @@
 ﻿using MeuLeeDiaPlayer.Common.Models;
-using MeuLeeDiaPlayer.WPF.ViewModels;
-using System;
-using System.Windows.Input;
+using MeuLeeDiaPlayer.Services.PlaylistHolders;
 
 namespace MeuLeeDiaPlayer.WPF.Commands
 {
-    public class UpdateCurrentPlaylistCommand : ICommand
+    public class UpdateCurrentPlaylistCommand : BaseCommand
     {
-        public event EventHandler CanExecuteChanged;
+        private readonly IPlaylistHolder _playlistHolder;
 
-        private readonly PlaylistsViewModel _playlistsViewModel;
-
-        public UpdateCurrentPlaylistCommand(PlaylistsViewModel playlistsViewModel)
+        public UpdateCurrentPlaylistCommand(IPlaylistHolder playlistHolder)
         {
-            _playlistsViewModel = playlistsViewModel;
+            _playlistHolder = playlistHolder;
         }
 
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
+        public override void Execute(object parameter)
         {
             if (parameter is PlaylistDto playlist)
             {
-                _playlistsViewModel.SongNavigator.CurrentPlaylist = playlist;
+                _playlistHolder.CurrentPlaylist = playlist;
             }
         }
     }

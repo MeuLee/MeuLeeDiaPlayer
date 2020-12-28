@@ -1,5 +1,5 @@
 ﻿using MeuLeeDiaPlayer.Common.Models;
-using MeuLeeDiaPlayer.PlaylistHandler.PlaylistPlayMode;
+using MeuLeeDiaPlayer.PlaylistHandler.PlayModes;
 using System.Collections.Generic;
 
 namespace MeuLeeDiaPlayer.PlaylistHandler.SongLists
@@ -11,6 +11,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.SongLists
         PlaylistDto Playlist { get; set; }
         PlayMode PlayMode { get; set; }
 
+        void Play(SongDto song);
         SongList MoveNext();
         SongList MovePrevious();
     }

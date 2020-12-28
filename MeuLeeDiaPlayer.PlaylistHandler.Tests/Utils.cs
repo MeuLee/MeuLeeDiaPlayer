@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
 {
-    public static class TestUtils
+    public static class Utils
     {
 
         public static IEnumerable<SongDto> GenerateSongs(string songPrefix, int nbSongs)
