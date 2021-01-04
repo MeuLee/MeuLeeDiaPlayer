@@ -5,12 +5,15 @@ namespace MeuLeeDiaPlayer.Services.SoundPlayer
 {
     public interface ISoundPlayerManager
     {
-        float Volume { get; set; }
+        int Volume { get; set; }
         SongDto CurrentSong { get; }
         bool Stopped { get; }
 
+        ShuffleStyle ShuffleStyle { get; set; }
+        LoopStyle LoopStyle { get; set; }
+        PlaylistDto CurrentPlaylist { get; }
+
         void ChangePlaylist(PlaylistDto playlist);
-        void ChangePlayMode(ShuffleStyle shuffleStyle, LoopStyle loopStyle);
         void PlaySong(SongDto song);
         void PlayCurrentPlaylist();
         void PauseOrResume();

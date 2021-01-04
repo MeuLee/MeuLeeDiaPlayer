@@ -39,17 +39,34 @@
         <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
+
+    <Style x:Key="BtnNoBorder" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="Transparent">
+                        <ContentPresenter/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     
     <!--Images-->
     <BitmapImage x:Key="ImgHighVolume" UriSource="../Resources/high_volume.png"/>
+    <BitmapImage x:Key="ImgLoopPlaylist" UriSource="../Resources/loop_playlist.png"/>
+    <BitmapImage x:Key="ImgLoopSong" UriSource="../Resources/loop_song.png"/>
     <BitmapImage x:Key="ImgLowVolume" UriSource="../Resources/low_volume.png"/>
-    <BitmapImage x:Key="ImgLoopSong" UriSource="../Resources/loop.png"/>
-    <BitmapImage x:Key="ImgLoopPlaylist" UriSource="../Resources/repeat.png"/>
     <BitmapImage x:Key="ImgMute" UriSource="../Resources/mute.png"/>
     <BitmapImage x:Key="ImgNext" UriSource="../Resources/next.png"/>
-    <BitmapImage x:Key="ImgPrevious" UriSource="../Resources/previous.png"/>
-    <BitmapImage x:Key="ImgPlay" UriSource="../Resources/play.png"/>
+    <BitmapImage x:Key="ImgNoLoop" UriSource="../Resources/no_loop.png"/>
+    <BitmapImage x:Key="ImgNoShuffle" UriSource="../Resources/no_shuffle.png"/>
     <BitmapImage x:Key="ImgPause" UriSource="../Resources/pause.png"/>
-    <BitmapImage x:Key="ImgShuffle" UriSource="../Resources/random.png"/>
+    <BitmapImage x:Key="ImgPlay" UriSource="../Resources/play.png"/>
+    <BitmapImage x:Key="ImgPrevious" UriSource="../Resources/previous.png"/>
+    <BitmapImage x:Key="ImgShuffle" UriSource="../Resources/shuffle.png"/>
+    <BitmapImage x:Key="ImgDisabledPrevious" UriSource="../Resources/disabled_previous.png"/>
+    <BitmapImage x:Key="ImgDisabledPlay" UriSource="../Resources/disabled_play.png"/>
+    <BitmapImage x:Key="ImgDisabledNext" UriSource="../Resources/disabled_next.png"/>
 
 </ResourceDictionary>

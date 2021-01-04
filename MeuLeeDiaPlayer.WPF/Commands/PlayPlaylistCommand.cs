@@ -1,15 +1,14 @@
-﻿using MeuLeeDiaPlayer.Common.Models;
-using MeuLeeDiaPlayer.Services.PlaylistHolders;
+﻿using MeuLeeDiaPlayer.Services.PlaylistHolders;
 using MeuLeeDiaPlayer.Services.SoundPlayer;
 
 namespace MeuLeeDiaPlayer.WPF.Commands
 {
-    public class UpdateCurrentSongCommand : BaseCommand
+    public class PlayPlaylistCommand : BaseCommand
     {
         private readonly ISoundPlayerManager _soundPlayerManager;
         private readonly IPlaylistHolder _playlistHolder;
 
-        public UpdateCurrentSongCommand(ISoundPlayerManager soundPlayerManager, IPlaylistHolder playlistHolder)
+        public PlayPlaylistCommand(ISoundPlayerManager soundPlayerManager, IPlaylistHolder playlistHolder)
         {
             _soundPlayerManager = soundPlayerManager;
             _playlistHolder = playlistHolder;
@@ -17,19 +16,19 @@ namespace MeuLeeDiaPlayer.WPF.Commands
 
         public override void Execute(object parameter)
         {
-            if (parameter is not SongDto song) return;
-            if (_playlistHolder.SoundPlaylist != _playlistHolder.UIPlaylist)
+            bool arePlaylistsDifferent = _playlistHolder.SoundPlaylist != _playlistHolder.UIPlaylist;
+            if (_soundPlayerManager.CurrentPlaylist is null || arePlaylistsDifferent)
             {
                 _playlistHolder.SoundPlaylist = _playlistHolder.UIPlaylist;
             }
 
-            if (_soundPlayerManager.CurrentSong == song)
+            if (_soundPlayerManager.CurrentSong is null || arePlaylistsDifferent)
             {
-                _soundPlayerManager.PauseOrResume();
+                _soundPlayerManager.PlayCurrentPlaylist();
             }
             else
             {
-                _soundPlayerManager.PlaySong(song);
+                _soundPlayerManager.PauseOrResume();
             }
         }
     }

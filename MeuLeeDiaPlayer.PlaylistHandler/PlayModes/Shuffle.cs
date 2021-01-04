@@ -1,4 +1,5 @@
-﻿using MeuLeeDiaPlayer.PlaylistHandler.Enums;
+﻿using MeuLeeDiaPlayer.Common.Models;
+using MeuLeeDiaPlayer.PlaylistHandler.Enums;
 using MeuLeeDiaPlayer.PlaylistHandler.Models;
 using MeuLeeDiaPlayer.PlaylistHandler.Utils;
 using System;
@@ -13,43 +14,37 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.PlayModes
         internal Shuffle(LoopStyle loopStyle) : base(loopStyle)
         { }
 
-        public override SongData GetNextSong(PlaylistLoopInfo playlist)
+        public override SongDto GetNextSong(PlaylistLoopInfo playlist)
         {
             _ = playlist ?? throw new ArgumentNullException(nameof(playlist));
-            return GetNextSong(playlist, false);
-        }
 
-        private SongData GetNextSong(PlaylistLoopInfo playlist, bool marksStartOfPlaylist)
-        {
-            if (LoopStyle != LoopStyle.LoopSong)
-            {
-                playlist.LoopedSong = null;
-            }
+            if (playlist.Songs.IsEmpty()) return SetLastSongPlayed(playlist, null);
 
-            if (playlist.Songs.IsEmpty()) return new SongData(null, marksStartOfPlaylist);
-
-            var songsNotPlayedYet = playlist.GetSongsNotPlayedYet();
+            var songsNotPlayedYet = playlist
+                .GetSongsNotPlayedYet()
+                .Where(s => s != playlist.LastSongPlayed || playlist.Songs.Count == 1)
+                .ToList();
 
             if (LoopStyle == LoopStyle.LoopSong)
             {
                 var song = playlist.MarkSongToBePlayed(
-                    playlist.LoopedSong ??= songsNotPlayedYet.GetRandomValueInList(_r));
-                return new SongData(song, marksStartOfPlaylist);
+                    playlist.LastSongPlayed ??= songsNotPlayedYet.GetRandomValueInList(_r));
+                return song;
             }
 
             if (songsNotPlayedYet.Any())
             {
                 var song = playlist.MarkSongToBePlayed(songsNotPlayedYet.GetRandomValueInList(_r));
-                return new SongData(song, marksStartOfPlaylist);
+                return SetLastSongPlayed(playlist, song);
             }
 
             if (LoopStyle == LoopStyle.LoopPlaylist)
             {
                 playlist.ResetSongsCounter();
-                return GetNextSong(playlist, true);
+                return GetNextSong(playlist);
             }
 
-            return new SongData(null, marksStartOfPlaylist); // every song in the playlist has been played once, and looping is disabled
+            return SetLastSongPlayed(playlist, null); // every song in the playlist has been played once, and looping is disabled
         }
 
         public override string ToString()

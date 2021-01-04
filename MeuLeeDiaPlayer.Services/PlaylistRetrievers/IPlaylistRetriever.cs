@@ -1,6 +1,4 @@
-﻿using MeuLeeDiaPlayer.Common.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace MeuLeeDiaPlayer.Services.PlaylistRetrievers
 {

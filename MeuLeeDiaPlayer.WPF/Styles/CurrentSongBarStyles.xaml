@@ -1,0 +1,217 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:enums="clr-namespace:MeuLeeDiaPlayer.PlaylistHandler.Enums;assembly=MeuLeeDiaPlayer.PlaylistHandler"
+                    xmlns:convert="clr-namespace:MeuLeeDiaPlayer.WPF.Converters">
+    <convert:EqualEnumValueToParameterConverter x:Key="EqualEnumValueToParameterConverter"/>
+    
+    <Style x:Key="ImgPlayStyle" TargetType="Image">
+        <Setter Property="Margin" Value="3"/>
+        <Style.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <Binding Path="SoundPlayerManager.CurrentSong">
+                                <Binding.Converter>
+                                    <convert:ValueIsNotNullConverter/>
+                                </Binding.Converter>
+                            </Binding>
+                        </Condition.Binding>
+                    </Condition>
+                    <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=Button, Mode=FindAncestor}, Path=IsMouseOver}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Margin" Value="0"/>
+            </MultiDataTrigger>
+            <DataTrigger Binding="{Binding SoundPlayerManager.CurrentSong}" Value="{x:Null}">
+                <Setter Property="Source" Value="{StaticResource ImgDisabledPlay}"/>
+            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding SoundPlayerManager.Stopped}" Value="True"/>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <Binding Path="SoundPlayerManager.CurrentSong">
+                                <Binding.Converter>
+                                    <convert:ValueIsNotNullConverter/>
+                                </Binding.Converter>
+                            </Binding>
+                        </Condition.Binding>
+                    </Condition>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Source" Value="{StaticResource ImgPlay}"/>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding SoundPlayerManager.Stopped}" Value="False"/>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <Binding Path="SoundPlayerManager.CurrentSong">
+                                <Binding.Converter>
+                                    <convert:ValueIsNotNullConverter/>
+                                </Binding.Converter>
+                            </Binding>
+                        </Condition.Binding>
+                    </Condition>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Source" Value="{StaticResource ImgPause}"/>
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ImgShuffleStyle" TargetType="Image">
+        <Setter Property="Margin" Value="6"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SoundPlayerManager.ShuffleStyle}" Value="{x:Static enums:ShuffleStyle.NoShuffle}">
+                <Setter Property="Source" Value="{StaticResource ImgNoShuffle}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SoundPlayerManager.ShuffleStyle}" Value="{x:Static enums:ShuffleStyle.Shuffle}">
+                <Setter Property="Source" Value="{StaticResource ImgShuffle}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button, Mode=FindAncestor}, Path=IsMouseOver}" Value="True">
+                <Setter Property="Margin" Value="3"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ImgLoopStyle" TargetType="Image">
+        <Setter Property="Margin" Value="6"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SoundPlayerManager.LoopStyle}" Value="{x:Static enums:LoopStyle.LoopPlaylist}">
+                <Setter Property="Source" Value="{StaticResource ImgLoopPlaylist}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SoundPlayerManager.LoopStyle}" Value="{x:Static enums:LoopStyle.LoopSong}">
+                <Setter Property="Source" Value="{StaticResource ImgLoopSong}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SoundPlayerManager.LoopStyle}" Value="{x:Static enums:LoopStyle.NoLoop}">
+                <Setter Property="Source" Value="{StaticResource ImgNoLoop}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button, Mode=FindAncestor}, Path=IsMouseOver}" Value="True">
+                <Setter Property="Margin" Value="3"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ImgPreviousStyle" TargetType="Image">
+        <Setter Property="Source" Value="{StaticResource ImgPrevious}"/>
+        <Setter Property="Margin" Value="6"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SoundPlayerManager.CurrentSong}" Value="{x:Null}">
+                <Setter Property="Source" Value="{StaticResource ImgDisabledPrevious}"/>
+            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <Binding Path="SoundPlayerManager.CurrentSong">
+                                <Binding.Converter>
+                                    <convert:ValueIsNotNullConverter/>
+                                </Binding.Converter>
+                            </Binding>
+                        </Condition.Binding>
+                    </Condition>
+                    <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=Button, Mode=FindAncestor}, Path=IsMouseOver}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Margin" Value="3"/>
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ImgNextStyle" TargetType="Image">
+        <Setter Property="Source" Value="{StaticResource ImgNext}"/>
+        <Setter Property="Margin" Value="6"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SoundPlayerManager.CurrentSong}" Value="{x:Null}">
+                <Setter Property="Source" Value="{StaticResource ImgDisabledNext}"/>
+            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <Binding Path="SoundPlayerManager.CurrentSong">
+                                <Binding.Converter>
+                                    <convert:ValueIsNotNullConverter/>
+                                </Binding.Converter>
+                            </Binding>
+                        </Condition.Binding>
+                    </Condition>
+                    <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=Button, Mode=FindAncestor}, Path=IsMouseOver}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Margin" Value="3"/>
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="BtnCurrentSongBar" TargetType="Button" BasedOn="{StaticResource BtnNoBorder}">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="{StaticResource BrushDarkGrey}"/>        
+    </Style>
+
+    <Style x:Key="BtnDisableNullSong" TargetType="Button" BasedOn="{StaticResource BtnCurrentSongBar}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SoundPlayerManager.CurrentSong}" Value="{x:Null}">
+                <Setter Property="IsEnabled" Value="False"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="TbTimestamp" TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{StaticResource BrushTextColor}"/>
+        <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SoundPlayerManager.CurrentSong}" Value="{x:Null}">
+                <Setter Property="Text" Value="0:00"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="TbCurrentTimestamp" TargetType="TextBlock" BasedOn="{StaticResource TbTimestamp}">
+        <Style.Triggers>
+            <DataTrigger Value="True">
+                <DataTrigger.Binding>
+                    <Binding Path="SoundPlayerManager.CurrentSong">
+                        <Binding.Converter>
+                            <convert:ValueIsNotNullConverter/>
+                        </Binding.Converter>
+                    </Binding>
+                </DataTrigger.Binding>
+                <Setter Property="Text" Value="{Binding CurrentTimeFormat}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="TbTotalTimestamp" TargetType="TextBlock" BasedOn="{StaticResource TbTimestamp}">
+        <Style.Triggers>
+            <DataTrigger Value="True">
+                <DataTrigger.Binding>
+                    <Binding Path="SoundPlayerManager.CurrentSong">
+                        <Binding.Converter>
+                            <convert:ValueIsNotNullConverter/>
+                        </Binding.Converter>
+                    </Binding>
+                </DataTrigger.Binding>
+                <Setter Property="Text" Value="{Binding SoundPlayerManager.CurrentSong.LengthFormat}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="SliderStyle" TargetType="Slider">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="{StaticResource BrushDarkGrey}"/>
+        <Setter Property="IsMoveToPointEnabled" Value="True"/>
+        <Setter Property="Margin" Value="5,0"/>        
+    </Style>
+
+    <Style x:Key="SliderSongProgress" TargetType="Slider" BasedOn="{StaticResource SliderStyle}">
+        <Setter Property="Maximum" Value="{Binding SoundPlayerManager.CurrentSong.FileReader.Stream.TotalTime.TotalSeconds}"/>
+        <Setter Property="Value" Value="{Binding SliderPosition, Mode=TwoWay}"/>
+    </Style>
+
+    <Style x:Key="SliderVolume" TargetType="Slider" BasedOn="{StaticResource SliderStyle}">
+        <Setter Property="Maximum" Value="100"/>
+        <Setter Property="Value" Value="{Binding SoundPlayerManager.Volume, Mode=TwoWay}"/>
+    </Style>
+    
+</ResourceDictionary>

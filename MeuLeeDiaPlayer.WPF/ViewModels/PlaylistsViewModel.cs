@@ -1,11 +1,8 @@
-﻿using MeuLeeDiaPlayer.Common.Models;
-using MeuLeeDiaPlayer.EntityFramework.DbModels;
-using MeuLeeDiaPlayer.Services.PlaylistHolders;
+﻿using MeuLeeDiaPlayer.Services.PlaylistHolders;
 using MeuLeeDiaPlayer.Services.PlaylistRetrievers;
 using MeuLeeDiaPlayer.Services.SongLoaders;
 using MeuLeeDiaPlayer.WPF.Commands;
-using System.Collections.Generic;
-using System.Linq;
+using MeuLeeDiaPlayer.WPF.ViewModels.SubViewModels;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -33,25 +30,21 @@ namespace MeuLeeDiaPlayer.WPF.ViewModels
             UpdateCurrentPlaylistCommand = command;
             SinglePlaylistViewModel = singlePlaylistVm;
 
-            LoadPlaylists();
-        }
-
-        private void LoadPlaylists()
-        {
-            var fetchPlaylistsTask = _playlistRetriever.LoadPlaylists();
-            var loadSongsTask = _songLoader.LoadSongs();
-            Task.WhenAll(fetchPlaylistsTask, loadSongsTask).ContinueWith(task => InitializePlaylists());
-        }
-
-        private void InitializePlaylists()
-        {
-            foreach (var playlist in PlaylistHolder.Playlists)
-            {
-                foreach (var song in playlist.Songs)
+            LoadPlaylists()
+                .ContinueWith(task =>
                 {
-                    song.FileReader = _songLoader.Songs[song.Path];
-                }
-            }
+                    // handle exceptions
+                }, TaskContinuationOptions.OnlyOnFaulted);
+        }
+
+        private async Task LoadPlaylists()
+        {
+            await _playlistRetriever.LoadPlaylists();
+            await Task.Run(() => _songLoader.LoadSongs(PlaylistHolder.Playlists)
+                .ContinueWith(task =>
+                {
+                    // handle exceptions
+                }, TaskContinuationOptions.OnlyOnFaulted));
         }
     }
 }

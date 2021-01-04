@@ -16,8 +16,7 @@ namespace MeuLeeDiaPlayer.Services.SongLoaders
     {
         private readonly IRepository<Song> _songRepository;
         private readonly IMapper _mapper;
-
-        public Dictionary<string, IAudioStream> Songs { get; private set; }
+        private ICollection<PlaylistDto> _playlists;
 
         public SongLoader(IRepository<Song> songRepository, IMapper mapper)
         {
@@ -25,24 +24,32 @@ namespace MeuLeeDiaPlayer.Services.SongLoaders
             _mapper = mapper;
         }
 
-        public Task LoadSongs()
+        public async Task LoadSongs(ICollection<PlaylistDto> playlists)
         {
-            return _songRepository.GetAllAsync(s => s.Playlists)
-                .ContinueWith(LoadSongs);
+            _playlists = playlists;
+
+            var songs = await _songRepository.GetAllAsync(s => s.Playlists);
+            await LoadSongs(songs);
         }
 
-        private void LoadSongs(Task<List<Song>> task)
+        private async Task LoadSongs(List<Song> songs)
         {
-            if (task.Exception != null) throw task.Exception;
-
-            Songs = task.Result.Select(s => _mapper.Map<SongDto>(s)).ToDictionary(s => s.Path, s => s.FileReader);
-            Task.WhenAll(Songs.Select(LoadSong));
+            var mappedSongs = songs.Select(s => _mapper.Map<SongDto>(s));
+            await Task.WhenAll(mappedSongs.Select(LoadSong));
         }
 
-        private Task LoadSong(KeyValuePair<string, IAudioStream> song)
+        private Task LoadSong(SongDto song)
         {
-            string filePath = song.Key;
-            return Task.FromResult(Songs[filePath] = new AudioStream(filePath));
+            var fileReader = new AudioStream(song.Path);
+
+            foreach (var playlist in _playlists)
+            {
+                var songMatchesPath = playlist.Songs.FirstOrDefault(s => s.Path == song.Path);
+                if (songMatchesPath == null) continue;
+                songMatchesPath.FileReader = fileReader;
+            }
+
+            return Task.CompletedTask;
         }
     }
 }

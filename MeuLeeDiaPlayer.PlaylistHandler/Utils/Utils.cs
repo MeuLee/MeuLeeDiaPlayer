@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Meziantou.Framework.WPF.Collections;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -53,6 +54,17 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Utils
         {
             _ = source ?? throw new ArgumentNullException(nameof(source));
             return !source.Any(t => t == val);
+        }
+
+        public static ConcurrentObservableCollection<T> ToConcurrentObservableCollection<T>(this IEnumerable<T> source)
+        {
+            _ = source ?? throw new ArgumentNullException(nameof(source));
+            var collection = new ConcurrentObservableCollection<T>();
+            foreach(T t in source)
+            {
+                collection.Add(t);
+            }
+            return collection;
         }
     }
 

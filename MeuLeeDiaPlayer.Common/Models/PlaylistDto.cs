@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using Meziantou.Framework.WPF.Collections;
 
 namespace MeuLeeDiaPlayer.Common.Models
 {
@@ -16,7 +16,7 @@ namespace MeuLeeDiaPlayer.Common.Models
             }
         }
 
-        public List<SongDto> Songs { get; set; }
+        public ConcurrentObservableCollection<SongDto> Songs { get; set; }
 
         private string _playlistName;
     }

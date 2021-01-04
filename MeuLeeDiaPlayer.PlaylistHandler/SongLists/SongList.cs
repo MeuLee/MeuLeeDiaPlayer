@@ -4,6 +4,7 @@ using MeuLeeDiaPlayer.PlaylistHandler.PlayModes;
 using MeuLeeDiaPlayer.PlaylistHandler.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MeuLeeDiaPlayer.PlaylistHandler.SongLists
 {
@@ -11,17 +12,12 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.SongLists
     {
         #region Properties
 
-        public IReadOnlyList<SongDto> FollowingSongs
-            => _songs.GetRange(_currentSongIndex, Math.Min(_songs.Count - _currentSongIndex, _queueSize)).AsReadOnly();
-
         public PlayMode PlayMode
         {
             get => _playMode;
             set
             {
                 _playMode = value ?? throw new ArgumentNullException(nameof(value));
-                if (Playlist == null) return;
-                RefillSongQueue();
             }
         }
 
@@ -33,8 +29,6 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.SongLists
                 _playlist = value ?? throw new ArgumentNullException(nameof(value));
                 _playlistLoopInfo = new PlaylistLoopInfo(_playlist);
                 ResetState();
-                if (PlayMode == null) return;
-                FillSongQueue();
             }
         }
 
@@ -42,35 +36,39 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.SongLists
         {
             get
             {
-                if (_currentSongIndex >= _songs.Count || _currentSongIndex < 0) return null;
-                return _songs[_currentSongIndex];
+                if (!IsPlayingHistory && HasFollowingSongs || IsPlayingHistory && HasPreviousSongs)
+                {
+                    return _history[_currentSongIndex];
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
+
+        public bool IsFirstSong => _currentSongIndex == 0;
+        private bool IsPlayingHistory => _history.Count - 1 > _currentSongIndex;
+        private bool HasPreviousSongs => _currentSongIndex >= 0;
+        private bool HasFollowingSongs => _currentSongIndex < _history.Count;
 
         #endregion
 
         #region Fields
 
-        private readonly List<SongDto> _songs = new();
-        private readonly List<int> _loopStartIndexes = new List<int> { 0 };
+        private readonly List<SongDto> _history = new();
         private PlayMode _playMode;
         private PlaylistDto _playlist;
         private PlaylistLoopInfo _playlistLoopInfo;
-        private const int _queueSize = 10;
         private int _currentSongIndex;
 
         #endregion
 
-        /// <summary>
-        /// Tries to add a song using the properties PlayMode and Playlist.
-        /// If it did add a song, increments the current song index by one.
-        /// </summary>
-        /// <returns>An instance of this class, allowing calls like .MoveNext().CurrentSong;</returns>
         public SongList MoveNext()
         {
-            AddSongToPlaylist(_currentSongIndex + _queueSize);
-            // PlayMode.GetNextSong may return null, so need to check if it did first
-            if (_currentSongIndex < _songs.Count)
+            _history.AddIfNotNull(GetNextSong());
+
+            if (_history.Count > _currentSongIndex)
             {
                 _currentSongIndex++;
             }
@@ -78,137 +76,40 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.SongLists
             return this;
         }
 
-        /// <summary>
-        /// If the current song isn't the first one, decrements the current song index by one.
-        /// </summary>
-        /// <returns>An instance of this class, allowing calls like .MoveNext().CurrentSong;</returns>
         public SongList MovePrevious()
         {
-            if (_currentSongIndex >= 0)
+            if (_currentSongIndex > -1)
             {
                 _currentSongIndex--;
             }
+
             return this;
         }
 
         public void Play(SongDto song)
         {
             _ = song ?? throw new ArgumentNullException(nameof(song));
+            if (song.FileReader is null) return;
             if (_playlistLoopInfo.Songs.Keys.NotContains(song)) return;
-
-            _playlistLoopInfo.MarkSongToBePlayed(song);
-
-            int songIndex = GetSongIndexWithinThisLoop(song);
-            if (songIndex != -1)
+            if (_history.LastOrDefault() != song)
             {
-                (_songs[songIndex], _songs[_currentSongIndex]) = (_songs[_currentSongIndex], _songs[songIndex]);
+                _history.Add(song);
             }
-        }
-
-        #region Private methods
-
-        private void RefillSongQueue()
-        {
-            int index = _currentSongIndex + 1;
-            RemoveSongsFromIndex(index);
-            FillSongQueue();
-        }
-
-        private void RemoveSongsFromIndex(int index)
-        {
-            int count = _songs.Count - index;
-            if (count <= 0) return;
-
-            int biggestSmallerIndex = GetBiggestSmallerIndex(index);
-            var songsToMarkAsPlayed = _songs.GetRange(biggestSmallerIndex, index - biggestSmallerIndex);
-            ResetPlaylistStats(songsToMarkAsPlayed); // marks the songs that were actually played as played
-            _songs.RemoveRange(index, count);
-            _loopStartIndexes.RemoveAll(i => i >= index);
-        }
-
-        // assumes _loopStartIndexes is ordered ascending
-        private int GetBiggestSmallerIndex(int index)
-        {
-            for (int i = _loopStartIndexes.Count - 1; i <= 0; i--)
-            {
-                if (_loopStartIndexes[i] < index) return _loopStartIndexes[i];
-            }
-            return 0;
-        }
-
-        // assumes _loopStartIndexes is ordered ascending
-        private int GetSmallestBiggerIndex(int index)
-        {
-            foreach (int i in _loopStartIndexes)
-            {
-                if (i > index)
-                {
-                    return i;
-                }
-            }
-
-            return _songs.Count;
-        }
-
-        private int GetSongIndexWithinThisLoop(SongDto song)
-        {
-            int beginSearch = _currentSongIndex;
-            int endSearch = GetSmallestBiggerIndex(_currentSongIndex);
-            return _songs.GetRange(beginSearch, endSearch - beginSearch).IndexOf(song);
-        }
-
-        private void ResetPlaylistStats(List<SongDto> songsToMarkAsPlayed)
-        {
-            _playlistLoopInfo.ResetSongsCounter();
-            foreach (var song in songsToMarkAsPlayed)
-            {
-                _playlistLoopInfo.MarkSongToBePlayed(song);
-            }
-        }
-
-        private void FillSongQueue()
-        {
-            for (int i = 0; i < _queueSize && _currentSongIndex + _queueSize > _songs.Count; i++)
-            {
-                int index = _songs.Count;
-                AddSongToPlaylist(index);
-            }
-        }
-
-        private void AddSongToPlaylist(int currentIndex)
-        {
-            var songData = PlayMode.GetNextSong(_playlistLoopInfo);
-            if (songData.MarksStartOfPlaylist && songData.Song is not null)
-            {
-                AddUniqueAscendingIndexToIndexList(currentIndex);
-            }
-            _songs.AddIfNotNull(songData.Song);
-        }
-
-        private void AddUniqueAscendingIndexToIndexList(int index)
-        {
-            if (_loopStartIndexes.IsEmpty())
-            {
-                _loopStartIndexes.Add(index);
-                return;
-            }
-
-            int lastValue = _loopStartIndexes[^1];
-            if (index > lastValue)
-            {
-                _loopStartIndexes.Add(index);
-            }
+            _currentSongIndex = _history.Count - 1;
         }
 
         private void ResetState()
         {
-            _songs.Clear();
-            _loopStartIndexes.Clear();
-            _loopStartIndexes.Add(0);
+            _history.Clear();
             _currentSongIndex = 0;
-            _playlistLoopInfo.ResetSongsCounter();
+            _history.AddIfNotNull(GetNextSong());
         }
 
-        #endregion
+        private SongDto GetNextSong()
+        {
+            if (Playlist is null || PlayMode is null) return null;
+            var song = PlayMode.GetNextSong(_playlistLoopInfo);
+            return song;
+        }
     }
 }

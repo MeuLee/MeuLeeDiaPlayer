@@ -8,23 +8,43 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\disabled_next.png" />
+    <None Remove="Resources\disabled_play.png" />
+    <None Remove="Resources\disabled_previous.png" />
     <None Remove="Resources\high_volume.png" />
     <None Remove="Resources\loop.png" />
+    <None Remove="Resources\loop_playlist.png" />
+    <None Remove="Resources\loop_song.png" />
     <None Remove="Resources\low_volume.png" />
     <None Remove="Resources\mute.png" />
     <None Remove="Resources\next.png" />
+    <None Remove="Resources\no_loop.png" />
+    <None Remove="Resources\no_shuffle.png" />
     <None Remove="Resources\pause.png" />
     <None Remove="Resources\play.png" />
     <None Remove="Resources\previous.png" />
     <None Remove="Resources\random.png" />
     <None Remove="Resources\repeat.png" />
+    <None Remove="Resources\shuffle.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\disabled_next.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\disabled_play.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\disabled_previous.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\high_volume.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\loop.png">
+    <Content Include="Resources\loop_playlist.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\loop_song.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\low_volume.png">
@@ -36,6 +56,12 @@
     <Content Include="Resources\next.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\no_loop.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\no_shuffle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\pause.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -45,10 +71,7 @@
     <Content Include="Resources\previous.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\random.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\repeat.png">
+    <Content Include="Resources\shuffle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

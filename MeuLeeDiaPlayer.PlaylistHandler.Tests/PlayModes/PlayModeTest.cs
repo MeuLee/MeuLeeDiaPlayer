@@ -2,6 +2,7 @@ using MeuLeeDiaPlayer.Common.Models;
 using MeuLeeDiaPlayer.PlaylistHandler.Enums;
 using MeuLeeDiaPlayer.PlaylistHandler.Models;
 using MeuLeeDiaPlayer.PlaylistHandler.PlayModes;
+using MeuLeeDiaPlayer.PlaylistHandler.Utils;
 using NUnit.Framework;
 using System.Linq;
 
@@ -10,7 +11,13 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.PlayModes
     public class PlayModeTest
     {
         private PlaylistLoopInfo _playlist;
-        private PlayMode _playMode;
+
+        private PlayMode _noShuffleLoopPlaylist;
+        private PlayMode _noShuffleLoopSong;
+        private PlayMode _noShuffleNoLoop;
+        private PlayMode _shuffleLoopPlaylist;
+        private PlayMode _shuffleLoopSong;
+        private PlayMode _shuffleNoLoop;
 
         private const string _songPrefix = "Song";
         private const int _nbSongs = 10;
@@ -18,15 +25,22 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.PlayModes
         [OneTimeSetUp]
         public void SetupClass()
         {
-            var songs = Utils.GenerateSongs(_songPrefix, _nbSongs).ToList();
+            var songs = Utils.GenerateSongs(_songPrefix, _nbSongs).ToConcurrentObservableCollection();
             _playlist = new PlaylistLoopInfo(new PlaylistDto { Songs = songs });
+
+            _noShuffleLoopPlaylist = PlayMode.GetPlayMode(ShuffleStyle.NoShuffle, LoopStyle.LoopPlaylist);
+            _noShuffleLoopSong = PlayMode.GetPlayMode(ShuffleStyle.NoShuffle, LoopStyle.LoopSong);
+            _noShuffleNoLoop = PlayMode.GetPlayMode(ShuffleStyle.NoShuffle, LoopStyle.NoLoop);
+            _shuffleLoopPlaylist = PlayMode.GetPlayMode(ShuffleStyle.Shuffle, LoopStyle.LoopPlaylist);
+            _shuffleLoopSong = PlayMode.GetPlayMode(ShuffleStyle.Shuffle, LoopStyle.LoopSong);
+            _shuffleNoLoop = PlayMode.GetPlayMode(ShuffleStyle.Shuffle, LoopStyle.NoLoop);
         }
 
         [SetUp]
         public void SetupTest()
         {
             _playlist.ResetSongsCounter();
-            _playMode = null;
+            _playlist.LastSongPlayed = null;
         }
 
         #region NoShuffle
@@ -35,15 +49,15 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.PlayModes
         public void When_PlayModeIsNoShuffleLoopPlaylist_ReceiveSongsInOrder()
         {
             // Arrange
-            _playMode = PlayMode.GetPlayMode(ShuffleStyle.NoShuffle, LoopStyle.LoopPlaylist);
+            var playMode = _noShuffleLoopPlaylist;
 
             // Act
-            var songs = Utils.CallFunctionRepeatedly(_playMode.GetNextSong, _nbSongs, _playlist).ToList();
+            var songs = Utils.CallFunctionRepeatedly(playMode.GetNextSong, _nbSongs, _playlist).ToList();
 
             // Assert
             for (int i = 0; i < _nbSongs; i++)
             {
-                Assert.AreEqual($"{_songPrefix}{i}", songs[i].Song.SongName);
+                Assert.AreEqual($"{_songPrefix}{i}", songs[i].SongName);
             }
         }
 
@@ -51,16 +65,16 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.PlayModes
         public void When_PlayModeIsNoShuffleLoopPlaylist_PlaylistRestartsFromBeginWhenReachEnd()
         {
             // Arrange
-            _playMode = PlayMode.GetPlayMode(ShuffleStyle.NoShuffle, LoopStyle.LoopPlaylist);
+            var playMode = _noShuffleLoopPlaylist;
 
             // Act
-            Utils.CallFunctionRepeatedly(_playMode.GetNextSong, _nbSongs, _playlist);
-            var songs = Utils.CallFunctionRepeatedly(_playMode.GetNextSong, _nbSongs, _playlist).ToList();
+            Utils.CallFunctionRepeatedly(playMode.GetNextSong, _nbSongs, _playlist);
+            var songs = Utils.CallFunctionRepeatedly(playMode.GetNextSong, _nbSongs, _playlist).ToList();
 
             // Assert
             for (int i = 0; i < _nbSongs; i++)
             {
-                Assert.AreEqual($"{_songPrefix}{i}", songs[i].Song.SongName);
+                Assert.AreEqual($"{_songPrefix}{i}", songs[i].SongName);
             }
         }
 
@@ -68,27 +82,44 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.PlayModes
         public void When_PlayModeIsNoShuffleLoopSong_AlwaysReceiveFirstSongOnly()
         {
             // Arrange
-            _playMode = PlayMode.GetPlayMode(ShuffleStyle.NoShuffle, LoopStyle.LoopSong);
+            var playMode = _noShuffleLoopSong;
 
             // Act
-            var songs = Utils.CallFunctionRepeatedly(_playMode.GetNextSong, _nbSongs, _playlist).ToList();
+            var songs = Utils.CallFunctionRepeatedly(playMode.GetNextSong, _nbSongs, _playlist).ToList();
 
             // Assert
             for (int i = 0; i < _nbSongs; i++)
             {
-                Assert.AreEqual($"{_songPrefix}0", songs[i].Song.SongName);
+                Assert.AreEqual($"{_songPrefix}0", songs[i].SongName);
             }
+        }
+
+        [Test]
+        public void When_PlayModeIsLoopSongAndEverySongPlayedOnce_GetNextSongDoesntReturnNull()
+        {
+            // Arrange
+            var playMode = _noShuffleLoopSong;
+            for (int i = 0; i < _nbSongs; i++)
+            {
+                playMode.GetNextSong(_playlist);
+            }
+
+            // Act
+            var song = playMode.GetNextSong(_playlist);
+
+            // Assert
+            Assert.IsNotNull(song);
         }
 
         [Test]
         public void When_PlayModeIsNoShuffleNoLoop_AfterLastSongIsNull()
         {
             // Arrange
-            _playMode = PlayMode.GetPlayMode(ShuffleStyle.NoShuffle, LoopStyle.NoLoop);
+            var playMode = _noShuffleNoLoop;
 
             // Act
-            _ = Utils.CallFunctionRepeatedly(_playMode.GetNextSong, _nbSongs, _playlist).ToList();
-            var nullSong = _playMode.GetNextSong(_playlist).Song;
+            _ = Utils.CallFunctionRepeatedly(playMode.GetNextSong, _nbSongs, _playlist).ToList();
+            var nullSong = playMode.GetNextSong(_playlist);
 
             // Assert
             Assert.IsNull(nullSong);
@@ -102,10 +133,10 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.PlayModes
         public void When_PlayModeIsShuffleLoopPlaylist_EachSongIsPlayedExactlyOnceWithinALoop()
         {
             // Arrange
-            _playMode = PlayMode.GetPlayMode(ShuffleStyle.Shuffle, LoopStyle.LoopPlaylist);
+            var playMode = _shuffleLoopPlaylist;
 
             // Act
-            var songs = Utils.CallFunctionRepeatedly(_playMode.GetNextSong, _nbSongs * 2, _playlist);
+            var songs = Utils.CallFunctionRepeatedly(playMode.GetNextSong, _nbSongs * 2, _playlist);
             var songsFirstLoop = songs.Take(_nbSongs);
             var songsSecondLoop = songs.Skip(_nbSongs).Take(_nbSongs);
 
@@ -118,11 +149,11 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.PlayModes
         public void When_PlayModeIsShuffleLoopSong_AlwaysReceiveTheSameSongOnly()
         {
             // Arrange
-            _playMode = PlayMode.GetPlayMode(ShuffleStyle.Shuffle, LoopStyle.LoopSong);
+            var playMode = _shuffleLoopSong;
 
             // Act
-            var songs = Utils.CallFunctionRepeatedly(_playMode.GetNextSong, _nbSongs, _playlist);
-            var songsGrouped = songs.GroupBy(s => s.Song.SongName).ToList();
+            var songs = Utils.CallFunctionRepeatedly(playMode.GetNextSong, _nbSongs, _playlist);
+            var songsGrouped = songs.GroupBy(s => s.SongName).ToList();
 
             // Assert
             Assert.AreEqual(1, songsGrouped.Count);
@@ -132,10 +163,10 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.PlayModes
         public void When_PlayModeIsShuffleNoLoop_EachSongIsPlayedExactlyOnce()
         {
             // Arrange
-            _playMode = PlayMode.GetPlayMode(ShuffleStyle.Shuffle, LoopStyle.NoLoop);
+            var playMode = _shuffleNoLoop;
 
             // Act
-            var songs = Utils.CallFunctionRepeatedly(_playMode.GetNextSong, _nbSongs, _playlist);
+            var songs = Utils.CallFunctionRepeatedly(playMode.GetNextSong, _nbSongs, _playlist);
 
             // Assert
             CollectionAssert.AllItemsAreUnique(songs);
@@ -145,33 +176,16 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.PlayModes
         public void When_PlayModeIsShuffleNoLoop_AfterLastSongIsNull()
         {
             // Arrange
-            _playMode = PlayMode.GetPlayMode(ShuffleStyle.Shuffle, LoopStyle.NoLoop);
+            var playMode = _shuffleNoLoop;
 
             // Act
-            _ = Utils.CallFunctionRepeatedly(_playMode.GetNextSong, _nbSongs, _playlist).ToList();
-            var nullSong = _playMode.GetNextSong(_playlist).Song;
+            _ = Utils.CallFunctionRepeatedly(playMode.GetNextSong, _nbSongs, _playlist).ToList();
+            var nullSong = playMode.GetNextSong(_playlist);
 
             // Assert
             Assert.IsNull(nullSong);
         }
 
         #endregion
-
-        [Test]
-        public void When_PlayModeIsLoopSongAndEverySongPlayedOnce_GetNextSongDoesntReturnNull()
-        {
-            // Arrange
-            _playMode = PlayMode.GetPlayMode(ShuffleStyle.NoShuffle, LoopStyle.LoopSong);
-            for (int i = 0; i < _nbSongs; i++)
-            {
-                _playMode.GetNextSong(_playlist);
-            }
-
-            // Act
-            var song = _playMode.GetNextSong(_playlist);
-
-            // Assert
-            Assert.IsNotNull(song);
-        }
     }
 }

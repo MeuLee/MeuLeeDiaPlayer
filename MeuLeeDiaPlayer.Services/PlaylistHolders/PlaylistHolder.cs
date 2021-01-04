@@ -1,25 +1,35 @@
 ﻿using MeuLeeDiaPlayer.Common.Models;
 using MeuLeeDiaPlayer.Services.SoundPlayer;
-using System.Collections.Generic;
+using Meziantou.Framework.WPF.Collections;
 
 namespace MeuLeeDiaPlayer.Services.PlaylistHolders
 {
     public class PlaylistHolder : ObservableObject, IPlaylistHolder
     {
-        public PlaylistDto CurrentPlaylist
+        public PlaylistDto SoundPlaylist
         {
-            get => _currentPlaylist;
+            get => _soundPlaylist;
             set
             {
-                _currentPlaylist = value;
-                OnPropertyChanged(nameof(CurrentPlaylist));
-                _soundPlayerManager.ChangePlaylist(CurrentPlaylist);
+                _soundPlaylist = value;
+                OnPropertyChanged(nameof(SoundPlaylist));
+                _soundPlayerManager.ChangePlaylist(SoundPlaylist);
             }
         }
 
-        public List<PlaylistDto> Playlists { get; set; }
+        public ConcurrentObservableCollection<PlaylistDto> Playlists { get; set; }
+        public PlaylistDto UIPlaylist
+        {
+            get => _uiPlaylist;
+            set
+            {
+                _uiPlaylist = value;
+                OnPropertyChanged(nameof(UIPlaylist));
+            }
+        }
 
-        private PlaylistDto _currentPlaylist;
+        private PlaylistDto _soundPlaylist;
+        private PlaylistDto _uiPlaylist;
         private readonly ISoundPlayerManager _soundPlayerManager;
 
         public PlaylistHolder(ISoundPlayerManager soundPlayerManager)

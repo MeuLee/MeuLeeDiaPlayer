@@ -1,5 +1,6 @@
 ﻿using MeuLeeDiaPlayer.Common.Models;
 using MeuLeeDiaPlayer.EntityFramework.Audio;
+using MeuLeeDiaPlayer.PlaylistHandler.SongLists;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,21 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
             {
                 yield return func(arg);
             }
+        }
+
+        public static List<SongDto> GetFollowingSongs(this ISongList songList, int count)
+        {
+            var list = new List<SongDto>
+            {
+                songList.CurrentSong
+            };
+
+            for (int i = 0; i < count - 1; i++)
+            {
+                list.Add(songList.MoveNext().CurrentSong);
+            }
+
+            return list;
         }
     }
 }

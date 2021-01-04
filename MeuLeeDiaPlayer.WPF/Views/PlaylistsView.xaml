@@ -19,7 +19,7 @@
             <Style TargetType="RadioButton" BasedOn="{StaticResource PlaylistButton}"/>
         </Grid.Resources>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <ItemsControl x:Name="PlaylistItems" ItemsSource="{Binding PlaylistHolder.Playlists}" RenderOptions.EdgeMode="Aliased">
+            <ItemsControl x:Name="PlaylistItems" ItemsSource="{Binding PlaylistHolder.Playlists.AsObservable}" RenderOptions.EdgeMode="Aliased">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <RadioButton Content="{Binding PlaylistName}"
@@ -27,7 +27,7 @@
                             CommandParameter="{Binding }">
                             <RadioButton.IsChecked>
                                 <MultiBinding Converter="{StaticResource EqualValueToParameterConverter}" Mode="OneWay">
-                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" Path="DataContext.PlaylistHolder.CurrentPlaylist"/>
+                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" Path="DataContext.PlaylistHolder.UIPlaylist"/>
                                     <Binding />
                                 </MultiBinding>
                             </RadioButton.IsChecked>

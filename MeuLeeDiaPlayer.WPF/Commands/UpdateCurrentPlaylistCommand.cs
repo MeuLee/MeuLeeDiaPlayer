@@ -16,7 +16,7 @@ namespace MeuLeeDiaPlayer.WPF.Commands
         {
             if (parameter is PlaylistDto playlist)
             {
-                _playlistHolder.CurrentPlaylist = playlist;
+                _playlistHolder.UIPlaylist = playlist;
             }
         }
     }

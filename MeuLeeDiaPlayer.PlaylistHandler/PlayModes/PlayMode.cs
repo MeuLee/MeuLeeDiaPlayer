@@ -1,6 +1,6 @@
-﻿using MeuLeeDiaPlayer.PlaylistHandler.Enums;
+﻿using MeuLeeDiaPlayer.Common.Models;
+using MeuLeeDiaPlayer.PlaylistHandler.Enums;
 using MeuLeeDiaPlayer.PlaylistHandler.Models;
-using System;
 
 namespace MeuLeeDiaPlayer.PlaylistHandler.PlayModes
 {
@@ -10,17 +10,24 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.PlayModes
 
         public static PlayMode GetPlayMode(ShuffleStyle shuffleStyle, LoopStyle loopStyle)
         {
+#pragma warning disable CS8524
             return shuffleStyle switch
+#pragma warning restore CS8524
             {
                 ShuffleStyle.NoShuffle => new NoShuffle(loopStyle),
-                ShuffleStyle.Shuffle => new Shuffle(loopStyle),
-                _ => throw new ArgumentException("Bad enum value", nameof(shuffleStyle)),
+                ShuffleStyle.Shuffle => new Shuffle(loopStyle)
             };
         }
 
-        public abstract SongData GetNextSong(PlaylistLoopInfo playlist);
-
         protected PlayMode(LoopStyle loopStyle)
             => LoopStyle = loopStyle;
+
+        public abstract SongDto GetNextSong(PlaylistLoopInfo playlist);
+
+        protected SongDto SetLastSongPlayed(PlaylistLoopInfo playlist, SongDto song)
+        {
+            playlist.LastSongPlayed = song;
+            return song;
+        }
     }
 }

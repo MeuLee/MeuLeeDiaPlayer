@@ -12,6 +12,7 @@ using MeuLeeDiaPlayer.WPF.Commands;
 using MeuLeeDiaPlayer.WPF.State.ViewNavigator;
 using MeuLeeDiaPlayer.WPF.ViewModels;
 using MeuLeeDiaPlayer.WPF.ViewModels.Factories;
+using MeuLeeDiaPlayer.WPF.ViewModels.SubViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
@@ -55,12 +56,19 @@ namespace MeuLeeDiaPlayer.WPF
 
                 .AddSingleton<UpdateCurrentPlaylistCommand>()
                 .AddSingleton<UpdateCurrentSongCommand>()
+                .AddSingleton<NextSongCommand>()
+                .AddSingleton<PauseResumeCurrentSongCommand>()
+                .AddSingleton<SetLoopStyleCommand>()
+                .AddSingleton<SetShuffleStyleCommand>()
+                .AddSingleton<PreviousSongCommand>()
+                .AddSingleton<PlayPlaylistCommand>()
 
                 .AddScoped<MainViewModel>()
                 .AddScoped<DownloadVideosViewModel>()
                 .AddScoped<PlaylistsViewModel>()
                 .AddScoped<SettingsViewModel>()
                 .AddScoped<SinglePlaylistViewModel>()
+                .AddScoped<CurrentSongBarViewModel>()
                 .AddScoped(s => new MainWindow(s.GetRequiredService<MainViewModel>()))
 
                 .AddScoped<IViewNavigator, ViewNavigator>()

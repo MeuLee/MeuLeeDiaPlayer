@@ -3,7 +3,7 @@ using MeuLeeDiaPlayer.Common.Models;
 using MeuLeeDiaPlayer.EntityFramework.DbModels;
 using MeuLeeDiaPlayer.EntityFramework.Repository;
 using MeuLeeDiaPlayer.Services.PlaylistHolders;
-using System.Linq;
+using Meziantou.Framework.WPF.Collections;
 using System.Threading.Tasks;
 
 namespace MeuLeeDiaPlayer.Services.PlaylistRetrievers
@@ -24,7 +24,8 @@ namespace MeuLeeDiaPlayer.Services.PlaylistRetrievers
         public async Task LoadPlaylists()
         {
             var playlists = await _playlistRepository.GetAllAsync(p => p.Songs);
-            _playlistHolder.Playlists = playlists.Select(p => _mapper.Map<PlaylistDto>(p)).ToList();
+            _playlistHolder.Playlists = new ConcurrentObservableCollection<PlaylistDto>();
+            playlists.ForEach(p => _playlistHolder.Playlists.Add(_mapper.Map<PlaylistDto>(p)));
         }
     }
 }

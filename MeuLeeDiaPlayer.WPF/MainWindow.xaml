@@ -12,10 +12,11 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="120"/>
         </Grid.RowDefinitions>
 
         <controls:NavigationBar Grid.Row="0" DataContext="{Binding ViewNavigator}"/>
         <ContentControl Grid.Row="1" Content="{Binding ViewNavigator.CurrentViewModel}"/>
+        <controls:CurrentSongBar Grid.Row="2" DataContext="{Binding CurrentSongBarViewModel}"/>
     </Grid>
 </Window>

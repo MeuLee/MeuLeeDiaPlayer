@@ -9,7 +9,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Models
     {
         public Dictionary<SongDto, int> Songs { get; private set; }
 
-        public SongDto LoopedSong { get; set; }
+        public SongDto LastSongPlayed { get; set; }
 
         public PlaylistLoopInfo(PlaylistDto playlist)
         {
@@ -36,6 +36,11 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Models
                 .Where(s => s.Value == 0)
                 .Select(s => s.Key)
                 .ToList();
+        }
+
+        public SongDto GetNextSongNotPlayedYet()
+        {
+            return Songs.FirstOrDefault(s => s.Value == 0).Key;
         }
     }
 }

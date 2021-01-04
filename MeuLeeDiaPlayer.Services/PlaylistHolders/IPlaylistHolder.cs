@@ -1,11 +1,12 @@
 ﻿using MeuLeeDiaPlayer.Common.Models;
-using System.Collections.Generic;
+using Meziantou.Framework.WPF.Collections;
 
 namespace MeuLeeDiaPlayer.Services.PlaylistHolders
 {
     public interface IPlaylistHolder
     {
-        public List<PlaylistDto> Playlists { get; set; }
-        public PlaylistDto CurrentPlaylist { get; set; }
+        ConcurrentObservableCollection<PlaylistDto> Playlists { get; set; }
+        PlaylistDto SoundPlaylist { get; set; }
+        PlaylistDto UIPlaylist { get; set; }
     }
 }

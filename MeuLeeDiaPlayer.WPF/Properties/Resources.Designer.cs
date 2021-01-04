@@ -63,6 +63,36 @@ namespace MeuLeeDiaPlayer.WPF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] disabled_next {
+            get {
+                object obj = ResourceManager.GetObject("disabled_next", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] disabled_play {
+            get {
+                object obj = ResourceManager.GetObject("disabled_play", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] disabled_previous {
+            get {
+                object obj = ResourceManager.GetObject("disabled_previous", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] high_volume {
             get {
                 object obj = ResourceManager.GetObject("high_volume", resourceCulture);
@@ -73,9 +103,19 @@ namespace MeuLeeDiaPlayer.WPF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] loop {
+        internal static byte[] loop_playlist {
             get {
-                object obj = ResourceManager.GetObject("loop", resourceCulture);
+                object obj = ResourceManager.GetObject("loop_playlist", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] loop_song {
+            get {
+                object obj = ResourceManager.GetObject("loop_song", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -113,6 +153,26 @@ namespace MeuLeeDiaPlayer.WPF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] no_loop {
+            get {
+                object obj = ResourceManager.GetObject("no_loop", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] no_shuffle {
+            get {
+                object obj = ResourceManager.GetObject("no_shuffle", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] pause {
             get {
                 object obj = ResourceManager.GetObject("pause", resourceCulture);
@@ -143,19 +203,9 @@ namespace MeuLeeDiaPlayer.WPF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] random {
+        internal static byte[] shuffle {
             get {
-                object obj = ResourceManager.GetObject("random", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] repeat {
-            get {
-                object obj = ResourceManager.GetObject("repeat", resourceCulture);
+                object obj = ResourceManager.GetObject("shuffle", resourceCulture);
                 return ((byte[])(obj));
             }
         }

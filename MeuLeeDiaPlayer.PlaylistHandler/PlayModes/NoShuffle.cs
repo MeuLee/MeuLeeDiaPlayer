@@ -2,7 +2,7 @@
 using MeuLeeDiaPlayer.PlaylistHandler.Enums;
 using MeuLeeDiaPlayer.PlaylistHandler.Models;
 using MeuLeeDiaPlayer.PlaylistHandler.Utils;
-using System.Linq;
+using System;
 
 namespace MeuLeeDiaPlayer.PlaylistHandler.PlayModes
 {
@@ -11,38 +11,34 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.PlayModes
         public NoShuffle(LoopStyle loopStyle) : base(loopStyle)
         { }
 
-        public override SongData GetNextSong(PlaylistLoopInfo playlist)
+        public override SongDto GetNextSong(PlaylistLoopInfo playlist)
         {
-            _ = playlist ?? throw new System.ArgumentNullException(nameof(playlist));
-            return GetNextSong(playlist, false);
-        }
+            _ = playlist ?? throw new ArgumentNullException(nameof(playlist));
 
-        private SongData GetNextSong(PlaylistLoopInfo playlist, bool marksStartOfPlaylist)
-        {
-            if (LoopStyle != LoopStyle.LoopSong)
+            if (playlist.Songs.IsEmpty())
             {
-                playlist.LoopedSong = null;
+                playlist.LastSongPlayed = null;
+                return SetLastSongPlayed(playlist, null);
             }
 
-            if (playlist.Songs.IsEmpty()) return new SongData(null, marksStartOfPlaylist);
             SongDto song;
 
-            var nextSong = playlist.Songs.FirstOrDefault(s => s.Value == 0).Key;
+            var nextSong = playlist.GetNextSongNotPlayedYet();
 
             if (nextSong is null && LoopStyle != LoopStyle.NoLoop)
             {
                 playlist.ResetSongsCounter();
-                return GetNextSong(playlist, true);
+                return GetNextSong(playlist);
             }
 
             if (LoopStyle == LoopStyle.LoopSong)
             {
-                song = playlist.MarkSongToBePlayed(playlist.LoopedSong ??= nextSong);
-                return new SongData(song, marksStartOfPlaylist);
+                song = playlist.MarkSongToBePlayed(playlist.LastSongPlayed ??= nextSong);
+                return song;
             }
 
             song = playlist.MarkSongToBePlayed(nextSong); // looping is disabled. this value can be null or not
-            return new SongData(song, marksStartOfPlaylist);
+            return SetLastSongPlayed(playlist, song);
         }
 
         public override string ToString()
