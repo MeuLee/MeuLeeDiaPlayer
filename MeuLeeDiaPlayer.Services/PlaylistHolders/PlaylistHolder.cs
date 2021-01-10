@@ -25,6 +25,7 @@ namespace MeuLeeDiaPlayer.Services.PlaylistHolders
             {
                 _uiPlaylist = value;
                 OnPropertyChanged(nameof(UIPlaylist));
+                UIPlaylist?.OnModifiedPlaylistList();
             }
         }
 
@@ -35,6 +36,11 @@ namespace MeuLeeDiaPlayer.Services.PlaylistHolders
         public PlaylistHolder(ISoundPlayerManager soundPlayerManager)
         {
             _soundPlayerManager = soundPlayerManager;
+        }
+
+        public void OnModifiedPlaylistList()
+        {
+            OnPropertyChanged(nameof(Playlists));
         }
     }
 }

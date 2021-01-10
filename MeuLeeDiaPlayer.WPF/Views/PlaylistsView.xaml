@@ -18,24 +18,32 @@
         <Grid.Resources>
             <Style TargetType="RadioButton" BasedOn="{StaticResource PlaylistButton}"/>
         </Grid.Resources>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <ItemsControl x:Name="PlaylistItems" ItemsSource="{Binding PlaylistHolder.Playlists.AsObservable}" RenderOptions.EdgeMode="Aliased">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <RadioButton Content="{Binding PlaylistName}"
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl x:Name="PlaylistItems" ItemsSource="{Binding PlaylistHolder.Playlists.AsObservable}" RenderOptions.EdgeMode="Aliased">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton Content="{Binding Name}"
                             Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.UpdateCurrentPlaylistCommand}"
                             CommandParameter="{Binding }">
-                            <RadioButton.IsChecked>
-                                <MultiBinding Converter="{StaticResource EqualValueToParameterConverter}" Mode="OneWay">
-                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" Path="DataContext.PlaylistHolder.UIPlaylist"/>
-                                    <Binding />
-                                </MultiBinding>
-                            </RadioButton.IsChecked>
-                        </RadioButton>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-        <controls:Playlist Grid.Column="1" DataContext="{Binding SinglePlaylistViewModel}"/>
+                                <RadioButton.IsChecked>
+                                    <MultiBinding Converter="{StaticResource EqualValueToParameterConverter}" Mode="OneWay">
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" Path="DataContext.PlaylistHolder.UIPlaylist"/>
+                                        <Binding />
+                                    </MultiBinding>
+                                </RadioButton.IsChecked>
+                            </RadioButton>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <Button Grid.Row="1" Style="{StaticResource AddPlaylistButton}" FontFamily="{StaticResource FontFamily}" FontSize="{StaticResource MediumFontSize}"
+                    Background="{StaticResource BrushDarkGrey}" Command="{Binding ShowCreatePlaylistDialogCommand}"/>
+        </Grid>
+        <controls:Playlist Grid.Column="1" DataContext="{Binding SinglePlaylistViewModel}" Margin="10"/>
     </Grid>
 </UserControl>

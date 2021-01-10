@@ -1,12 +1,12 @@
 ﻿<Window x:Class="MeuLeeDiaPlayer.WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MeuLeeDiaPlayer.WPF"
         xmlns:controls="clr-namespace:MeuLeeDiaPlayer.WPF.Controls"
         mc:Ignorable="d"
-        Title="MeuLeeDiaPlayer" Height="450" Width="800"
+        Title="MeuLeeDiaPlayer" TextBlock.TextAlignment="Center"
+        Height="450" Width="800"
         Background="{StaticResource BrushDarkGrey}">
     <Grid>
         <Grid.RowDefinitions>

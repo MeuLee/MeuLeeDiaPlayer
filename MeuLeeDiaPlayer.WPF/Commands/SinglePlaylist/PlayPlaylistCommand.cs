@@ -1,7 +1,7 @@
 ﻿using MeuLeeDiaPlayer.Services.PlaylistHolders;
 using MeuLeeDiaPlayer.Services.SoundPlayer;
 
-namespace MeuLeeDiaPlayer.WPF.Commands
+namespace MeuLeeDiaPlayer.WPF.Commands.SinglePlaylist
 {
     public class PlayPlaylistCommand : BaseCommand
     {

@@ -11,8 +11,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.PlayModes
     {
         private readonly Random _r = new();
 
-        internal Shuffle(LoopStyle loopStyle) : base(loopStyle)
-        { }
+        internal Shuffle(LoopStyle loopStyle) : base(loopStyle) { }
 
         public override SongDto GetNextSong(PlaylistLoopInfo playlist)
         {

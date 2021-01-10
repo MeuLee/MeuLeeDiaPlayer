@@ -23,13 +23,21 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="35"/>
+            <ColumnDefinition Width="35"/>
+            <ColumnDefinition Width="35"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Button Grid.Row="1" Style="{StaticResource BtnNoBorder}" Command="{Binding PlayPlaylistCommand}">
             <Image Style="{StaticResource ImgPlaylistPlayStyle}"/>
         </Button>
-        <TextBlock Padding="2" Text="{Binding PlaylistHolder.UIPlaylist.PlaylistName}" FontSize="{StaticResource BigFontSize}" HorizontalAlignment="Center" Grid.ColumnSpan="2"/>
-        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+        <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource BtnNoBorder}" Command="{Binding ShowEditPlaylistDialogCommand}" CommandParameter="{Binding PlaylistHolder.UIPlaylist}">
+            <Image Source="{StaticResource ImgEdit}" Style="{StaticResource ImgInBtnHover}"/>
+        </Button>
+        <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource BtnNoBorder}" Command="{Binding DeletePlaylistCommand}" CommandParameter="{Binding PlaylistHolder.UIPlaylist}">
+            <Image Source="{StaticResource ImgDelete}" Style="{StaticResource ImgInBtnHover}"/>
+        </Button>
+        <TextBlock Padding="2" Text="{Binding PlaylistHolder.UIPlaylist.Name}" FontSize="{StaticResource BigFontSize}" HorizontalAlignment="Center" Grid.ColumnSpan="4"/>
+        <Grid Grid.Row="2" Grid.ColumnSpan="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="5*"/>
@@ -59,8 +67,8 @@
                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}, Path=DataContext.UpdateCurrentSongCommand}" CommandParameter="{Binding }">
                                     <Image Style="{StaticResource PlaylistSongIcon}"/>
                                 </Button>
-                                <TextBlock Grid.Column="1" Padding="5" Text="{Binding SongName}" FontSize="{StaticResource MediumFontSize}"/>
-                                <TextBlock Grid.Column="2" Padding="5" Text="{Binding ArtistName}" FontSize="{StaticResource MediumFontSize}"/>
+                                <TextBlock Grid.Column="1" Padding="5" Text="{Binding Title}" FontSize="{StaticResource MediumFontSize}"/>
+                                <TextBlock Grid.Column="2" Padding="5" Text="{Binding Artist}" FontSize="{StaticResource MediumFontSize}"/>
                                 <TextBlock Grid.Column="3" Padding="5" Text="{Binding LengthFormat}" FontSize="{StaticResource MediumFontSize}"/>
                             </Grid>
                         </DataTemplate>

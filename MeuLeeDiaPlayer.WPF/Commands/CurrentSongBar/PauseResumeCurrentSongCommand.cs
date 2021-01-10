@@ -1,6 +1,6 @@
 ﻿using MeuLeeDiaPlayer.Services.SoundPlayer;
 
-namespace MeuLeeDiaPlayer.WPF.Commands
+namespace MeuLeeDiaPlayer.WPF.Commands.CurrentSongBar
 {
     public class PauseResumeCurrentSongCommand : BaseCommand
     {

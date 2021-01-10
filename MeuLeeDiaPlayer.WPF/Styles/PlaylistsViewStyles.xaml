@@ -32,5 +32,31 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="AddPlaylistButton" TargetType="Button" BasedOn="{StaticResource BtnNoBorder}">
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid Background="{TemplateBinding Background}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="35"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="{StaticResource ImgAdd}"/>
+                        <TextBlock Grid.Column="1" Text="Add Playlist" Background="{TemplateBinding Background}"
+                                   FontFamily="{StaticResource FontFamily}" FontSize="{StaticResource MediumFontSize}"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Cursor" Value="Hand"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
     
 </ResourceDictionary>

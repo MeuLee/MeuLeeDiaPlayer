@@ -51,6 +51,15 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="ImgInBtnHover" TargetType="Image">
+        <Setter Property="Margin" Value="6"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button, Mode=FindAncestor}, Path=IsMouseOver}" Value="True">
+                <Setter Property="Margin" Value="3"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
     
     <!--Images-->
     <BitmapImage x:Key="ImgHighVolume" UriSource="../Resources/high_volume.png"/>
@@ -68,5 +77,8 @@
     <BitmapImage x:Key="ImgDisabledPrevious" UriSource="../Resources/disabled_previous.png"/>
     <BitmapImage x:Key="ImgDisabledPlay" UriSource="../Resources/disabled_play.png"/>
     <BitmapImage x:Key="ImgDisabledNext" UriSource="../Resources/disabled_next.png"/>
+    <BitmapImage x:Key="ImgAdd" UriSource="../Resources/add.png"/>
+    <BitmapImage x:Key="ImgEdit" UriSource="../Resources/edit.png"/>
+    <BitmapImage x:Key="ImgDelete" UriSource="../Resources/delete.png"/>
 
 </ResourceDictionary>

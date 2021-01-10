@@ -103,7 +103,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.SongLists
             Assert.AreEqual(_nbLessSongs, songs.Count);
             for (int i = 0; i < _nbLessSongs; i++)
             {
-                Assert.AreEqual($"{_songPrefixSmall}{i}", songs[i].SongName);
+                Assert.AreEqual($"{_songPrefixSmall}{i}", songs[i].Title);
             }
         }
 
@@ -125,7 +125,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.SongLists
             Assert.AreEqual(_queueSize, songs.Count);
             for (int i = 0; i < _queueSize; i++)
             {
-                Assert.AreEqual($"{_songPrefixBig}{i}", songs[i].SongName);
+                Assert.AreEqual($"{_songPrefixBig}{i}", songs[i].Title);
             }
         }
 
@@ -147,7 +147,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.SongLists
             Assert.AreEqual(_queueSize, songs.Count);
             for (int i = 0; i < _queueSize; i++)
             {
-                Assert.AreEqual($"{_songPrefixBig}{i}", songs[i].SongName);
+                Assert.AreEqual($"{_songPrefixBig}{i}", songs[i].Title);
             }
         }
 
@@ -169,7 +169,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.SongLists
             // Assert
             foreach (var actualSong in songs)
             {
-                Assert.AreEqual(expectedSong.SongName, actualSong.SongName);
+                Assert.AreEqual(expectedSong.Title, actualSong.Title);
             }
         }
 
@@ -200,7 +200,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.SongLists
             // Assert
             for (int i = _nbSongs - goBack; i < _nbSongs; i++)
             {
-                Assert.AreEqual($"{_songPrefixBig}{i}", songs[i - (_nbSongs - goBack)].SongName);
+                Assert.AreEqual($"{_songPrefixBig}{i}", songs[i - (_nbSongs - goBack)].Title);
             }
         }
 
@@ -228,20 +228,6 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.SongLists
         }
 
         [Test]
-        public void When_PlaylistSet_ToNull_ThrowsArgumentNull()
-        {
-            // Arrange
-            var songList = new SongList
-            {
-                PlayMode = _noShuffleNoLoop,
-                Playlist = _bigPlaylist
-            };
-
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => songList.Playlist = null);
-        }
-
-        [Test]
         public void When_PlaylistSet_ToNoShuffleNoLoopAndSmallPlaylist_ContainsCorrectSongs()
         {
             // Arrange
@@ -259,7 +245,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.SongLists
             Assert.AreEqual(_nbLessSongs, songs.Count);
             for (int i = 0; i < _nbLessSongs; i++)
             {
-                Assert.AreEqual($"{_songPrefixSmall}{i}", songs[i].SongName);
+                Assert.AreEqual($"{_songPrefixSmall}{i}", songs[i].Title);
             }
         }
 
@@ -281,7 +267,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.SongLists
             Assert.AreEqual(_queueSize, songs.Count);
             for (int i = 0; i < _queueSize; i++)
             {
-                Assert.AreEqual($"{_songPrefixBig}{i}", songs[i].SongName);
+                Assert.AreEqual($"{_songPrefixBig}{i}", songs[i].Title);
             }
         }
 
@@ -303,7 +289,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.SongLists
             Assert.AreEqual(_queueSize, songs.Count);
             for (int i = 0; i < _queueSize; i++)
             {
-                Assert.AreEqual($"{_songPrefixSmall}{i % _nbLessSongs}", songs[i].SongName);
+                Assert.AreEqual($"{_songPrefixSmall}{i % _nbLessSongs}", songs[i].Title);
             }
         }
 
@@ -354,7 +340,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.SongLists
             // Assert
             for (int i = 0; i < _nbSongs; i++)
             {
-                Assert.AreEqual($"{_songPrefixBig}{i % _nbSongs}", songsPlayed[i].SongName);
+                Assert.AreEqual($"{_songPrefixBig}{i % _nbSongs}", songsPlayed[i].Title);
             }
         }
 
@@ -376,7 +362,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.SongLists
             // Assert
             for (int i = 0; i < _queueSize; i++)
             {
-                Assert.AreEqual($"{_songPrefixSmall}{(i + 1) % _nbLessSongs}", songs[i].SongName);
+                Assert.AreEqual($"{_songPrefixSmall}{(i + 1) % _nbLessSongs}", songs[i].Title);
             }
         }
 
@@ -398,7 +384,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.SongLists
             // Assert
             for (int i = 0; i < _queueSize; i++)
             {
-                Assert.AreEqual($"{_songPrefixSmall}{i % _nbLessSongs}", songs[i].SongName);
+                Assert.AreEqual($"{_songPrefixSmall}{i % _nbLessSongs}", songs[i].Title);
             }
         }
 
@@ -449,7 +435,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.SongLists
             // Assert
             for (int i = 0; i < _nbSongs; i++)
             {
-                Assert.AreEqual($"{_songPrefixBig}{_nbSongs - 1 - i}", previousSongs[i].SongName);
+                Assert.AreEqual($"{_songPrefixBig}{_nbSongs - 1 - i}", previousSongs[i].Title);
             }
         }
 

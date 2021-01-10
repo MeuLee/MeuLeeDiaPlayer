@@ -26,8 +26,11 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.SongLists
             get => _playlist;
             set
             {
-                _playlist = value ?? throw new ArgumentNullException(nameof(value));
-                _playlistLoopInfo = new PlaylistLoopInfo(_playlist);
+                _playlist = value; // can be null, for example if current playlist is deleted
+                if (Playlist is not null)
+                {
+                    _playlistLoopInfo = new PlaylistLoopInfo(_playlist);
+                }
                 ResetState();
             }
         }

@@ -14,11 +14,14 @@ namespace MeuLeeDiaPlayer.Services.SongLoaders
     /// </summary>
     public class SongLoader : ISongLoader
     {
-        private readonly IRepository<Song> _songRepository;
+        public List<SongDto> Songs { get; } = new();
+        public List<Song> DbSongs { get; private set; }
+
+        private readonly IModelRepository<Song> _songRepository;
         private readonly IMapper _mapper;
         private ICollection<PlaylistDto> _playlists;
 
-        public SongLoader(IRepository<Song> songRepository, IMapper mapper)
+        public SongLoader(IModelRepository<Song> songRepository, IMapper mapper)
         {
             _songRepository = songRepository;
             _mapper = mapper;
@@ -28,28 +31,43 @@ namespace MeuLeeDiaPlayer.Services.SongLoaders
         {
             _playlists = playlists;
 
-            var songs = await _songRepository.GetAllAsync(s => s.Playlists);
-            await LoadSongs(songs);
+            DbSongs = (await _songRepository.GetAsync()).ToList();
+            await LoadSongs(DbSongs);
         }
 
-        private async Task LoadSongs(List<Song> songs)
+        public void MapSongs(PlaylistDto playlist)
         {
-            var mappedSongs = songs.Select(s => _mapper.Map<SongDto>(s));
+            foreach (var song in playlist.Songs)
+            {
+                if (song.FileReader is not null) continue;
+                var songMatch = Songs.FirstOrDefault(s => s.Id == song.Id);
+                if (songMatch?.FileReader is null) continue;
+                song.FileReader = songMatch.FileReader;
+            }
+        }
+
+        private async Task LoadSongs(List<Song> dbSongs)
+        {
+            var mappedSongs = dbSongs.Select(s => _mapper.Map<SongDto>(s));
             await Task.WhenAll(mappedSongs.Select(LoadSong));
         }
 
-        private Task LoadSong(SongDto song)
+        private async Task LoadSong(SongDto song)
         {
-            var fileReader = new AudioStream(song.Path);
-
-            foreach (var playlist in _playlists)
+            await Task.Run(() =>
             {
-                var songMatchesPath = playlist.Songs.FirstOrDefault(s => s.Path == song.Path);
-                if (songMatchesPath == null) continue;
-                songMatchesPath.FileReader = fileReader;
-            }
+                var fileReader = new AudioStream(song.Path);
 
-            return Task.CompletedTask;
+                foreach (var playlist in _playlists)
+                {
+                    var songMatch = playlist.Songs.FirstOrDefault(s => s.Id == song.Id);
+                    if (songMatch == null) continue;
+                    songMatch.FileReader = fileReader;
+                }
+
+                song.FileReader = fileReader;
+                Songs.Add(song);
+            });            
         }
     }
 }

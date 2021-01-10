@@ -10,7 +10,6 @@ namespace MeuLeeDiaPlayer.Common.Profiles
         {
             CreateMap<Song, SongDto>()
                 .ForMember(dto => dto.FileReader, opt => opt.Ignore());
-            CreateMap<SongDto, Song>();
         }
     }
 }

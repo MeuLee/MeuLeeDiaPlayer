@@ -2,14 +2,16 @@
 using MeuLeeDiaPlayer.EntityFramework.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MeuLeeDiaPlayer.EntityFramework.Migrations
 {
-    [DbContext(typeof(MeuLeeDiaPlayerDbContext))]
-    partial class MeuLeeDiaPlayerDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(AppDbContext))]
+    [Migration("20210109163209_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +23,7 @@ namespace MeuLeeDiaPlayer.EntityFramework.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("PlaylistName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -42,7 +44,7 @@ namespace MeuLeeDiaPlayer.EntityFramework.Migrations
 
                     b.HasIndex("SongId");
 
-                    b.ToTable("PlaylistSong");
+                    b.ToTable("PlaylistSongs");
                 });
 
             modelBuilder.Entity("MeuLeeDiaPlayer.EntityFramework.DbModels.Song", b =>
@@ -51,14 +53,14 @@ namespace MeuLeeDiaPlayer.EntityFramework.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ArtistName")
+                    b.Property<string>("Artist")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Path")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("SongName")
+                    b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -72,13 +74,13 @@ namespace MeuLeeDiaPlayer.EntityFramework.Migrations
             modelBuilder.Entity("MeuLeeDiaPlayer.EntityFramework.DbModels.PlaylistSong", b =>
                 {
                     b.HasOne("MeuLeeDiaPlayer.EntityFramework.DbModels.Playlist", "Playlist")
-                        .WithMany()
+                        .WithMany("PlaylistSongs")
                         .HasForeignKey("PlaylistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MeuLeeDiaPlayer.EntityFramework.DbModels.Song", "Song")
-                        .WithMany()
+                        .WithMany("PlaylistSongs")
                         .HasForeignKey("SongId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -86,6 +88,16 @@ namespace MeuLeeDiaPlayer.EntityFramework.Migrations
                     b.Navigation("Playlist");
 
                     b.Navigation("Song");
+                });
+
+            modelBuilder.Entity("MeuLeeDiaPlayer.EntityFramework.DbModels.Playlist", b =>
+                {
+                    b.Navigation("PlaylistSongs");
+                });
+
+            modelBuilder.Entity("MeuLeeDiaPlayer.EntityFramework.DbModels.Song", b =>
+                {
+                    b.Navigation("PlaylistSongs");
                 });
 #pragma warning restore 612, 618
         }

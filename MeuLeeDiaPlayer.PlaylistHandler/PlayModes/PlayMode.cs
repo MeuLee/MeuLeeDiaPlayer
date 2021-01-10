@@ -24,7 +24,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.PlayModes
 
         public abstract SongDto GetNextSong(PlaylistLoopInfo playlist);
 
-        protected SongDto SetLastSongPlayed(PlaylistLoopInfo playlist, SongDto song)
+        protected static SongDto SetLastSongPlayed(PlaylistLoopInfo playlist, SongDto song)
         {
             playlist.LastSongPlayed = song;
             return song;

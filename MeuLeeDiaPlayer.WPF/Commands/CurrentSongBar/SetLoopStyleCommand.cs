@@ -2,7 +2,7 @@
 using MeuLeeDiaPlayer.Services.SoundPlayer;
 using System;
 
-namespace MeuLeeDiaPlayer.WPF.Commands
+namespace MeuLeeDiaPlayer.WPF.Commands.CurrentSongBar
 {
     public class SetLoopStyleCommand : BaseCommand
     {

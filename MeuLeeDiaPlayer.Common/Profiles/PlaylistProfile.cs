@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MeuLeeDiaPlayer.Common.Models;
 using MeuLeeDiaPlayer.EntityFramework.DbModels;
+using System.Linq;
 
 namespace MeuLeeDiaPlayer.Common.Profiles
 {
@@ -8,8 +9,8 @@ namespace MeuLeeDiaPlayer.Common.Profiles
     {
         public PlaylistProfile()
         {
-            CreateMap<Playlist, PlaylistDto>();
-            CreateMap<PlaylistDto, Playlist>();
+            CreateMap<Playlist, PlaylistDto>()
+                .ForMember(dto => dto.Songs, opt => opt.MapFrom(p => p.PlaylistSongs.Select(ps => ps.Song)));
         }
     }
 }

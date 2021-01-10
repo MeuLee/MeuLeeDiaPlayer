@@ -6,18 +6,23 @@ namespace MeuLeeDiaPlayer.Common.Models
     {
         public int Id { get; set; }
 
-        public string PlaylistName
+        public string Name
         {
-            get => _playlistName;
+            get => _name;
             set
             {
-                _playlistName = value;
-                OnPropertyChanged(nameof(PlaylistName));
+                _name = value;
+                OnPropertyChanged(nameof(Name));
             }
         }
 
         public ConcurrentObservableCollection<SongDto> Songs { get; set; }
 
-        private string _playlistName;
+        private string _name;
+
+        public void OnModifiedPlaylistList()
+        {
+            OnPropertyChanged(nameof(Songs));
+        }
     }
 }

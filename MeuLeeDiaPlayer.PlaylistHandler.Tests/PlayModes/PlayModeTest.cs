@@ -57,7 +57,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.PlayModes
             // Assert
             for (int i = 0; i < _nbSongs; i++)
             {
-                Assert.AreEqual($"{_songPrefix}{i}", songs[i].SongName);
+                Assert.AreEqual($"{_songPrefix}{i}", songs[i].Title);
             }
         }
 
@@ -74,7 +74,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.PlayModes
             // Assert
             for (int i = 0; i < _nbSongs; i++)
             {
-                Assert.AreEqual($"{_songPrefix}{i}", songs[i].SongName);
+                Assert.AreEqual($"{_songPrefix}{i}", songs[i].Title);
             }
         }
 
@@ -90,7 +90,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.PlayModes
             // Assert
             for (int i = 0; i < _nbSongs; i++)
             {
-                Assert.AreEqual($"{_songPrefix}0", songs[i].SongName);
+                Assert.AreEqual($"{_songPrefix}0", songs[i].Title);
             }
         }
 
@@ -153,7 +153,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests.PlayModes
 
             // Act
             var songs = Utils.CallFunctionRepeatedly(playMode.GetNextSong, _nbSongs, _playlist);
-            var songsGrouped = songs.GroupBy(s => s.SongName).ToList();
+            var songsGrouped = songs.GroupBy(s => s.Title).ToList();
 
             // Assert
             Assert.AreEqual(1, songsGrouped.Count);

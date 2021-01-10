@@ -1,9 +1,10 @@
 ﻿using MeuLeeDiaPlayer.Services.PlaylistHolders;
 using MeuLeeDiaPlayer.Services.PlaylistRetrievers;
 using MeuLeeDiaPlayer.Services.SongLoaders;
-using MeuLeeDiaPlayer.WPF.Commands;
+using MeuLeeDiaPlayer.WPF.Commands.Playlists;
 using MeuLeeDiaPlayer.WPF.ViewModels.SubViewModels;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace MeuLeeDiaPlayer.WPF.ViewModels
@@ -12,6 +13,7 @@ namespace MeuLeeDiaPlayer.WPF.ViewModels
     {
         public IPlaylistHolder PlaylistHolder { get; }
         public ICommand UpdateCurrentPlaylistCommand { get; }
+        public ICommand ShowCreatePlaylistDialogCommand { get; }
         public SinglePlaylistViewModel SinglePlaylistViewModel { get; }
 
         private readonly ISongLoader _songLoader;
@@ -21,30 +23,28 @@ namespace MeuLeeDiaPlayer.WPF.ViewModels
             ISongLoader songLoader,
             IPlaylistRetriever playlistRetriever,
             IPlaylistHolder playlistHolder,
-            UpdateCurrentPlaylistCommand command,
+            UpdateCurrentPlaylistCommand updateCurrentPlaylistCommand,
+            ShowCreatePlaylistDialogCommand showCreatePlaylistDialogCommand,
             SinglePlaylistViewModel singlePlaylistVm)
         {
             _songLoader = songLoader;
             _playlistRetriever = playlistRetriever;
             PlaylistHolder = playlistHolder;
-            UpdateCurrentPlaylistCommand = command;
+            UpdateCurrentPlaylistCommand = updateCurrentPlaylistCommand;
+            ShowCreatePlaylistDialogCommand = showCreatePlaylistDialogCommand;
             SinglePlaylistViewModel = singlePlaylistVm;
 
             LoadPlaylists()
                 .ContinueWith(task =>
                 {
-                    // handle exceptions
+                    MessageBox.Show(task.Exception.Message);
                 }, TaskContinuationOptions.OnlyOnFaulted);
         }
 
         private async Task LoadPlaylists()
         {
             await _playlistRetriever.LoadPlaylists();
-            await Task.Run(() => _songLoader.LoadSongs(PlaylistHolder.Playlists)
-                .ContinueWith(task =>
-                {
-                    // handle exceptions
-                }, TaskContinuationOptions.OnlyOnFaulted));
+            await _songLoader.LoadSongs(PlaylistHolder.Playlists);
         }
     }
 }

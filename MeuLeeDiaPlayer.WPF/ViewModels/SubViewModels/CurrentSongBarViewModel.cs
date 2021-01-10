@@ -1,5 +1,5 @@
 ﻿using MeuLeeDiaPlayer.Services.SoundPlayer;
-using MeuLeeDiaPlayer.WPF.Commands;
+using MeuLeeDiaPlayer.WPF.Commands.CurrentSongBar;
 using NAudio.Wave;
 using System;
 using System.Windows.Input;

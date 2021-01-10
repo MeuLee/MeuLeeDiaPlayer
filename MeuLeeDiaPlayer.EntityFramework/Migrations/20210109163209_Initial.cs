@@ -12,7 +12,7 @@ namespace MeuLeeDiaPlayer.EntityFramework.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    PlaylistName = table.Column<string>(type: "TEXT", nullable: false)
+                    Name = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -25,8 +25,8 @@ namespace MeuLeeDiaPlayer.EntityFramework.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    SongName = table.Column<string>(type: "TEXT", nullable: true),
-                    ArtistName = table.Column<string>(type: "TEXT", nullable: true),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    Artist = table.Column<string>(type: "TEXT", nullable: true),
                     Path = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -35,23 +35,23 @@ namespace MeuLeeDiaPlayer.EntityFramework.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlaylistSong",
+                name: "PlaylistSongs",
                 columns: table => new
                 {
-                    PlaylistId = table.Column<int>(type: "INTEGER", nullable: false),
-                    SongId = table.Column<int>(type: "INTEGER", nullable: false)
+                    SongId = table.Column<int>(type: "INTEGER", nullable: false),
+                    PlaylistId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlaylistSong", x => new { x.PlaylistId, x.SongId });
+                    table.PrimaryKey("PK_PlaylistSongs", x => new { x.PlaylistId, x.SongId });
                     table.ForeignKey(
-                        name: "FK_PlaylistSong_Playlists_PlaylistId",
+                        name: "FK_PlaylistSongs_Playlists_PlaylistId",
                         column: x => x.PlaylistId,
                         principalTable: "Playlists",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PlaylistSong_Songs_SongId",
+                        name: "FK_PlaylistSongs_Songs_SongId",
                         column: x => x.SongId,
                         principalTable: "Songs",
                         principalColumn: "Id",
@@ -59,8 +59,8 @@ namespace MeuLeeDiaPlayer.EntityFramework.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlaylistSong_SongId",
-                table: "PlaylistSong",
+                name: "IX_PlaylistSongs_SongId",
+                table: "PlaylistSongs",
                 column: "SongId");
 
             migrationBuilder.CreateIndex(
@@ -73,7 +73,7 @@ namespace MeuLeeDiaPlayer.EntityFramework.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "PlaylistSong");
+                name: "PlaylistSongs");
 
             migrationBuilder.DropTable(
                 name: "Playlists");

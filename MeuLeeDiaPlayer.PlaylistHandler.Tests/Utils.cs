@@ -15,7 +15,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Tests
             for (int i = 0; i < nbSongs; i++)
             {
                 var mockAudioFileReader = new Mock<IAudioStream>();
-                yield return new SongDto { SongName = $"{songPrefix}{i}", ArtistName = "ArtistName", FileReader = mockAudioFileReader.Object };
+                yield return new SongDto { Title = $"{songPrefix}{i}", Artist = "ArtistName", FileReader = mockAudioFileReader.Object };
             }
         }
 

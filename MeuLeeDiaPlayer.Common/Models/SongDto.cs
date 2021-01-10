@@ -1,31 +1,30 @@
 ﻿using MeuLeeDiaPlayer.EntityFramework.Audio;
-using System.Collections.Generic;
+using System;
 
 namespace MeuLeeDiaPlayer.Common.Models
 {
-    public class SongDto : ObservableObject
+    public class SongDto : ObservableObject, IEquatable<SongDto>
     {
         public int Id { get; set; }
-        public List<PlaylistDto> Playlists { get; set; }
         public string LengthFormat => FileReader?.Stream.TotalTime.ToString(@"mm\:ss") ?? string.Empty;
 
-        public string ArtistName
+        public string Artist
         {
-            get => _artistName;
+            get => _artist;
             set
             {
-                _artistName = value;
-                OnPropertyChanged(nameof(ArtistName));
+                _artist = value;
+                OnPropertyChanged(nameof(Artist));
             }
         }
 
-        public string SongName
+        public string Title
         {
-            get => _songName;
+            get => _title;
             set
             {
-                _songName = value;
-                OnPropertyChanged(SongName);
+                _title = value;
+                OnPropertyChanged(Title);
             }
         }
 
@@ -49,14 +48,23 @@ namespace MeuLeeDiaPlayer.Common.Models
             }
         }
 
-        private string _artistName;
-        private string _songName;
+        private string _artist;
+        private string _title;
         private string _path;
         private IAudioStream _fileReader;
 
         public override string ToString()
         {
-            return $"{SongName} | {ArtistName}";
+            return $"{Artist} - {Title}";
+        }
+
+        public bool Equals(SongDto other)
+        {
+            return Id == other.Id
+                && Artist == other.Artist
+                && Title == other.Title
+                && Path == other.Path
+                && FileReader == other.FileReader;
         }
     }
 }

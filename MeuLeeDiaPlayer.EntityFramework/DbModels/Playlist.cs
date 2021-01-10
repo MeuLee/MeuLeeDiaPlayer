@@ -4,7 +4,7 @@ namespace MeuLeeDiaPlayer.EntityFramework.DbModels
 {
     public class Playlist : DbModel
     {
-        public string PlaylistName { get; set; }
-        public List<Song> Songs { get; set; } = new List<Song>();
+        public string Name { get; set; }
+        public List<PlaylistSong> PlaylistSongs { get; set; }
     }
 }

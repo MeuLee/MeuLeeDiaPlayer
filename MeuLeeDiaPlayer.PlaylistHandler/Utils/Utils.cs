@@ -67,14 +67,4 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.Utils
             return collection;
         }
     }
-
-    public static class FileExtensions
-    {
-        private static readonly string[] _audioExtensions = new string[] { "*.mp3", "*.webm" };
-
-        public static IEnumerable<string> GetAudioOnlyFilesInFolder(string folder)
-        {
-            return _audioExtensions.SelectMany(ext => Directory.EnumerateFiles(folder, $"*{ext}"));
-        }
-    }
 }

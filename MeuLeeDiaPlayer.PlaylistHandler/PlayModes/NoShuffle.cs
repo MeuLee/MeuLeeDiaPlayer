@@ -8,18 +8,13 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.PlayModes
 {
     public class NoShuffle : PlayMode
     {
-        public NoShuffle(LoopStyle loopStyle) : base(loopStyle)
-        { }
+        public NoShuffle(LoopStyle loopStyle) : base(loopStyle) { }
 
         public override SongDto GetNextSong(PlaylistLoopInfo playlist)
         {
             _ = playlist ?? throw new ArgumentNullException(nameof(playlist));
 
-            if (playlist.Songs.IsEmpty())
-            {
-                playlist.LastSongPlayed = null;
-                return SetLastSongPlayed(playlist, null);
-            }
+            if (playlist.Songs.IsEmpty()) return SetLastSongPlayed(playlist, null);
 
             SongDto song;
 

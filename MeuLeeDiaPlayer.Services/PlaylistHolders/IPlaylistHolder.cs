@@ -8,5 +8,6 @@ namespace MeuLeeDiaPlayer.Services.PlaylistHolders
         ConcurrentObservableCollection<PlaylistDto> Playlists { get; set; }
         PlaylistDto SoundPlaylist { get; set; }
         PlaylistDto UIPlaylist { get; set; }
+        void OnModifiedPlaylistList();
     }
 }

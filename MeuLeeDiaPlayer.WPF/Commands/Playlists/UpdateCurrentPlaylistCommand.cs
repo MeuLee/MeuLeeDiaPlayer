@@ -1,7 +1,7 @@
 ﻿using MeuLeeDiaPlayer.Common.Models;
 using MeuLeeDiaPlayer.Services.PlaylistHolders;
 
-namespace MeuLeeDiaPlayer.WPF.Commands
+namespace MeuLeeDiaPlayer.WPF.Commands.Playlists
 {
     public class UpdateCurrentPlaylistCommand : BaseCommand
     {

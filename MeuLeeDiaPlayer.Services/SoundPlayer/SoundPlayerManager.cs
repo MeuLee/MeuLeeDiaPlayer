@@ -83,6 +83,13 @@ namespace MeuLeeDiaPlayer.Services.SoundPlayer
         public void ChangePlaylist(PlaylistDto playlist)
         {
             _songList.Playlist = playlist;
+            if (playlist == null)
+            {
+                Stopped = false;
+                PauseOrResume();
+                DisposeWaveOut();
+                CurrentSong = null;
+            }
         }
 
         public void PlayCurrentPlaylist()
@@ -159,26 +166,36 @@ namespace MeuLeeDiaPlayer.Services.SoundPlayer
 
         private void StartPlaying(SongDto song)
         {
-            if (_waveOut is not null)
-            {
-                _waveOut.PlaybackStopped -= PlayNext;
-                _waveOut.Dispose();
-            }
+            DisposeWaveOut();
 
             CurrentSong = song;
 
             if (song?.FileReader is null) return;
 
-            song.FileReader.Stream.Position = 0;
+            InitWaveOut(song.FileReader.Stream);
+            _waveOut.Play();
+            Stopped = false;
+        }
+
+        private void DisposeWaveOut()
+        {
+            if (_waveOut is not null)
+            {
+                _waveOut.PlaybackStopped -= PlayNext;
+                _waveOut.Dispose();
+            }
+        }
+
+        private void InitWaveOut(AudioFileReader fileReader)
+        {
+            fileReader.Position = 0;
             _waveOut = new WaveOutEvent
             {
                 Volume = Volume / 100f,
                 DesiredLatency = 175
             };
             _waveOut.PlaybackStopped += PlayNext;
-            _waveOut.Init(song.FileReader.Stream);
-            _waveOut.Play();
-            Stopped = false;
+            _waveOut.Init(fileReader);
         }
     }
 }
