@@ -28,6 +28,7 @@
     <None Remove="Resources\previous.png" />
     <None Remove="Resources\random.png" />
     <None Remove="Resources\repeat.png" />
+    <None Remove="Resources\search.png" />
     <None Remove="Resources\shuffle.png" />
   </ItemGroup>
 
@@ -83,6 +84,9 @@
     <Content Include="Resources\previous.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\search.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\shuffle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -95,6 +99,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MeuLeeDiaPlayer.Common\MeuLeeDiaPlayer.Common.csproj" />
     <ProjectReference Include="..\MeuLeeDiaPlayer.Services\MeuLeeDiaPlayer.Services.csproj" />
+    <ProjectReference Include="..\MeuLeeDiaPlayer.YoutubeExplodeWrapper\MeuLeeDiaPlayer.YoutubeExplodeWrapper.csproj" />
   </ItemGroup>
 
   <ItemGroup>

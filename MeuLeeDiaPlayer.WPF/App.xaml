@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="/Styles/PlaylistsViewStyles.xaml"/>
                 <ResourceDictionary Source="/Styles/PlaylistStyles.xaml"/>
                 <ResourceDictionary Source="/Styles/CurrentSongBarStyles.xaml"/>
+                <ResourceDictionary Source="/Styles/DownloadVideosViewStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewmodels:PlaylistsViewModel}">

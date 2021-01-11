@@ -7,11 +7,11 @@ using System.Linq;
 
 namespace MeuLeeDiaPlayer.PlaylistHandler.PlayModes
 {
-    public class Shuffle : PlayMode
+    public class ShuffleStrategy : PlayMode
     {
         private readonly Random _r = new();
 
-        internal Shuffle(LoopStyle loopStyle) : base(loopStyle) { }
+        internal ShuffleStrategy(LoopStyle loopStyle) : base(loopStyle) { }
 
         public override SongDto GetNextSong(PlaylistLoopInfo playlist)
         {

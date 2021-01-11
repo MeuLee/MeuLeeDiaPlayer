@@ -6,9 +6,9 @@ using System;
 
 namespace MeuLeeDiaPlayer.PlaylistHandler.PlayModes
 {
-    public class NoShuffle : PlayMode
+    public class NoShuffleStrategy : PlayMode
     {
-        public NoShuffle(LoopStyle loopStyle) : base(loopStyle) { }
+        public NoShuffleStrategy(LoopStyle loopStyle) : base(loopStyle) { }
 
         public override SongDto GetNextSong(PlaylistLoopInfo playlist)
         {

@@ -233,6 +233,16 @@ namespace MeuLeeDiaPlayer.WPF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] search {
+            get {
+                object obj = ResourceManager.GetObject("search", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] shuffle {
             get {
                 object obj = ResourceManager.GetObject("shuffle", resourceCulture);

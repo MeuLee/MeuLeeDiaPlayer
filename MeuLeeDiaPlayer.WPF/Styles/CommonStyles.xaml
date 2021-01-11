@@ -80,5 +80,6 @@
     <BitmapImage x:Key="ImgAdd" UriSource="../Resources/add.png"/>
     <BitmapImage x:Key="ImgEdit" UriSource="../Resources/edit.png"/>
     <BitmapImage x:Key="ImgDelete" UriSource="../Resources/delete.png"/>
+    <BitmapImage x:Key="ImgSearch" UriSource="../Resources/search.png"/>
 
 </ResourceDictionary>

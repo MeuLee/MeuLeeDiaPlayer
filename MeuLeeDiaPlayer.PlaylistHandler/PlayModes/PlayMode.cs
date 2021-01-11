@@ -14,8 +14,8 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.PlayModes
             return shuffleStyle switch
 #pragma warning restore CS8524
             {
-                ShuffleStyle.NoShuffle => new NoShuffle(loopStyle),
-                ShuffleStyle.Shuffle => new Shuffle(loopStyle)
+                ShuffleStyle.NoShuffle => new NoShuffleStrategy(loopStyle),
+                ShuffleStyle.Shuffle => new ShuffleStrategy(loopStyle)
             };
         }
 

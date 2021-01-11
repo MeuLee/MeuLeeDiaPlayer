@@ -1,4 +1,5 @@
 ﻿using MeuLeeDiaPlayer.WPF.Commands.CurrentSongBar;
+using MeuLeeDiaPlayer.WPF.Commands.DownloadVideos;
 using MeuLeeDiaPlayer.WPF.Commands.Playlists;
 using MeuLeeDiaPlayer.WPF.Commands.SinglePlaylist;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +23,8 @@ namespace MeuLeeDiaPlayer.WPF.HostBuilders
                  .AddSingleton<PlayPlaylistCommand>()
                  .AddSingleton<ShowCreatePlaylistDialogCommand>()
                  .AddSingleton<ShowEditPlaylistDialogCommand>()
-                 .AddSingleton<DeletePlaylistCommand>();
+                 .AddSingleton<DeletePlaylistCommand>()
+                 .AddSingleton<DownloadYtLinkCommand>();
             });
         }
     }

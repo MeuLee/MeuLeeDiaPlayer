@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MeuLeeDiaPlayer.WPF.Styles">
+    <Style x:Key="TbSearchButton" TargetType="TextBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Margin="{TemplateBinding Margin}" x:Name="TbYtLink"/>
+                        <Button Grid.Column="1" Style="{StaticResource BtnNoBorder}" Command="{Binding DownloadYtLinkCommand}" CommandParameter="{Binding Text, ElementName=TbYtLink}">
+                            <Image Source="{StaticResource ImgSearch}"/>
+                        </Button>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

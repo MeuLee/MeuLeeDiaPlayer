@@ -1,7 +1,6 @@
 ﻿using Meziantou.Framework.WPF.Collections;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace MeuLeeDiaPlayer.PlaylistHandler.Utils
