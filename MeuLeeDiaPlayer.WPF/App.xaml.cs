@@ -1,6 +1,8 @@
-﻿using MeuLeeDiaPlayer.WPF.HostBuilders;
+﻿using MeuLeeDiaPlayer.EntityFramework;
+using MeuLeeDiaPlayer.WPF.HostBuilders;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.IO;
 using System.Windows;
 
 namespace MeuLeeDiaPlayer.WPF
@@ -14,6 +16,8 @@ namespace MeuLeeDiaPlayer.WPF
 
         public App()
         {
+            Directory.CreateDirectory(Constants.DefaultSongsLocation);
+            Directory.CreateDirectory(Constants.DbLocation);
             _host = CreateHostBuilder().Build();
         }
 

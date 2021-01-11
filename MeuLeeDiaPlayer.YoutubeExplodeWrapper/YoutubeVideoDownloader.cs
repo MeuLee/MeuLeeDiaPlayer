@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,7 +45,8 @@ namespace MeuLeeDiaPlayer.YoutubeExplodeWrapper
             }
         }
 
-        public async Task<IEnumerable<string>> TryDownloadPlaylist(string folder, string playlistIdOrUrl, IProgress<double> progress = null, CancellationToken token = default)
+        // change this method to run TryDownloadVideo in parallel
+        public async Task<string[]> TryDownloadPlaylist(string folder, string playlistIdOrUrl, IProgress<double> progress = null, CancellationToken token = default)
         {
             try
             {
@@ -54,19 +54,17 @@ namespace MeuLeeDiaPlayer.YoutubeExplodeWrapper
                 var videos = (await _playlistClient.GetVideosAsync(playlistId)).ToList();
 
                 var multiProgress = new MultiProgress(progress, videos.Count);
-                var paths = new List<string>();
-                foreach (var video in videos)
+
+                return await Task.WhenAll(videos.Select(video =>
                 {
                     multiProgress.Add(video.Id.Value);
                     var currentProgress = new Progress<double>(p => multiProgress.Update(video.Id.Value, p));
-                    string path = await TryDownloadVideo(folder, video.Id, currentProgress, token);
-                    paths.Add(path);
-                }
-                return paths;
+                    return TryDownloadVideo(folder, video.Id, currentProgress, token);
+                }));
             }
             catch (Exception ex)
             {
-                return Enumerable.Empty<string>();
+                return Array.Empty<string>();
             }
         }
     }

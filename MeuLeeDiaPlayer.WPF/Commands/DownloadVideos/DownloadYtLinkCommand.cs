@@ -1,7 +1,6 @@
 ﻿using MeuLeeDiaPlayer.EntityFramework;
 using MeuLeeDiaPlayer.Services.UrlValidator;
 using MeuLeeDiaPlayer.YoutubeExplodeWrapper;
-using System.IO;
 
 namespace MeuLeeDiaPlayer.WPF.Commands.DownloadVideos
 {
@@ -19,7 +18,6 @@ namespace MeuLeeDiaPlayer.WPF.Commands.DownloadVideos
         public override async void Execute(object parameter)
         {
             if (parameter is not string input) return;
-            Directory.CreateDirectory(Constants.DefaultSongsLocation);
             switch (_youtubeUrlValidator.GetYoutubeUrlType(input))
             {
                 case YoutubeUrlType.Playlist:

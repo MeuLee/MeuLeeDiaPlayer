@@ -17,7 +17,6 @@ namespace MeuLeeDiaPlayer.EntityFramework.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            Directory.CreateDirectory(Constants.DbLocation);
             optionsBuilder.UseSqlite($@"Data Source = {Constants.DbLocation}\{Constants.DbName};")
                 .EnableDetailedErrors()
                 .EnableSensitiveDataLogging();
