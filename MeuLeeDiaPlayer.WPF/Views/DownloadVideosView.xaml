@@ -31,12 +31,14 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="Input YouTube link" FontFamily="{StaticResource FontFamily}" FontSize="{StaticResource BigFontSize}" HorizontalAlignment="Center" Margin="0,10,0,0"/>
                 <TextBlock Grid.Row="1" Text="Supported: single video or playlist" FontFamily="{StaticResource FontFamily}" FontSize="{StaticResource SmallFontSize}" HorizontalAlignment="Center" Margin="2"/>
                 <TextBox Grid.Row="2" Margin="5" Style="{StaticResource TbSearchButton}"/>
+                <ProgressBar Grid.Row="3" Margin="10,5" Minimum="0" Maximum="1" Value="{Binding DownloadYtLinkCommand.ProgressManager.Progress, Mode=OneWay}"/>
             </Grid>
         </Border>
 

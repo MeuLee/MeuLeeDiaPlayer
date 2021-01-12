@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +14,6 @@ namespace MeuLeeDiaPlayer.YoutubeExplodeWrapper
     // to be used as a singleton with DI framework
     public class YoutubeVideoDownloader : IYoutubeVideoDownloader
     {
-        private readonly StreamClient _streamClient;
         private readonly PlaylistClient _playlistClient;
         private readonly VideoClient _videoClient;
         private const string _fileExtension = "mp3";
@@ -23,12 +21,11 @@ namespace MeuLeeDiaPlayer.YoutubeExplodeWrapper
         public YoutubeVideoDownloader()
         {
             var ytClient = new YoutubeClient();
-            _streamClient = ytClient.Videos.Streams;
             _playlistClient = ytClient.Playlists;
             _videoClient = ytClient.Videos;
         }
 
-        public async Task<string[]> TryDownloadPlaylistAsync(string folder, string playlistIdOrUrl, IProgress<double> progress = null, CancellationToken token = default)
+        public async Task<IEnumerable<string>> TryDownloadPlaylistAsync(string folder, string playlistIdOrUrl, IProgress<double> progress = null, CancellationToken token = default)
         {
             try
             {
@@ -37,12 +34,14 @@ namespace MeuLeeDiaPlayer.YoutubeExplodeWrapper
 
                 var multiProgress = new MultiProgress(progress, videos.Count);
 
-                return await Task.WhenAll(videos.Select(video =>
+                var paths = await Task.WhenAll(videos.Select(video =>
                 {
                     multiProgress.Add(video.Id.Value);
                     var currentProgress = new Progress<double>(p => multiProgress.Update(video.Id.Value, p));
                     return TryDownloadVideoAsync(folder, video.Id, currentProgress, token);
                 }));
+
+                return paths.Where(path => !string.IsNullOrWhiteSpace(path));
             }
             catch (Exception ex)
             {

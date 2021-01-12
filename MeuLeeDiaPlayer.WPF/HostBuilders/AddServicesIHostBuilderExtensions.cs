@@ -1,4 +1,5 @@
-﻿using MeuLeeDiaPlayer.PlaylistHandler.SongLists;
+﻿using Gress;
+using MeuLeeDiaPlayer.PlaylistHandler.SongLists;
 using MeuLeeDiaPlayer.Services.PlaylistHolders;
 using MeuLeeDiaPlayer.Services.PlaylistRetrievers;
 using MeuLeeDiaPlayer.Services.SongLoaders;
@@ -24,6 +25,7 @@ namespace MeuLeeDiaPlayer.WPF.HostBuilders
                  .AddSingleton<IPlaylistRetriever, PlaylistRetriever>()
                  .AddSingleton<IYoutubeUrlValidator, YoutubeUrlValidator>()
                  .AddSingleton<IYoutubeVideoDownloader, YoutubeVideoDownloader>()
+                 .AddSingleton<IProgressManager, ProgressManager>()
                  .AddScoped<IViewNavigator, ViewNavigator>();
             });
         }
