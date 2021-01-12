@@ -44,7 +44,7 @@ namespace MeuLeeDiaPlayer.WPF.ViewModels
         private async Task LoadPlaylists()
         {
             await _playlistRetriever.LoadPlaylists();
-            await _songLoader.LoadSongs(PlaylistHolder.Playlists);
+            await _songLoader.LoadSongsAsync(PlaylistHolder.Playlists);
         }
     }
 }

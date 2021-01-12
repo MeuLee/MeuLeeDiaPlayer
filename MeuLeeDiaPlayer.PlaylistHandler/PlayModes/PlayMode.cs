@@ -10,7 +10,7 @@ namespace MeuLeeDiaPlayer.PlaylistHandler.PlayModes
 
         public static PlayMode GetPlayMode(ShuffleStyle shuffleStyle, LoopStyle loopStyle)
         {
-#pragma warning disable CS8524
+#pragma warning disable CS8524 // every enum value is covered, and enums aren't nullable.
             return shuffleStyle switch
 #pragma warning restore CS8524
             {

@@ -27,7 +27,7 @@ namespace MeuLeeDiaPlayer.Services.SongLoaders
             _mapper = mapper;
         }
 
-        public async Task LoadSongs(ICollection<PlaylistDto> playlists)
+        public async Task LoadSongsAsync(ICollection<PlaylistDto> playlists)
         {
             _playlists = playlists;
 
@@ -46,15 +46,23 @@ namespace MeuLeeDiaPlayer.Services.SongLoaders
             }
         }
 
+        public async Task AddSongAsync(Song song)
+        {
+            song = await _songRepository.CreateAsync(song);
+            DbSongs.Add(song);
+            var songDto = _mapper.Map<SongDto>(song);
+            await LoadSong(songDto);
+        }
+
         private async Task LoadSongs(List<Song> dbSongs)
         {
             var mappedSongs = dbSongs.Select(s => _mapper.Map<SongDto>(s));
             await Task.WhenAll(mappedSongs.Select(LoadSong));
         }
 
-        private async Task LoadSong(SongDto song)
+        private Task LoadSong(SongDto song)
         {
-            await Task.Run(() =>
+            return Task.Run(() =>
             {
                 var fileReader = new AudioStream(song.Path);
 

@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeuLeeDiaPlayer.Common", "M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeuLeeDiaPlayer.EntityFramework", "MeuLeeDiaPlayer.EntityFramework\MeuLeeDiaPlayer.EntityFramework.csproj", "{714FE8B3-DEEB-4B65-8771-9A1F503896FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeuLeeDiaPlayer.Services", "MeuLeeDiaPlayer.Services\MeuLeeDiaPlayer.Services.csproj", "{4EAD4543-6877-4F73-8514-110529F3F598}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeuLeeDiaPlayer.Services", "MeuLeeDiaPlayer.Services\MeuLeeDiaPlayer.Services.csproj", "{4EAD4543-6877-4F73-8514-110529F3F598}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
