@@ -3,6 +3,7 @@ using MeuLeeDiaPlayer.Common.Models;
 using MeuLeeDiaPlayer.EntityFramework.Audio;
 using MeuLeeDiaPlayer.EntityFramework.DbModels;
 using MeuLeeDiaPlayer.EntityFramework.Repository;
+using Meziantou.Framework.WPF.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,9 +13,9 @@ namespace MeuLeeDiaPlayer.Services.SongLoaders
     /// <summary>
     /// This class initializes the SongDto.FileReader value for each song received in constructor.
     /// </summary>
-    public class SongLoader : ISongLoader
+    public class SongLoader : ObservableObject, ISongLoader
     {
-        public List<SongDto> Songs { get; } = new();
+        public ConcurrentObservableCollection<SongDto> Songs { get; } = new();
         public List<Song> DbSongs { get; private set; }
 
         private readonly IModelRepository<Song> _songRepository;
@@ -75,6 +76,7 @@ namespace MeuLeeDiaPlayer.Services.SongLoaders
 
                 song.FileReader = fileReader;
                 Songs.Add(song);
+                OnPropertyChanged(nameof(Songs));
             });            
         }
     }

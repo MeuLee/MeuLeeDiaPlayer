@@ -8,9 +8,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
 
         <!--Search on YouTube-->
@@ -35,8 +35,8 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="Input YouTube link" FontFamily="{StaticResource FontFamily}" FontSize="{StaticResource BigFontSize}" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                <TextBlock Grid.Row="1" Text="Supported: single video or playlist" FontFamily="{StaticResource FontFamily}" FontSize="{StaticResource SmallFontSize}" HorizontalAlignment="Center" Margin="2"/>
+                <TextBlock Text="Input YouTube link" FontSize="{StaticResource BigFontSize}" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                <TextBlock Grid.Row="1" Text="Supported: single video or playlist" FontSize="{StaticResource SmallFontSize}" HorizontalAlignment="Center" Margin="2"/>
                 <TextBox Grid.Row="2" Margin="5" Style="{StaticResource TbSearchButton}"/>
                 <ProgressBar Grid.Row="3" Margin="10,5" Minimum="0" Maximum="1" Value="{Binding DownloadYtLinkCommand.ProgressManager.Progress, Mode=OneWay}"/>
             </Grid>
@@ -44,11 +44,39 @@
 
         <!--Show local files-->
         <Border BorderBrush="{StaticResource BrushTextColor}" BorderThickness="2" Grid.Column="2">
-            <Grid>
+            <Grid Margin="10,0">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+                <TextBlock Text="Local files" FontSize="{StaticResource BigFontSize}" HorizontalAlignment="Center" Margin="10"/>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Song" HorizontalAlignment="Left" FontSize="{StaticResource MediumFontSize}" Margin="5"/>
+                    <TextBlock Grid.Column="1" Text="File name" HorizontalAlignment="Left" FontSize="{StaticResource MediumFontSize}" Margin="5"/>
+                </Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="2">
+                    <ItemsControl ItemsSource="{Binding SongLoader.Songs.AsObservable}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding}" HorizontalAlignment="Left" FontSize="{StaticResource SmallFontSize}" Margin="3"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding ShortenedPath}" HorizontalAlignment="Left" FontSize="{StaticResource SmallFontSize}" Margin="3"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
             </Grid>
         </Border>
     </Grid>

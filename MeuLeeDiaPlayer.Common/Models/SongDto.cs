@@ -38,6 +38,8 @@ namespace MeuLeeDiaPlayer.Common.Models
             }
         }
 
+        public string ShortenedPath => Path[(Path.LastIndexOf('\\') + 1)..];
+
         public IAudioStream FileReader
         {
             get => _fileReader;
