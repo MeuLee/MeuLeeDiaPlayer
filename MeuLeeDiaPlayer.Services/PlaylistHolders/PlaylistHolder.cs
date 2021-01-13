@@ -1,6 +1,8 @@
 ﻿using MeuLeeDiaPlayer.Common.Models;
 using MeuLeeDiaPlayer.Services.SoundPlayer;
 using Meziantou.Framework.WPF.Collections;
+using System;
+using System.Linq;
 
 namespace MeuLeeDiaPlayer.Services.PlaylistHolders
 {
@@ -41,6 +43,40 @@ namespace MeuLeeDiaPlayer.Services.PlaylistHolders
         public void OnModifiedPlaylistList()
         {
             OnPropertyChanged(nameof(Playlists));
+        }
+        
+        public void RemoveSong(int songId)
+        {
+            RemoveSongFromAllPlaylists(songId);
+            RemoveSongFromUIPlaylist(songId);
+            RemoveSongFromSoundPlaylist(songId);
+        }
+
+        private void RemoveSongFromAllPlaylists(int songId)
+        {
+            foreach (var playlist in Playlists)
+            {
+                var song = playlist.Songs.FirstOrDefault(s => s.Id == songId);
+                if (song == null) continue;
+                playlist.Songs.Remove(song);
+            }
+            OnPropertyChanged(nameof(Playlists));
+        }
+
+        private void RemoveSongFromUIPlaylist(int songId)
+        {
+            var song = UIPlaylist?.Songs.FirstOrDefault(s => s.Id == songId);
+            if (song == null) return;
+            UIPlaylist.Songs.Remove(song);
+            OnPropertyChanged(nameof(UIPlaylist));
+        }
+
+        private void RemoveSongFromSoundPlaylist(int songId)
+        {
+            var song = SoundPlaylist?.Songs.FirstOrDefault(s => s.Id == songId);
+            if (song == null) return;
+            SoundPlaylist.Songs.Remove(song);
+            OnPropertyChanged(nameof(SoundPlaylist));
         }
     }
 }

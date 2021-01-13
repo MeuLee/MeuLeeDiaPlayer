@@ -55,6 +55,15 @@ namespace MeuLeeDiaPlayer.Services.SongLoaders
             await LoadSong(songDto);
         }
 
+        public async Task DeleteSongAsync(int id)
+        {
+            var songDto = Songs.FirstOrDefault(s => s.Id == id);
+            if (songDto == null) return;
+            Songs.Remove(songDto);
+            var song = await _songRepository.DeleteAsync(id);
+            DbSongs.Remove(song);
+        }
+
         private async Task LoadSongs(List<Song> dbSongs)
         {
             var mappedSongs = dbSongs.Select(s => _mapper.Map<SongDto>(s));
@@ -76,7 +85,6 @@ namespace MeuLeeDiaPlayer.Services.SongLoaders
 
                 song.FileReader = fileReader;
                 Songs.Add(song);
-                OnPropertyChanged(nameof(Songs));
             });            
         }
     }

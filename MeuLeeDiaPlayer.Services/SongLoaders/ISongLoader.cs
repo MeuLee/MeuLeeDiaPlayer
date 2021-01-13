@@ -13,5 +13,6 @@ namespace MeuLeeDiaPlayer.Services.SongLoaders
         void MapSongs(PlaylistDto playlist);
         ConcurrentObservableCollection<SongDto> Songs { get; }
         Task AddSongAsync(Song song);
+        Task DeleteSongAsync(int id);
     }
 }

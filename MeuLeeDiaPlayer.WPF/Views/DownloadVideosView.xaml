@@ -65,7 +65,8 @@
                                     <Button Grid.Column="2" Width="20" Height="20" Margin="5,1" HorizontalAlignment="Left" Style="{StaticResource BtnNoBorder}">
                                         <Image Source="{StaticResource ImgEdit}"/>
                                     </Button>
-                                    <Button Grid.Column="3" Width="20" Height="20" Margin="5,1" HorizontalAlignment="Left" Style="{StaticResource BtnNoBorder}">
+                                    <Button Grid.Column="3" Width="20" Height="20" Margin="5,1" HorizontalAlignment="Left" Style="{StaticResource BtnNoBorder}"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}, Path=DataContext.DeleteSongCommand}" CommandParameter="{Binding}">
                                         <Image Source="{StaticResource ImgDelete}"/>
                                     </Button>
                                 </Grid>

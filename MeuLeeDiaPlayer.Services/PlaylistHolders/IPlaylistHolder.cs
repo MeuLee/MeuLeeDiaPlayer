@@ -9,5 +9,6 @@ namespace MeuLeeDiaPlayer.Services.PlaylistHolders
         PlaylistDto SoundPlaylist { get; set; }
         PlaylistDto UIPlaylist { get; set; }
         void OnModifiedPlaylistList();
+        void RemoveSong(int songId);
     }
 }

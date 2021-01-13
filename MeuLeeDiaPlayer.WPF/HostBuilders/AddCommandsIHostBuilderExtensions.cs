@@ -24,7 +24,8 @@ namespace MeuLeeDiaPlayer.WPF.HostBuilders
                  .AddSingleton<ShowCreatePlaylistDialogCommand>()
                  .AddSingleton<ShowEditPlaylistDialogCommand>()
                  .AddSingleton<DeletePlaylistCommand>()
-                 .AddSingleton<DownloadYtLinkCommand>();
+                 .AddSingleton<DownloadYtLinkCommand>()
+                 .AddSingleton<DeleteSongCommand>();
             });
         }
     }
