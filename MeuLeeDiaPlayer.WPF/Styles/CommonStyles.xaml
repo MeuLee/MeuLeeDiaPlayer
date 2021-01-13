@@ -60,7 +60,7 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    
+
     <!--Images-->
     <BitmapImage x:Key="ImgHighVolume" UriSource="../Resources/high_volume.png"/>
     <BitmapImage x:Key="ImgLoopPlaylist" UriSource="../Resources/loop_playlist.png"/>

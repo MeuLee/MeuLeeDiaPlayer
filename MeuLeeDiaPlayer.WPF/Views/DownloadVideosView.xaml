@@ -9,23 +9,11 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
-        <!--Search on YouTube-->
-        <Border BorderBrush="{StaticResource BrushTextColor}" BorderThickness="2" Grid.Column="0">
-            <Grid Grid.Column="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-            </Grid>
-        </Border>
-
         <!--Input YouTube link/Browse local files-->
-        <Border BorderBrush="{StaticResource BrushTextColor}" BorderThickness="2" Grid.Column="1">
+        <Border BorderBrush="{StaticResource BrushTextColor}" BorderThickness="2" Grid.Column="0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -43,7 +31,7 @@
         </Border>
 
         <!--Show local files-->
-        <Border BorderBrush="{StaticResource BrushTextColor}" BorderThickness="2" Grid.Column="2">
+        <Border BorderBrush="{StaticResource BrushTextColor}" BorderThickness="2" Grid.Column="1">
             <Grid Margin="10,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -55,7 +43,8 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width=".5*"/>
+                        <ColumnDefinition Width=".5*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Song" HorizontalAlignment="Left" FontSize="{StaticResource MediumFontSize}" Margin="5"/>
                     <TextBlock Grid.Column="1" Text="File name" HorizontalAlignment="Left" FontSize="{StaticResource MediumFontSize}" Margin="5"/>
@@ -68,10 +57,17 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width=".25*"/>
+                                        <ColumnDefinition Width=".25*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" Text="{Binding}" HorizontalAlignment="Left" FontSize="{StaticResource SmallFontSize}" Margin="3"/>
                                     <TextBlock Grid.Column="1" Text="{Binding ShortenedPath}" HorizontalAlignment="Left" FontSize="{StaticResource SmallFontSize}" Margin="3"/>
+                                    <Button Grid.Column="2" Width="20" Height="20" Margin="5,1" HorizontalAlignment="Left" Style="{StaticResource BtnNoBorder}">
+                                        <Image Source="{StaticResource ImgEdit}"/>
+                                    </Button>
+                                    <Button Grid.Column="3" Width="20" Height="20" Margin="5,1" HorizontalAlignment="Left" Style="{StaticResource BtnNoBorder}">
+                                        <Image Source="{StaticResource ImgDelete}"/>
+                                    </Button>
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
